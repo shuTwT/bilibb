@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+    id Int @id @default(autoincrement())
+    uid String @unique
+    uname String 
+    fansNum Int @default(0)// 粉丝数
+    likeAbility Int @default(0) // 好感度
+    entryNum Int @default(0) //进房次数
+    firstEntryDate String?  //首次进房日期 YYYY-MM-DD HH:mm:ss
+    latestEntryDate String? //最后一次进房 YYYY-MM-DD HH:mm:ss
+    latestSpeakDate String? //最后一次发言 YYYY-MM-DD HH:mm:ss
+    latestSpeakId Int?
+}
+
+model Room{
+    id Int @id @default(autoincrement())
+    roomId String @unique //房间号
+    roomOwnerUid String
+}
+
+model Live{
+    id Int @id @default(autoincrement())
+    roomId String @unique
+    entryNum Int //进房量
+    speakNum Int //发言数
+    date String // 日期 YYYY-MM-DD
+}
+
+model Speak{
+    id Int @id @default(autoincrement())
+    uid String
+    content String //发言内容
+    date String // 发言时间 YYYY-MM-DD HH:mm:ss
+}
