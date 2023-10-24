@@ -23,11 +23,10 @@ function bootstrap() {
       key: conf.key,
       buvid: buvid,
     });
-    live.on("open", () => {
+    live.on("open", (data) => {
       console.log("Connection is established");
     });
     live.on("live", () => {
-      console.log("成功登入房间");
       live.on("heartbeat", (online) => {
         //console.log('人气值:' + online)
       });

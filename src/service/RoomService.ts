@@ -31,6 +31,11 @@ export class RoomService{
                 roomOwnerUid
             }
         })
+        if(room){
+            return true
+        }else{
+            return false
+        }
     }
     increaseEnterRoomNum(num=1){
         // 当日进房量+1

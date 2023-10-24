@@ -38,13 +38,17 @@ export default {
     'SEND_GIFT':function({data}){
         console.log(`${data.uname}${data.action$}${data.giftName}`)
     },
-    'DANMU_MSG':function(data){
+    'DANMU_MSG':function(data:any){
+        console.log(data)
         if('info' in data){
+            const uid=data.info[2][0]
+            const uname=data.info[2][0]
+            const msg=data.info[1]
             console.log(`${data.info[2][1]}说:${data.info[1]}`)
         }else{
             console.log(data)
         }
-        //console.log(`${data.info[2][1]}说:${data.info[1]}`)
+        
     },
     'ANCHOR_HELPER_DANMU':function({data}){
         console.log(`${data.sender}:${data.msg}`)

@@ -4,8 +4,8 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "dev": "nodemon app/app.ts",
-    "serve": "node --loader ts-node/esm ./app/app.ts --noemit"
+    "dev": "nodemon src/app.ts",
+    "serve": "node --loader ts-node/esm ./src/app.ts --noemit"
   },
   "keywords": [],
   "author": "",
@@ -33,6 +33,7 @@
     "bilibili-live-ws": "^6.3.1",
     "dayjs": "^1.11.10",
     "dotenv": "^16.3.1",
+    "floating-live": "^0.14.11",
     "isomorphic-ws": "^5.0.0",
     "node-fetch": "^3.3.2",
     "reflect-metadata": "^0.1.13",
