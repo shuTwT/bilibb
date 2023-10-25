@@ -2,6 +2,7 @@
  * 参考
  * https://github.com/simon300000/bilibili-live-ws
  * https://github.com/lovelyyoshino/Bilibili-Live-API/blob/master/API.WebSocket.md
+ * https://github.com/Minteea/floating-live
  */
 import * as dotenv from "dotenv";
 import { getConf } from "./utils.ts";
