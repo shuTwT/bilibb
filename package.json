@@ -2,12 +2,12 @@
   "name": "bilibb",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "scripts": {
     "dev": "nodemon src/app.ts",
     "build": "webpack --mode=development --config ./webpack.config.cjs",
     "build-prod": "webpack --mode=production --config ./webpack.config.cjs",
-    "start": "webpack-dev-server --mode=development --config ./webpack.config.cjs",
+    "watch:build":"webpack --watch --mode=development --config ./webpack.config.cjs",
+    "watch:server":"nodemon dist/server.js",
     "serve": "node --trace-warnings --loader ts-node/esm ./src/app.ts --noemit"
   },
   "keywords": [],
@@ -17,6 +17,7 @@
     "@tsconfig/node18": "^18.2.2",
     "@types/node": "^18.14.0",
     "@types/ws": "^8.2.0",
+    "clean-webpack-plugin": "^4.0.0",
     "nodemon": "^3.0.1",
     "prisma": "^5.4.1",
     "start-server-webpack-plugin": "^2.2.5",
