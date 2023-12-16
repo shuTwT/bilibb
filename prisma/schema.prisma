@@ -26,16 +26,17 @@ model User{
 model Room{
     id Int @id @default(autoincrement())
     roomId String @unique //房间号
-    roomOwnerUid String
+    roomOwnerUid String @unique //主播uid
 }
-// 直播
+// 房间的直播情况
 model Live{
-    id Int @id @default(autoincrement())
-    roomId String @unique
-    entryNum Int //进房量
-    speakNum Int //发言数
-    date String // 日期 YYYY-MM-DD
+  id Int @id @default(autoincrement())
+  roomId String @unique //房间号
+  entryNum Int @default(0)//进房量
+  speakNum Int //发言数
+  date String // 日期 YYYY-MM-DD
 }
+
 // 发言
 model Speak{
     id Int @id @default(autoincrement())
