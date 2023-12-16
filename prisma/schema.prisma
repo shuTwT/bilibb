@@ -9,7 +9,7 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-
+// 用户
 model User{
     id Int @id @default(autoincrement())
     uid String @unique
@@ -22,13 +22,13 @@ model User{
     latestSpeakDate String? //最后一次发言 YYYY-MM-DD HH:mm:ss
     latestSpeakId Int?
 }
-
+// 房间
 model Room{
     id Int @id @default(autoincrement())
     roomId String @unique //房间号
     roomOwnerUid String
 }
-
+// 直播
 model Live{
     id Int @id @default(autoincrement())
     roomId String @unique
@@ -36,10 +36,10 @@ model Live{
     speakNum Int //发言数
     date String // 日期 YYYY-MM-DD
 }
-
+// 发言
 model Speak{
     id Int @id @default(autoincrement())
-    uid String
+    uid String //用户uid
     content String //发言内容
     date String // 发言时间 YYYY-MM-DD HH:mm:ss
 }

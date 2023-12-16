@@ -5,9 +5,9 @@
  * https://github.com/Minteea/floating-live
  */
 import * as dotenv from "dotenv";
-import { getConf } from "./utils.ts";
+import { getConf } from "./utils";
 import { LiveTCP } from "bilibili-live-ws";
-import resolver from "./resolver.ts";
+import resolver from "./resolver";
 
 dotenv.config();
 const roomId = Number.parseInt(process.env.ROOM_ID + "");
@@ -45,4 +45,4 @@ function bootstrap() {
   });
 }
 
-bootstrap();
+bootstrap()

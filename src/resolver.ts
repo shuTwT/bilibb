@@ -1,3 +1,10 @@
+type Msg={
+    msg:string
+    data:any
+    info?:any
+    msg_common?:any
+}
+
 /**
  * 在线人数
  */
@@ -6,17 +13,17 @@ export default {
     // 'LOG_IN_NOTICE':function(data){
     //     console.log(data)
     // },
-    'WATCHED_CHANGE':function({data}){
+    'WATCHED_CHANGE':function({data}:Msg){
         //console.log(`看过人数变化:${data.num}`)
     },
-    'LIKE_INFO_V3_CLICK':function({data}){
+    'LIKE_INFO_V3_CLICK':function({data}:Msg){
         //console.log(`V3点赞,${data.uname}${data.like_text}`)
     },
-    'LIKE_INFO_V3_UPDATE':function({data}){
+    'LIKE_INFO_V3_UPDATE':function({data}:Msg){
         //console.log(`v3点赞更新,${data.click_count}`)
     },
     //进入直播间
-    'INTERACT_WORD':function(data){
+    'INTERACT_WORD':function(data:Msg){
         //console.log(data)
     },
     /**
@@ -29,20 +36,20 @@ export default {
      * 在线人数
      * @param param0 
      */
-    'ONLINE_RANK_COUNT':function({data}){
+    'ONLINE_RANK_COUNT':function({data}:Msg){
         if(data.count!==currentRankNum.value){
             currentRankNum.value=data.count
             //console.log(`在线人数${data.count}`)
         }
         
     },
-    'ONLINE_RANK_V2':function({data}){
+    'ONLINE_RANK_V2':function({data}:Msg){
         //console.log(data.online_list)
     },
-    'SEND_GIFT':function({data}){
-        console.log(`${data.uname}${data.action$}${data.giftName}`)
+    'SEND_GIFT':function({data}:Msg){
+        console.log(`${data.uname}${data.action}${data.giftName}`)
     },
-    'DANMU_MSG':function(data:any){
+    'DANMU_MSG':function(data:Msg){
         //console.log(data)
         if('info' in data){
             const uid=data.info[2][0]
@@ -54,48 +61,51 @@ export default {
         }
         
     },
-    'ANCHOR_HELPER_DANMU':function({data}){
+    'ANCHOR_HELPER_DANMU':function({data}:Msg){
         console.log(`${data.sender}:${data.msg}`)
     },
     /**
      * 公告消息
      */
-    'NOTICE_MSG':function(data){
+    'NOTICE_MSG':function(data:Msg){
         console.log(data.msg_common)
     },
     /**
      * 礼物星球
      */
-    'WIDGET_GIFT_STAR_PROCESS':function({data}){
+    'WIDGET_GIFT_STAR_PROCESS':function({data}:Msg){
         console.log(data.process_list)
     },
     /**
      * 在线榜
      */
-    'ONLINE_RANK_TOP3':function({data}){
+    'ONLINE_RANK_TOP3':function({data}:Msg){
         //console.log(data.list)
     },
     /**
      * 热门榜变化
      */
-    'AREA_RANK_CHANGED':function({data}){
+    'AREA_RANK_CHANGED':function({data}:Msg){
         //console.log(`热门榜变化：${data.rank_name}`)
     },
-    'ROOM_REAL_TIME_MESSAGE_UPDATE':function({data}){
+    'ROOM_REAL_TIME_MESSAGE_UPDATE':function({data}:Msg){
         console.log(`房间真实时间消息更新,roomid:${data.roomid},fans:${data.fans},red_notice:${data.red_notice},fans_club:${data.fans_club}`)
     },
     /**
      * 舰长进入直播间
      * @param data 
      */
-    'ENTRY_EFFECT':function({data}){
+    'ENTRY_EFFECT':function({data}:Msg){
         console.log(data)
     },
     /**
      * 人气排名
      * 
      */
-    'POPULAR_RANK_CHANGED':function({data}){
+    'POPULAR_RANK_CHANGED':function({data}:Msg){
+
+    },
+    'WIDGET_BANNER':function({data}:Msg){
 
     }
 }

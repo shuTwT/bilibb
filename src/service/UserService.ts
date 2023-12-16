@@ -56,7 +56,7 @@ export class UserService {
      * 是否存在用户，存在则更新，不存在则创建
      */
     async processUser (uid:string, uname:string) {
-        if (this.existUser(uid)) {
+        if (await this.existUser(uid)) {
             //用户存在
             return await this.updateUser(uid, { uname: uname })
         } else {
