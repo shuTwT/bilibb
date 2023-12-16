@@ -13,6 +13,7 @@ export const getConf = async (roomid: number, cookie: string) => {
       //credentials:'include'
     }
   ).then((w) => w.json());
+  console.log(raw)
   const {
     data: {
       token: key,

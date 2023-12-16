@@ -9,10 +9,7 @@ import { getConf } from "./utils.ts";
 import { LiveTCP } from "bilibili-live-ws";
 import resolver from "./resolver.ts";
 
-dotenv.config({
-    path:'.env.local',
-    override:true
-});
+dotenv.config();
 const roomId = Number.parseInt(process.env.ROOM_ID + "");
 
 const uid = Number.parseInt(process.env.UID + "");

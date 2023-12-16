@@ -7,13 +7,13 @@ export default {
     //     console.log(data)
     // },
     'WATCHED_CHANGE':function({data}){
-        console.log(`看过人数变化:${data.num}`)
+        //console.log(`看过人数变化:${data.num}`)
     },
     'LIKE_INFO_V3_CLICK':function({data}){
-        console.log(`V3点赞,${data.uname}${data.like_text}`)
+        //console.log(`V3点赞,${data.uname}${data.like_text}`)
     },
     'LIKE_INFO_V3_UPDATE':function({data}){
-        console.log(`v3点赞更新,${data.click_count}`)
+        //console.log(`v3点赞更新,${data.click_count}`)
     },
     //进入直播间
     'INTERACT_WORD':function(data){
@@ -25,10 +25,14 @@ export default {
     'STOP_LIVE_ROOM_LIST':function(){
         //console.log('获得停播房间列表')
     },
+    /**
+     * 在线人数
+     * @param param0 
+     */
     'ONLINE_RANK_COUNT':function({data}){
         if(data.count!==currentRankNum.value){
             currentRankNum.value=data.count
-            console.log(`在线人数${data.count}`)
+            //console.log(`在线人数${data.count}`)
         }
         
     },
@@ -39,7 +43,7 @@ export default {
         console.log(`${data.uname}${data.action$}${data.giftName}`)
     },
     'DANMU_MSG':function(data:any){
-        console.log(data)
+        //console.log(data)
         if('info' in data){
             const uid=data.info[2][0]
             const uname=data.info[2][0]
@@ -75,9 +79,23 @@ export default {
      * 热门榜变化
      */
     'AREA_RANK_CHANGED':function({data}){
-        console.log(`热门榜变化：${data.rank_name}`)
+        //console.log(`热门榜变化：${data.rank_name}`)
     },
     'ROOM_REAL_TIME_MESSAGE_UPDATE':function({data}){
         console.log(`房间真实时间消息更新,roomid:${data.roomid},fans:${data.fans},red_notice:${data.red_notice},fans_club:${data.fans_club}`)
+    },
+    /**
+     * 舰长进入直播间
+     * @param data 
+     */
+    'ENTRY_EFFECT':function({data}){
+        console.log(data)
+    },
+    /**
+     * 人气排名
+     * 
+     */
+    'POPULAR_RANK_CHANGED':function({data}){
+
     }
 }
