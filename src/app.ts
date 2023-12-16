@@ -5,7 +5,7 @@
  * https://github.com/Minteea/floating-live
  */
 import * as dotenv from "dotenv";
-import { getConf } from "./utils";
+import { getDanmuConf, getRoomid } from "./utils";
 import { LiveTCP } from "bilibili-live-ws";
 import resolver from "./resolver";
 
@@ -17,32 +17,37 @@ const buvid = process.env.BUVID + "";
 const cookie = process.env.COOKIE + "";
 
 function bootstrap() {
-  getConf(roomId, cookie).then((conf) => {
-    // console.log(conf)
-    const live = new LiveTCP(roomId, {
-      uid: uid,
-      key: conf.key,
-      buvid: buvid,
-    });
-    live.on("open", (data) => {
-      console.log("Connection is established");
-    });
-    live.on("live", () => {
-      live.on("heartbeat", (online) => {
-        //console.log('人气值:' + online)
+  getRoomid(roomId, cookie).then(({
+    room_id
+  }) => {
+    getDanmuConf(room_id, cookie).then((conf) => {
+      const live = new LiveTCP(room_id, {
+        uid: uid,
+        key: conf.key,
+        buvid: buvid,
+      });
+      live.on("open", (data) => {
+        console.log("Connection is established");
+      });
+      live.on("live", () => {
+        live.on("heartbeat", (online) => {
+          //console.log('人气值:' + online)
+        });
+      });
+      live.on("msg", (data: any) => {
+        if (data.cmd in resolver) {
+          (resolver as any)[data.cmd](data);
+        } else {
+          console.log(data);
+        }
+  
+      });
+      live.on("error", (e) => {
+        console.log(e);
       });
     });
-    live.on("msg", (data: any) => {
-      if (data.cmd in resolver) {
-        (resolver as any)[data.cmd](data);
-      } else {
-        console.log(data);
-      }
-    });
-    live.on("error", (e) => {
-      console.log(e);
-    });
-  });
+  })
+  
 }
 
 bootstrap()
