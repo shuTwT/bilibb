@@ -1,15 +1,17 @@
-type Msg={
-    msg:string
+export type Msg={
+    cmd:string
     data:any
     info?:any
     msg_common?:any
 }
-
+interface Resolver{
+    [key:string]:(msg:Msg)=>void
+}
 /**
  * 在线人数
  */
 const currentRankNum={value:0}
-export default {
+export const resolver:Resolver= {
     // 'LOG_IN_NOTICE':function(data){
     //     console.log(data)
     // },
@@ -106,6 +108,12 @@ export default {
 
     },
     'WIDGET_BANNER':function({data}:Msg){
+
+    },
+    /**
+     * 连续发送多条弹幕
+     */
+    "DM_INTERACTION":function({data}:Msg){
 
     }
 }
