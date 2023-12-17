@@ -1,5 +1,7 @@
+import { ILogService } from "../interface";
 
-export class LogService{
+
+export class LogService implements ILogService{
     /**
      * 发送日志
      * @param  module 模块

@@ -10,9 +10,11 @@
       "resolveJsonModule": true,
       "isolatedModules": true,
       "esModuleInterop": true,
-      "lib": ["ESNext", "DOM"],
+      "lib": ["ES6",],
+      "types": ["reflect-metadata","node"],
       "noEmit": false,
-      "experimentalDecorators": true
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true
     },
     "exclude": ["dist", "node_modules"]
   }

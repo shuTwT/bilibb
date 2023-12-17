@@ -3,7 +3,7 @@ import fetch from "node-fetch";
  *
  * @returns
  */
-export const getDanmuConf = async (roomid: number, cookie: string) => {
+export const getDanmuConf = async (roomid: number|string, cookie: string) => {
   const raw: any = await fetch(
     `https://api.live.bilibili.com/xlive/web-room/v1/index/getDanmuInfo?id=${roomid}`,
     {
@@ -28,22 +28,41 @@ export const getDanmuConf = async (roomid: number, cookie: string) => {
  * @param cookie 
  * @returns 
  */
-export const getRoomInfo=async(roomid:number,cookie:string)=>{
-  const raw=await fetch(`https://api.live.bilibili.com/room/v1/Room/get_info?id=${roomid}`,{
+export const getRoomInfo=async(roomid:number|string,cookie:string)=>{
+  const raw:any=await fetch(`https://api.live.bilibili.com/room/v1/Room/get_info?id=${roomid}`,{
     method:'POST',
     headers:{
       cookie:cookie
     }
   }).then(res=>res.json())
-
-  return raw
+  const {
+    data: {
+    description,
+    parent_area_name,
+    title,
+    user_cover,
+    keyframe,
+    tags,
+    area_name,
+    uid
+  }}=raw
+  return {
+    description,
+    parent_area_name,
+    title,
+    user_cover,
+    keyframe,
+    tags,
+    area_name,
+    room_owner_uid:uid
+  }
 }
 /**
  * 获取长房间号
  * @param short 
  * @returns 
  */
-export const getRoomid = async (short: number,cookie:string) => {
+export const getRoomid = async (short: number|string,cookie:string) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { 
     data: { 
@@ -56,7 +75,7 @@ export const getRoomid = async (short: number,cookie:string) => {
       }
      }).then(w => w.json())
   return { 
-    room_id,
+    room_id:room_id,
     short_id,
     room_owner_uid:uid
    }

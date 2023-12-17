@@ -1,7 +1,10 @@
+import { injectable } from "inversify"
 import prisma from "../../lib/prisma"
+import { IUserService } from "../interface"
 
-export class UserService {
-    async existUser (uid:string) {
+@injectable()
+export class UserService implements IUserService {
+    async existUser(uid: string) {
         const user = await prisma.user.findUnique({
             where: {
                 uid
@@ -17,7 +20,7 @@ export class UserService {
     /**
      * 创建用户
      */
-    async createUser (uid:string, uname:string) {
+    async createUser(uid: string, uname: string) {
         const User = await prisma.user.create({
             data: {
                 uid,
@@ -34,7 +37,7 @@ export class UserService {
     /**
      * 更新用户
      */
-    async updateUser (uid:string, data:any) {
+    async updateUser(uid: string, data: any) {
         try {
             const user = await prisma.user.update({
                 where: {
@@ -55,7 +58,7 @@ export class UserService {
     /**
      * 是否存在用户，存在则更新，不存在则创建
      */
-    async processUser (uid:string, uname:string) {
+    async processUser(uid: string, uname: string) {
         if (await this.existUser(uid)) {
             //用户存在
             return await this.updateUser(uid, { uname: uname })
@@ -69,18 +72,27 @@ export class UserService {
     /**
      * 处理用户发言
      */
-    async saveUserSpeak(uid:string,uname:string,content:string,date:string){
-      const ok= await this.processUser(uid,uname)
-        if(ok){
-            const user=prisma.speak.create({
-                data:{
+    async saveUserSpeak(uid: string, uname: string,roomId:string, content: string, date: string) {
+        const ok = await this.processUser(uid, uname)
+        if (ok) {
+            const user = await prisma.speak.create({
+                data: {
                     uid,
+                    roomId,
                     content,
                     date
                 }
             })
+            if(user){
+                return true
+            }else{
+                return false
+            }
         }
+        return false
+    }
+    async entryRoom(uid:string,uname:string,roomId:string){
+
     }
 
-    
 }
