@@ -91,8 +91,15 @@ export class UserService implements IUserService {
         }
         return false
     }
+    
     async entryRoom(uid:string,uname:string,roomId:string){
-
+        if (await this.existUser(uid)) {
+            //用户存在
+            return await this.updateUser(uid, { uname: uname })
+        } else {
+            //用户不存在
+            return await this.createUser(uid, uname)
+        }
     }
 
 }

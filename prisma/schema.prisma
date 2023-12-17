@@ -62,6 +62,13 @@ model RedNotice{
   redNoticeTag Int // 对应真实事件消息更新中red_notice标志
   date String // 警告时间 YYYY-MM-DD HH:mm:ss
 }
+// 用户相对于某直播间进入数据
+model UserEntry{
+  id Int @id @default(autoincrement())
+  first String?
+  latest String?
+  num Int? //进入直播间次数
+}
 // 用户相对于某直播间的弹幕数据
 model UserDanmu{
   id Int @id @default(autoincrement())
@@ -100,7 +107,7 @@ model Gift{
   uid String //送礼的用户
   date String //送礼时间
 }
-//用户相对于某直播间
+//用户相对于某直播间好感度
 model UserFavor{
   id Int @id @default(autoincrement())
   uid String //用户

@@ -4,7 +4,7 @@ export interface IUserService{
     updateUser (uid:string, data:any):Promise<boolean>
     processUser (uid:string, uname:string):Promise<boolean>
     saveUserSpeak(uid:string,uname:string,roomId:string,content:string,date:string):Promise<boolean>
-    entryRoom(uid:string,uname:string,roomId:string):Promise<void>
+    entryRoom(uid:string,uname:string,roomId:string):Promise<boolean>
 }
 export interface IRoomService{
     userService:IUserService

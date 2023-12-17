@@ -3,6 +3,7 @@
  * https://github.com/simon300000/bilibili-live-ws
  * https://github.com/lovelyyoshino/Bilibili-Live-API/blob/master/API.WebSocket.md
  * https://github.com/Minteea/floating-live
+ * https://github.com/SocialSisterYi/bilibili-API-collect
  */
 import "reflect-metadata"
 import * as dotenv from "dotenv";
@@ -18,10 +19,11 @@ import { IRoomService } from "./interface";
 
 dotenv.config();
 const short_room_id = Number.parseInt(process.env.ROOM_ID + "");
-
 const uid = Number.parseInt(process.env.UID + "");
 const buvid = process.env.BUVID + "";
 const cookie = process.env.COOKIE + "";
+const allowHTTP=process.env.ALLOW_HTTP=="true"?true:false;
+const allowTCP=process.env.ALLOW_TCP=="true"?true:false;
 
 @Application()
 class App {
@@ -52,6 +54,7 @@ class App {
       area_name,
       room_owner_uid
     }) => {
+      if(description.length>150) description=(description as string).slice(0,150)
       this.roomService.exsitRoom(room_id+"").then((res:boolean)=>{
         if(!res){
           // 直播间不存在，创建
@@ -93,7 +96,7 @@ class App {
         //console.log('人气值:' + online)
       });
     });
-    live.on("msg", async (data: Msg) => {
+    live.on("msg", async (data: Msg<any>) => {
       if (data.cmd in resolver) {
         await resolver[data.cmd](room_id+"",data);
       } else {
