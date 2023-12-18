@@ -1,5 +1,5 @@
 import { injectable } from "inversify"
-import prisma from "../../lib/prisma"
+import prisma from "../lib/prisma"
 import { IUserService } from "../interface"
 
 @injectable()

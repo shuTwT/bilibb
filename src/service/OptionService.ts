@@ -1,4 +1,4 @@
-import prisma from "../../lib/prisma";
+import prisma from "../lib/prisma";
 
 export class OptionService{
     static async setOption(key:string,value:string){

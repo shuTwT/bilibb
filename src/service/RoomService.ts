@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import prisma from "../../lib/prisma"
+import prisma from "../lib/prisma"
 import { UserService } from "./UserService"
 import { TYPES } from "../type";
 import { IRoomService } from "../interface";
