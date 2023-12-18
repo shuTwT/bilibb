@@ -1,6 +1,7 @@
 import pkg from "../package.json" assert { type:'json'}
 import vuePlugin from "esbuild-plugin-vue3"
-const esbuildConfig=()=>require('esbuild').build({
+import { build } from 'esbuild'
+build({
     entryPoints:['src/app.ts'],
     target:["es2020","node18"],
     format:"esm",
@@ -10,4 +11,3 @@ const esbuildConfig=()=>require('esbuild').build({
     plugins:[vuePlugin()],
     external:[...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})],
 })
-esbuildConfig()
