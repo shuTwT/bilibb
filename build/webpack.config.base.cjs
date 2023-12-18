@@ -9,7 +9,7 @@ module.exports = {
    server:'./src/app.ts'},
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname,'..', 'dist')
+    path: path.resolve(__dirname,'..', 'dist'),
   },
   target: 'node', 
   resolve:{

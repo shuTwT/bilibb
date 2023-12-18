@@ -2,21 +2,30 @@
     "compilerOptions": {
       "target": "ES2020",
       "module": "ESNext",
+      "rootDir": "./",
+      "strict": true,
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
       "useDefineForClassFields": true,
       "moduleResolution": "Node",
       "skipLibCheck": true,
-      "strict": true,
       "jsx": "preserve",
       "resolveJsonModule": true,
       "isolatedModules": true,
-      "esModuleInterop": true,
       "lib": ["ES6","DOM","DOM.Iterable"],
       "types": ["reflect-metadata","node"],
       "noEmit": false,
       "experimentalDecorators": true,
       "emitDecoratorMetadata": true,
-      "outDir": "dist"
+      "outDir": "dist",
     },
-    "exclude": ["dist", "node_modules"],
+    "exclude": ["dist", "node_modules","bin"],
+    "ts-node": {
+        "experimentalSpecifierResolution": "node",
+        "pretty": true,
+        "transpileOnly": true,
+        "esm": true
+    },
+    "include": ["src/**/*.ts","src/**/*.vue"]
   }
   

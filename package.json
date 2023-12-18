@@ -9,7 +9,8 @@
     "build-prod": "webpack --mode=production --config ./webpack.config.cjs",
     "watch:build": "webpack --watch --mode=development --config ./webpack.config.cjs",
     "watch:server": "nodemon dist/server.js",
-    "serve": "ts-node-esm ./src/app.ts --noemit"
+    "dev": "ts-node-esm src/app.ts",
+    "build2":"./bin/build.cjs"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "@types/node": "^18.14.0",
     "@types/ws": "^8.5.10",
     "clean-webpack-plugin": "^4.0.0",
+    "esbuild": "^0.19.9",
     "nodemon": "^3.0.1",
     "prisma": "^5.7.0",
     "ts-loader": "^9.5.1",
@@ -44,9 +46,7 @@
     "node-fetch": "^3.3.2",
     "pinia": "^2.1.7",
     "reflect-metadata": "^0.2.1",
-    "vite": "^5.0.10",
     "vue": "^3.3.12",
-    "vue-router": "^4.2.5",
     "ws": "^8.15.1"
   },
   "engines": {
