@@ -38,6 +38,7 @@ class App {
   }
   async bootstrap() {
     if(allowTCP) await this.TCPServer()
+    await this.HTTPServer()
   }
   async TCPServer() {
     const { room_id } = await getRoomid(short_room_id, cookie)
@@ -113,8 +114,8 @@ class App {
 
   async HTTPServer() {
     const app=new Koa()
-    routing(app)
-    app.listen(port);
+    await routing(app)
+    app.listen(port, () => console.log(`started server on http://localhost:${port}`));
   }
 }
 

@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
       "target": "ES2020",
-      "module": "ES2020",
+      "module": "ESNext",
       "useDefineForClassFields": true,
       "moduleResolution": "Node",
       "skipLibCheck": true,
@@ -10,7 +10,7 @@
       "resolveJsonModule": true,
       "isolatedModules": true,
       "esModuleInterop": true,
-      "lib": ["ES6",],
+      "lib": ["ES6","DOM","DOM.Iterable"],
       "types": ["reflect-metadata","node"],
       "noEmit": false,
       "experimentalDecorators": true,
