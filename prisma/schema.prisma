@@ -113,3 +113,9 @@ model UserFavor{
   uid String //用户
   favor Int @default(0) //好感度
 }
+//配置项
+model Options{
+    id Int @id @default(autoincrement())
+    optionName String @unique
+    optionValue String
+}

@@ -6,6 +6,8 @@
  * https://github.com/SocialSisterYi/bilibili-API-collect
  */
 import "reflect-metadata"
+import Koa from "koa";
+import routing from "./api/routes"
 import * as dotenv from "dotenv";
 import { getDanmuConf, getRoomid, getRoomInfo } from "./utils";
 import { LiveTCP } from "bilibili-live-ws";
@@ -16,6 +18,7 @@ import { Application } from "./decorator";
 import { TYPES } from "./type";
 import { myContainer } from "./inversify.config";
 import { IRoomService } from "./interface";
+import { connectPool } from "./pool";
 
 dotenv.config();
 const short_room_id = Number.parseInt(process.env.ROOM_ID + "");
@@ -24,6 +27,7 @@ const buvid = process.env.BUVID + "";
 const cookie = process.env.COOKIE + "";
 const allowHTTP=process.env.ALLOW_HTTP=="true"?true:false;
 const allowTCP=process.env.ALLOW_TCP=="true"?true:false;
+const port=Number.parseInt(process.env.PORT+"");
 
 @Application()
 class App {
@@ -33,17 +37,14 @@ class App {
     this.bootstrap()
   }
   async bootstrap() {
-
-    const liveTcp = (globalThis as unknown as {
-      liveTcp: LiveTCP | undefined
-    }).liveTcp ?? await this.TCPServer()
-
-    if (process.env.NODE_ENV !== 'production') (globalThis as unknown as {
-      liveTcp: LiveTCP | undefined
-    }).liveTcp = liveTcp;
+    if(allowTCP) await this.TCPServer()
   }
   async TCPServer() {
     const { room_id } = await getRoomid(short_room_id, cookie)
+    if(connectPool.has(room_id)){
+        console.log("该房间已在连接池中")
+        return
+    }
     getRoomInfo(room_id, cookie).then(({
       description,
       parent_area_name,
@@ -107,11 +108,13 @@ class App {
     live.on("error", (e) => {
       console.log(e);
     });
-    return live
+    connectPool.set(room_id,live)
   }
 
   async HTTPServer() {
-
+    const app=new Koa()
+    routing(app)
+    app.listen(port);
   }
 }
 
