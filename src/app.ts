@@ -114,7 +114,7 @@ class App {
 
   async HTTPServer() {
     const app=new Koa()
-    await routing(app)
+    routing(app)
     app.listen(port, () => console.log(`started server on http://localhost:${port}`));
   }
 }

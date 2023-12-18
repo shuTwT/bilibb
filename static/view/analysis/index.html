@@ -15,7 +15,7 @@
         <div class="layui-row layui-col-space10">
             <div class="layui-col-xs6 layui-col-md3">
                 <div class="layui-card top-panel">
-                    <div class="layui-card-header">今日访问</div>
+                    <div class="layui-card-header">进房量</div>
                     <div class="layui-card-body">
                         <div class="layui-row layui-col-space5">
                             <div class="layui-col-xs8 layui-col-md8 top-panel-number" style="color: #28333E;"
@@ -48,7 +48,7 @@
             </div>
             <div class="layui-col-xs6 layui-col-md3">
                 <div class="layui-card top-panel">
-                    <div class="layui-card-header">提交次数</div>
+                    <div class="layui-card-header">发言量</div>
                     <div class="layui-card-body">
                         <div class="layui-row layui-col-space5">
                             <div class="layui-col-xs8 layui-col-md8 top-panel-number" style="color: #28333E;"
@@ -81,7 +81,7 @@
             </div>
             <div class="layui-col-xs6 layui-col-md3">
                 <div class="layui-card top-panel">
-                    <div class="layui-card-header">下载数量</div>
+                    <div class="layui-card-header">弹幕量</div>
                     <div class="layui-card-body">
                         <div class="layui-row layui-col-space5">
                             <div class="layui-col-xs8 layui-col-md8 top-panel-number" style="color: #28333E;"
@@ -143,167 +143,188 @@
             </div>
         </div>
         <div class="layui-row layui-col-space10">
-            <div class="layui-col-md12">
+            <div class="layui-col-xs6 layui-col-md3">
+                <div class="layui-card top-panel">
+                    <div class="layui-card-header">点赞量</div>
+                    <div class="layui-card-body">
+                        <div class="layui-row layui-col-space5">
+                            <div class="layui-col-xs8 layui-col-md8 top-panel-number" style="color: #28333E;"
+                                id="value1">
+                                0
+                            </div>
+                            <div class="layui-col-xs4 layui-col-md4 top-panel-tips">
+                                <svg t="1688201011061" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                                    xmlns="http://www.w3.org/2000/svg" p-id="1411" width="200" height="200">
+                                    <path
+                                        d="M716.8 0H307.2C137.5488 0 0 137.5488 0 307.2v409.6c0 169.6512 137.5488 307.2 307.2 307.2h409.6c169.6512 0 307.2-137.5488 307.2-307.2V307.2c0-169.6512-137.5488-307.2-307.2-307.2z"
+                                        fill="#D8F4EE" p-id="1412"></path>
+                                    <path
+                                        d="M691.8656 639.1296a257.4592 257.4592 0 0 1-52.736 52.736l60.928 60.928a37.2992 37.2992 0 0 0 52.736-52.736l-60.928-60.928z"
+                                        fill="#75E8CD" p-id="1413"></path>
+                                    <path
+                                        d="M486.4 716.8a230.4 230.4 0 1 0 0-460.8 230.4 230.4 0 0 0 0 460.8z m130.9696-302.5152a16.64 16.64 0 0 1 0.3584 23.5008l-115.84 119.296a16.5376 16.5376 0 0 1-3.84 3.3792 16.64 16.64 0 0 1-22.144-3.5072l-67.328-60.5184-47.232 48.64a16.64 16.64 0 0 1-23.8336-23.168l56.32-57.984a16.6912 16.6912 0 0 1 24.8832-3.072l69.5552 62.5152 105.6-108.7232a16.6144 16.6144 0 0 1 23.5008-0.3584z"
+                                        fill="#01C3A3" p-id="1414"></path>
+                                    <path
+                                        d="M341.257236 436.535528m-7.948259-21.87091l0 0q-7.948258-21.87091-29.819168-13.922652l0 0q-21.87091 7.948258-13.922652 29.819169l0 0q7.948258 21.87091 29.819168 13.922651l0 0q21.87091-7.948258 13.922652-29.819168Z"
+                                        fill="#FFFFFF" p-id="1415"></path>
+                                    <path
+                                        d="M331.4432 370.7392a17.2544 17.2544 0 0 0 29.3888-3.584l5.9648-13.5168a26.112 26.112 0 0 1 14.9504-13.9264l30.1056-10.9312a15.2576 15.2576 0 0 0 8.8832-20.224 15.0272 15.0272 0 0 0-18.4576-8.6016c-47.7696 15.4368-67.0976 29.3888-73.9584 57.5232a15.6672 15.6672 0 0 0 3.1488 13.2608z"
+                                        fill="#FFFFFF" p-id="1416"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs6 layui-col-md3">
+                <div class="layui-card top-panel">
+                    <div class="layui-card-header">礼物量</div>
+                    <div class="layui-card-body">
+                        <div class="layui-row layui-col-space5">
+                            <div class="layui-col-xs8 layui-col-md8 top-panel-number" style="color: #28333E;"
+                                id="value1">
+                                0
+                            </div>
+                            <div class="layui-col-xs4 layui-col-md4 top-panel-tips">
+                                <svg t="1688201011061" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                                    xmlns="http://www.w3.org/2000/svg" p-id="1411" width="200" height="200">
+                                    <path
+                                        d="M716.8 0H307.2C137.5488 0 0 137.5488 0 307.2v409.6c0 169.6512 137.5488 307.2 307.2 307.2h409.6c169.6512 0 307.2-137.5488 307.2-307.2V307.2c0-169.6512-137.5488-307.2-307.2-307.2z"
+                                        fill="#D8F4EE" p-id="1412"></path>
+                                    <path
+                                        d="M691.8656 639.1296a257.4592 257.4592 0 0 1-52.736 52.736l60.928 60.928a37.2992 37.2992 0 0 0 52.736-52.736l-60.928-60.928z"
+                                        fill="#75E8CD" p-id="1413"></path>
+                                    <path
+                                        d="M486.4 716.8a230.4 230.4 0 1 0 0-460.8 230.4 230.4 0 0 0 0 460.8z m130.9696-302.5152a16.64 16.64 0 0 1 0.3584 23.5008l-115.84 119.296a16.5376 16.5376 0 0 1-3.84 3.3792 16.64 16.64 0 0 1-22.144-3.5072l-67.328-60.5184-47.232 48.64a16.64 16.64 0 0 1-23.8336-23.168l56.32-57.984a16.6912 16.6912 0 0 1 24.8832-3.072l69.5552 62.5152 105.6-108.7232a16.6144 16.6144 0 0 1 23.5008-0.3584z"
+                                        fill="#01C3A3" p-id="1414"></path>
+                                    <path
+                                        d="M341.257236 436.535528m-7.948259-21.87091l0 0q-7.948258-21.87091-29.819168-13.922652l0 0q-21.87091 7.948258-13.922652 29.819169l0 0q7.948258 21.87091 29.819168 13.922651l0 0q21.87091-7.948258 13.922652-29.819168Z"
+                                        fill="#FFFFFF" p-id="1415"></path>
+                                    <path
+                                        d="M331.4432 370.7392a17.2544 17.2544 0 0 0 29.3888-3.584l5.9648-13.5168a26.112 26.112 0 0 1 14.9504-13.9264l30.1056-10.9312a15.2576 15.2576 0 0 0 8.8832-20.224 15.0272 15.0272 0 0 0-18.4576-8.6016c-47.7696 15.4368-67.0976 29.3888-73.9584 57.5232a15.6672 15.6672 0 0 0 3.1488 13.2608z"
+                                        fill="#FFFFFF" p-id="1416"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs6 layui-col-md3">
+                <div class="layui-card top-panel">
+                    <div class="layui-card-header">分享量</div>
+                    <div class="layui-card-body">
+                        <div class="layui-row layui-col-space5">
+                            <div class="layui-col-xs8 layui-col-md8 top-panel-number" style="color: #28333E;"
+                                id="value1">
+                                0
+                            </div>
+                            <div class="layui-col-xs4 layui-col-md4 top-panel-tips">
+                                <svg t="1688201011061" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                                    xmlns="http://www.w3.org/2000/svg" p-id="1411" width="200" height="200">
+                                    <path
+                                        d="M716.8 0H307.2C137.5488 0 0 137.5488 0 307.2v409.6c0 169.6512 137.5488 307.2 307.2 307.2h409.6c169.6512 0 307.2-137.5488 307.2-307.2V307.2c0-169.6512-137.5488-307.2-307.2-307.2z"
+                                        fill="#D8F4EE" p-id="1412"></path>
+                                    <path
+                                        d="M691.8656 639.1296a257.4592 257.4592 0 0 1-52.736 52.736l60.928 60.928a37.2992 37.2992 0 0 0 52.736-52.736l-60.928-60.928z"
+                                        fill="#75E8CD" p-id="1413"></path>
+                                    <path
+                                        d="M486.4 716.8a230.4 230.4 0 1 0 0-460.8 230.4 230.4 0 0 0 0 460.8z m130.9696-302.5152a16.64 16.64 0 0 1 0.3584 23.5008l-115.84 119.296a16.5376 16.5376 0 0 1-3.84 3.3792 16.64 16.64 0 0 1-22.144-3.5072l-67.328-60.5184-47.232 48.64a16.64 16.64 0 0 1-23.8336-23.168l56.32-57.984a16.6912 16.6912 0 0 1 24.8832-3.072l69.5552 62.5152 105.6-108.7232a16.6144 16.6144 0 0 1 23.5008-0.3584z"
+                                        fill="#01C3A3" p-id="1414"></path>
+                                    <path
+                                        d="M341.257236 436.535528m-7.948259-21.87091l0 0q-7.948258-21.87091-29.819168-13.922652l0 0q-21.87091 7.948258-13.922652 29.819169l0 0q7.948258 21.87091 29.819168 13.922651l0 0q21.87091-7.948258 13.922652-29.819168Z"
+                                        fill="#FFFFFF" p-id="1415"></path>
+                                    <path
+                                        d="M331.4432 370.7392a17.2544 17.2544 0 0 0 29.3888-3.584l5.9648-13.5168a26.112 26.112 0 0 1 14.9504-13.9264l30.1056-10.9312a15.2576 15.2576 0 0 0 8.8832-20.224 15.0272 15.0272 0 0 0-18.4576-8.6016c-47.7696 15.4368-67.0976 29.3888-73.9584 57.5232a15.6672 15.6672 0 0 0 3.1488 13.2608z"
+                                        fill="#FFFFFF" p-id="1416"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs6 layui-col-md3">
+                <div class="layui-card top-panel">
+                    <div class="layui-card-header">关注量</div>
+                    <div class="layui-card-body">
+                        <div class="layui-row layui-col-space5">
+                            <div class="layui-col-xs8 layui-col-md8 top-panel-number" style="color: #28333E;"
+                                id="value1">
+                                0
+                            </div>
+                            <div class="layui-col-xs4 layui-col-md4 top-panel-tips">
+                                <svg t="1688201011061" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                                    xmlns="http://www.w3.org/2000/svg" p-id="1411" width="200" height="200">
+                                    <path
+                                        d="M716.8 0H307.2C137.5488 0 0 137.5488 0 307.2v409.6c0 169.6512 137.5488 307.2 307.2 307.2h409.6c169.6512 0 307.2-137.5488 307.2-307.2V307.2c0-169.6512-137.5488-307.2-307.2-307.2z"
+                                        fill="#D8F4EE" p-id="1412"></path>
+                                    <path
+                                        d="M691.8656 639.1296a257.4592 257.4592 0 0 1-52.736 52.736l60.928 60.928a37.2992 37.2992 0 0 0 52.736-52.736l-60.928-60.928z"
+                                        fill="#75E8CD" p-id="1413"></path>
+                                    <path
+                                        d="M486.4 716.8a230.4 230.4 0 1 0 0-460.8 230.4 230.4 0 0 0 0 460.8z m130.9696-302.5152a16.64 16.64 0 0 1 0.3584 23.5008l-115.84 119.296a16.5376 16.5376 0 0 1-3.84 3.3792 16.64 16.64 0 0 1-22.144-3.5072l-67.328-60.5184-47.232 48.64a16.64 16.64 0 0 1-23.8336-23.168l56.32-57.984a16.6912 16.6912 0 0 1 24.8832-3.072l69.5552 62.5152 105.6-108.7232a16.6144 16.6144 0 0 1 23.5008-0.3584z"
+                                        fill="#01C3A3" p-id="1414"></path>
+                                    <path
+                                        d="M341.257236 436.535528m-7.948259-21.87091l0 0q-7.948258-21.87091-29.819168-13.922652l0 0q-21.87091 7.948258-13.922652 29.819169l0 0q7.948258 21.87091 29.819168 13.922651l0 0q21.87091-7.948258 13.922652-29.819168Z"
+                                        fill="#FFFFFF" p-id="1415"></path>
+                                    <path
+                                        d="M331.4432 370.7392a17.2544 17.2544 0 0 0 29.3888-3.584l5.9648-13.5168a26.112 26.112 0 0 1 14.9504-13.9264l30.1056-10.9312a15.2576 15.2576 0 0 0 8.8832-20.224 15.0272 15.0272 0 0 0-18.4576-8.6016c-47.7696 15.4368-67.0976 29.3888-73.9584 57.5232a15.6672 15.6672 0 0 0 3.1488 13.2608z"
+                                        fill="#FFFFFF" p-id="1416"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-body">
                         <div class="layui-row">
-                            <div class="layui-col layui-col-md9">
-                                <div id="echarts-records" style="min-height:400px;padding: 10px"></div>
-                            </div>
-                            <div class="layui-col layui-col-md3">
-                                <div style="padding: 40px 0px 0px 50px;">
-                                    <div class="layui-timeline">
-                                        <div class="layui-timeline-item">
-                                            <i class="layui-icon layui-timeline-axis layui-icon-circle"></i>
-                                            <div class="layui-timeline-content layui-text">
-                                                <div class="layui-timeline-title">最初，Layui 在爱与期许中孵化。</div>
-                                            </div>
-                                        </div>
-                                        <div class="layui-timeline-item">
-                                            <i class="layui-icon layui-timeline-axis layui-icon-circle"></i>
-                                            <div class="layui-timeline-content layui-text">
-                                                <div class="layui-timeline-title">最初，Layui 在爱与期许中孵化。</div>
-                                            </div>
-                                        </div>
-                                        <div class="layui-timeline-item">
-                                            <i class="layui-icon layui-timeline-axis layui-icon-circle"></i>
-                                            <div class="layui-timeline-content layui-text">
-                                                <div class="layui-timeline-title">最初，Layui 在爱与期许中孵化。</div>
-                                            </div>
-                                        </div>
-                                        <div class="layui-timeline-item">
-                                            <i class="layui-icon layui-timeline-axis layui-icon-circle"></i>
-                                            <div class="layui-timeline-content layui-text">
-                                                <div class="layui-timeline-title">最初，Layui 在爱与期许中孵化。</div>
-                                            </div>
-                                        </div>
-                                        <div class="layui-timeline-item">
-                                            <i class="layui-icon layui-timeline-axis layui-icon-circle"></i>
-                                            <div class="layui-timeline-content layui-text">
-                                                <div class="layui-timeline-title">最初，Layui 在爱与期许中孵化。</div>
-                                            </div>
-                                        </div>
-                                        <div class="layui-timeline-item">
-                                            <i class="layui-icon layui-timeline-axis layui-icon-circle"></i>
-                                            <div class="layui-timeline-content layui-text">
-                                                <div class="layui-timeline-title">最初，Layui 在爱与期许中孵化。</div>
-                                            </div>
-                                        </div>
-                                        <div class="layui-timeline-item">
-                                            <i
-                                                class="layui-icon layui-anim layui-anim-rotate layui-anim-loop layui-timeline-axis"></i>
-                                            <div class="layui-timeline-content layui-text">
-                                                <div class="layui-timeline-title">最初，Layui 在爱与期许中孵化。</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
+                            <div class="layui-col layui-col-md12">
+                                <div id="echarts-entry" style="min-height:400px;padding: 10px"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="layui-col-md9">
+            <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-body">
-                        <dl class="dynamic-status">
-                            <dd>
-                                <div class="dynamic-status-img"><a href="javascript:;"><img
-                                            style="width: 32px;height: 32px;border-radius: 50px;"
-                                            src="../../admin/images/avatar.jpg"></a></div>
-                                <div>
-                                    <p>就眠儀式 在 <a style="color: var(--global-primary-color)"
-                                            lay-href="https://gitee.com/pear-admin/Pear-Admin-Layui">讨论区</a> 回答了 <a style="color: var(--global-primary-color)"
-                                            lay-href="https://gitee.com/pear-admin/Pear-Admin-Layui">夏娜</a> 提出得问题
-                                    </p>
-                                    <span>昨天</span>
-                                </div>
-                            </dd>
-                            <dd>
-                                <div class="dynamic-status-img"><a href="javascript:;"><img
-                                            style="width: 32px;height: 32px;border-radius: 50px;"
-                                            src="../../admin/images/avatar.jpg"></a></div>
-                                <div>
-                                    <p>就眠儀式 在 <a style="color: var(--global-primary-color)"
-                                            lay-href="https://gitee.com/pear-admin/Pear-Admin-Layui">讨论区</a> 回答了 <a style="color: var(--global-primary-color)"
-                                            lay-href="https://gitee.com/pear-admin/Pear-Admin-Layui">夏娜</a> 提出得问题
-                                    </p>
-                                    <span>昨天</span>
-                                </div>
-                            </dd>
-                            <dd>
-                                <div class="dynamic-status-img"><a href="javascript:;"><img
-                                            style="width: 32px;height: 32px;border-radius: 50px;"
-                                            src="../../admin/images/avatar.jpg"></a></div>
-                                <div>
-                                    <p>就眠儀式 在 <a style="color: var(--global-primary-color)"
-                                            lay-href="https://gitee.com/pear-admin/Pear-Admin-Layui">讨论区</a> 回答了 <a style="color: var(--global-primary-color)"
-                                            lay-href="https://gitee.com/pear-admin/Pear-Admin-Layui">夏娜</a> 提出得问题
-                                    </p>
-                                    <span>昨天</span>
-                                </div>
-                            </dd>
-                            <dd>
-                                <div class="dynamic-status-img"><a href="javascript:;"><img
-                                            style="width: 32px;height: 32px;border-radius: 50px;"
-                                            src="../../admin/images/avatar.jpg"></a></div>
-                                <div>
-                                    <p>就眠儀式 在 <a style="color: var(--global-primary-color)"
-                                            lay-href="https://gitee.com/pear-admin/Pear-Admin-Layui">讨论区</a> 回答了 <a style="color: var(--global-primary-color)"
-                                            lay-href="https://gitee.com/pear-admin/Pear-Admin-Layui">夏娜</a> 提出得问题
-                                    </p>
-                                    <span>昨天</span>
-                                </div>
-                            </dd>
-                            <dd>
-                                <div class="dynamic-status-img"><a href="javascript:;"><img
-                                            style="width: 32px;height: 32px;border-radius: 50px;"
-                                            src="../../admin/images/avatar.jpg"></a></div>
-                                <div>
-                                    <p>就眠儀式 在 <a style="color: var(--global-primary-color)"
-                                            lay-href="https://gitee.com/pear-admin/Pear-Admin-Layui">讨论区</a> 回答了 <a style="color: var(--global-primary-color)"
-                                            lay-href="https://gitee.com/pear-admin/Pear-Admin-Layui">夏娜</a> 提出得问题
-                                    </p>
-                                    <span>昨天</span>
-                                </div>
-                            </dd>
-                        </dl>
-                    </div>
-                </div>
-
-            </div>
-            <div class="layui-col layui-col-md3">
-                <div class="layui-card">
-                    <div class="layui-card-body"
-                        style="flex-direction: column;height: 160px;display: flex; align-items: center; justify-content: center;">
-                        <div>
-                            <svg focusable="false" class="" data-icon="smile" width="6em" height="6em" fill="#16baaa"
-                                aria-hidden="true" viewBox="64 64 896 896">
-                                <path
-                                    d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"
-                                    fill="#16baaa"></path>
-                                <path
-                                    d="M512 140c-205.4 0-372 166.6-372 372s166.6 372 372 372 372-166.6 372-372-166.6-372-372-372zM288 421a48.01 48.01 0 0196 0 48.01 48.01 0 01-96 0zm224 272c-85.5 0-155.6-67.3-160-151.6a8 8 0 018-8.4h48.1c4.2 0 7.8 3.2 8.1 7.4C420 589.9 461.5 629 512 629s92.1-39.1 95.8-88.6c.3-4.2 3.9-7.4 8.1-7.4H664a8 8 0 018 8.4C667.6 625.7 597.5 693 512 693zm176-224a48.01 48.01 0 010-96 48.01 48.01 0 010 96z"
-                                    fill="#e6f7ff"></path>
-                                <path
-                                    d="M288 421a48 48 0 1096 0 48 48 0 10-96 0zm376 112h-48.1c-4.2 0-7.8 3.2-8.1 7.4-3.7 49.5-45.3 88.6-95.8 88.6s-92-39.1-95.8-88.6c-.3-4.2-3.9-7.4-8.1-7.4H360a8 8 0 00-8 8.4c4.4 84.3 74.5 151.6 160 151.6s155.6-67.3 160-151.6a8 8 0 00-8-8.4zm-24-112a48 48 0 1096 0 48 48 0 10-96 0z"
-                                    fill="#16baaa"></path>
-                            </svg>
+                        <div class="layui-row">
+                            <div class="layui-col layui-col-md12">
+                                <div id="echarts-danmu" style="min-height:400px;padding: 10px"></div>
+                            </div>
                         </div>
-                        <div>Hello Word</div>
-                    </div>
-                </div>
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        寄语
-                    </div>
-                    <div class="layui-card-body" style="line-height:40px;">
-                        原想将澎湃的爱平平稳稳放置你手心，奈何我徒有一股蛮劲，只顾向你跑去，一个不稳跌的满身脏兮兮。试图爬起的我，
-                        心想你会不会笑我 " 献爱献的这样笨拙, 怎么不知避开爱里的埋伏 "
                     </div>
                 </div>
             </div>
+            
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <div class="layui-row">
+                            <div class="layui-col layui-col-md12">
+                                <div id="echarts-like" style="min-height:400px;padding: 10px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <div class="layui-row">
+                            <div class="layui-col layui-col-md12">
+                                <div id="echarts-follow" style="min-height:400px;padding: 10px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
     <script>
@@ -342,13 +363,21 @@
                 regulator: 50
             })
 
-            var echartsRecords = echarts.init(document.getElementById('echarts-records'), 'walden');
+            var echartsEntry = echarts.init(document.getElementById('echarts-entry'), 'walden');
+            var echartsDanmu = echarts.init(document.getElementById('echarts-danmu'), 'walden');
+            var echartsLike = echarts.init(document.getElementById('echarts-like'), 'walden');
+            var echartsFollow = echarts.init(document.getElementById('echarts-follow'), 'walden');
 
             const colorList = ["#9E87FF", '#73DDFF', '#fe9a8b', '#F56948', '#9E87FF']
-            var option = {
+            var option1 = {
+                title:{
+                    text:"七日进房量",
+                    x:"center",
+                    textAlign:"center"
+                },
                 xAxis: {
                     type: 'category',
-                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Bai', 'Fan', 'Yue', 'Qian'],
+                    data: ['2023-12-12', '2023-12-13', '2023-12-14', '2023-12-15', '2023-12-16', '2023-12-17', '2023-12-18'],
                     splitLine: false
                 },
                 yAxis: {
@@ -363,7 +392,7 @@
                 },
                 series: [
                     {
-                        data: [120, 200, 150, 80, 70, 110, 130, 50, 40, 70, 100],
+                        data: [120, 200, 150, 80, 70, 110, 130],
                         type: 'bar',
                         showBackground: true,
                         backgroundStyle: {
@@ -377,13 +406,133 @@
                     }
                 ]
             };
-            echartsRecords.setOption(option);
+            var option2 = {
+                title:{
+                    text:"七日弹幕量",
+                    x:"center",
+                    textAlign:"center"
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['2023-12-12', '2023-12-13', '2023-12-14', '2023-12-15', '2023-12-16', '2023-12-17', '2023-12-18'],
+                    splitLine: false
+                },
+                yAxis: {
+                    type: 'value',
+                    splitLine: false
+                },
+                grid: {
+                    x: '50px',
+                    y: '50px',
+                    x2: '50px',
+                    y2: '50px',
+                },
+                series: [
+                    {
+                        data: [120, 200, 150, 80, 70, 110, 130],
+                        type: 'bar',
+                        showBackground: true,
+                        backgroundStyle: {
+                            color: 'rgba(180, 180, 180, 0.2)'
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#16baaa'
+                            },
+                        }
+                    }
+                ]
+            };
+            var option3 = {
+                title:{
+                    text:"七日点赞量",
+                    x:"center",
+                    textAlign:"center"
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['2023-12-12', '2023-12-13', '2023-12-14', '2023-12-15', '2023-12-16', '2023-12-17', '2023-12-18'],
+                    splitLine: false
+                },
+                yAxis: {
+                    type: 'value',
+                    splitLine: false
+                },
+                grid: {
+                    x: '50px',
+                    y: '50px',
+                    x2: '50px',
+                    y2: '50px',
+                },
+                series: [
+                    {
+                        data: [120, 200, 150, 80, 70, 110, 130],
+                        type: 'bar',
+                        showBackground: true,
+                        backgroundStyle: {
+                            color: 'rgba(180, 180, 180, 0.2)'
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#16baaa'
+                            },
+                        }
+                    }
+                ]
+            };
+            var option4 = {
+                title:{
+                    text:"七日关注量",
+                    x:"center",
+                    textAlign:"center"
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['2023-12-12', '2023-12-13', '2023-12-14', '2023-12-15', '2023-12-16', '2023-12-17', '2023-12-18'],
+                    splitLine: false
+                },
+                yAxis: {
+                    type: 'value',
+                    splitLine: false
+                },
+                grid: {
+                    x: '50px',
+                    y: '50px',
+                    x2: '50px',
+                    y2: '50px',
+                },
+                series: [
+                    {
+                        data: [120, 200, 150, 80, 70, 110, 130],
+                        type: 'bar',
+                        showBackground: true,
+                        backgroundStyle: {
+                            color: 'rgba(180, 180, 180, 0.2)'
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#16baaa'
+                            },
+                        }
+                    }
+                ]
+            };
+            echartsEntry.setOption(option1);
+            echartsDanmu.setOption(option1);
+            echartsLike.setOption(option1);
+            echartsFollow.setOption(option1);
             setTimeout(() => {
-                echartsRecords.resize();
+                echartsEntry.resize();
+                echartsDanmu.resize();
+                echartsLike.resize();
+                echartsFollow.resize();
             }, 500)
 
             window.onresize = function () {
-                echartsRecords.resize();
+                echartsEntry.resize();
+                echartsDanmu.resize();
+                echartsLike.resize();
+                echartsFollow.resize();
             }
 
         });

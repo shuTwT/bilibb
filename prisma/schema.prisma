@@ -15,12 +15,34 @@ model User{
     uid String @unique
     uname String 
     fansNum Int @default(0)// 粉丝数
-    likeAbility Int @default(0) // 好感度
-    entryNum Int @default(0) //进房次数
-    firstEntryDate String?  //首次进房日期 YYYY-MM-DD HH:mm:ss
-    latestEntryDate String? //最后一次进房 YYYY-MM-DD HH:mm:ss
-    latestSpeakDate String? //最后一次发言 YYYY-MM-DD HH:mm:ss
-    latestSpeakId Int?
+    fa String? // 头像链接
+    sign String? // 签名
+    sex String? // 性别
+    level String? // 当前等级 0-6级
+    jointime Int @default(0) // 注册时间
+    moral Int @default(0) // 节操值
+    silence Int @default(0) // 封禁状态
+    fans_badge Boolean @default(false) //是否具有粉丝勋章
+}
+//用户粉丝勋章
+model UserFansModal{
+  id Int @id @default(autoincrement())
+  uid String
+}
+model UserOfficial{
+  id Int @id @default(autoincrement())
+  uid String
+  role Int // 认证类型 0无 1知名up主 2大V达人 3企业 4组织 5媒体 6政府 7高能主播 8未知 9社会知名人士
+  title String // 认证信息
+  desc String // 认证备注
+  type Int // 是否认证 -1无 0个人 1机构
+}
+model UserVip{
+  id Int @id @default(autoincrement())
+  uid String
+  type Int //会员类型 0无1月大会员2年度及以上大会员
+  role Int //大角色类型 1月度大会员 3年度大会员 7十年大会员 15百年大会员
+  color String @default("#FB7299")
 }
 // 房间
 model Room{
