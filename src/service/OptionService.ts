@@ -1,7 +1,7 @@
 import prisma from "../lib/prisma";
 
-export class OptionService{
-    static async setOption(key:string,value:string){
+export const OptionService={
+     async setOption(key:string,value:string){
         try{
             await prisma.options.upsert({
                 where:{
@@ -19,9 +19,9 @@ export class OptionService{
         }catch{
             return false
         }
-    }
+    },
 
-    static async getOption(key:string){
+    async getOption(key:string){
         try{
             const option=await prisma.options.findUnique({
                 where:{

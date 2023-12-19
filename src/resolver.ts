@@ -1,6 +1,6 @@
 import dayjs from "dayjs"
-import { UserService } from "./service/UserService"
-import { RoomService } from "./service/RoomService"
+import { userService } from "./service/UserService"
+import { roomService } from "./service/RoomService"
 
 type FansMedal = {
     anchor_roomid: number,
@@ -49,8 +49,7 @@ interface Resolver {
  * 在线人数
  */
 const currentRankNum = { value: 0 }
-const userService = new UserService()
-const roomService = new RoomService()
+
 export const resolver: Resolver = {
     // 'LOG_IN_NOTICE':function(data){
     //     console.log(data)

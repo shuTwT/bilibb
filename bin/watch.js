@@ -2,7 +2,7 @@ import pkg from "../package.json" assert { type:'json'}
 import { context } from 'esbuild'
 let ctx=await context({
     entryPoints: ['src/app.ts'],
-    target: ["es2020", "node18"],
+    target: ["node20"],
     format: "esm",
     platform: 'node',
     bundle: true,

@@ -1,7 +1,7 @@
 import prisma from "../lib/prisma"
 
 
-export class UserService {
+export const userService= {
     async existUser(uid: string) {
         const user = await prisma.user.findUnique({
             where: {
@@ -13,7 +13,7 @@ export class UserService {
         } else {
             return false
         }
-    }
+    },
 
     /**
      * 创建用户
@@ -30,8 +30,7 @@ export class UserService {
         } else {
             return false
         }
-    }
-
+    },
     /**
      * 更新用户
      */
@@ -51,7 +50,7 @@ export class UserService {
         } catch (e) {
             throw e
         }
-    }
+    },
 
     /**
      * 是否存在用户，存在则更新，不存在则创建
@@ -65,7 +64,7 @@ export class UserService {
             return await this.createUser(uid, data)
         }
 
-    }
+    },
 
     /**
      * 处理用户发言
@@ -88,7 +87,7 @@ export class UserService {
             }
         }
         return false
-    }
+    },
     
     async entryRoom(uid:string,uname:string,roomId:string){
         if (await this.existUser(uid)) {

@@ -1,7 +1,7 @@
 
 
 
-export class LogService {
+export const LogService= {
     /**
      * 发送日志
      * @param  module 模块
@@ -14,7 +14,7 @@ export class LogService {
      * @param  operator 操作人
      * @param  status 访问状态
      */
-    static async pushLog(module:string,method:string,url:string,browser:string,ip:string,system:string,date:string,operator:string,status:string){
+    async pushLog(module:string,method:string,url:string,browser:string,ip:string,system:string,date:string,operator:string,status:string){
 
     }
 }

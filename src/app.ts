@@ -12,7 +12,7 @@ import { getDanmuConf, getRoomid, getRoomInfo } from "./utils";
 import { LiveTCP } from "bilibili-live-ws";
 import { resolver } from "./resolver";
 import type { Msg } from "./resolver";
-import { RoomService } from "./service/RoomService";
+import { roomService } from "./service/RoomService";
 import { connectPool } from "./pool";
 import routing from "./api/routes"
 
@@ -25,18 +25,12 @@ const allowHTTP=process.env.ALLOW_HTTP=="true"?true:false;
 const allowTCP=process.env.ALLOW_TCP=="true"?true:false;
 const port=Number.parseInt(process.env.PORT+"");
 
-class App {
-  private roomService: RoomService
-  constructor() {
-    this.roomService = new RoomService()
-    this.bootstrap()
-  }
-  async bootstrap() {
-    if(allowTCP) await this.TCPServer()
-    if(allowHTTP) await this.HTTPServer()
+  async function bootstrap() {
+    if(allowTCP) await TCPServer()
+    if(allowHTTP) await HTTPServer()
 
   }
-  async TCPServer() {
+  async function TCPServer() {
     const { room_id } = await getRoomid(short_room_id, cookie)
     if(connectPool.has(room_id)){
         console.log("该房间已在连接池中")
@@ -53,10 +47,10 @@ class App {
       room_owner_uid
     }) => {
       if(description.length>150) description=(description as string).slice(0,150)
-      this.roomService.exsitRoom(room_id+"").then((res:boolean)=>{
+      roomService.exsitRoom(room_id+"").then((res:boolean)=>{
         if(!res){
           // 直播间不存在，创建
-          this.roomService.createRoom(room_id+"",room_owner_uid+"",{
+          roomService.createRoom(room_id+"",room_owner_uid+"",{
             description,
             parentAreaName:parent_area_name,
             title,
@@ -66,7 +60,7 @@ class App {
             areaName:area_name,
           })
         }else{
-          this.roomService.updateRoom(room_id+"",room_owner_uid+"",{
+          roomService.updateRoom(room_id+"",room_owner_uid+"",{
             description,
             parentAreaName:parent_area_name,
             title,
@@ -108,11 +102,10 @@ class App {
     connectPool.set(room_id,live)
   }
 
-  async HTTPServer() {
+  async function HTTPServer() {
     const app=new Koa()
     routing(app)
     app.listen(port, () => console.log(`started server on http://localhost:${port}`));
   }
-}
 
-new App()
+    bootstrap()

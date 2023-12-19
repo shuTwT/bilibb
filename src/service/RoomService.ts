@@ -1,15 +1,7 @@
 import prisma from "../lib/prisma"
-import { UserService } from "./UserService"
 import dayjs from "dayjs";
 
-export class RoomService  {
-    userService: UserService
-    constructor(
-        
-    ) {
-        this.userService=new UserService()
-    }
-
+export const roomService= {
     /**
      * 房间是否存在于数据库
      */
@@ -24,7 +16,7 @@ export class RoomService  {
         } else {
             return false
         }
-    }
+    },
     /**
      * 创建房间
      */
@@ -41,7 +33,7 @@ export class RoomService  {
         } else {
             return false
         }
-    }
+    },
 
     async updateRoom(roomId: string, roomOwnerUid: string, data: any = {}) {
         const room = await prisma.room.update({
@@ -58,7 +50,7 @@ export class RoomService  {
         } else {
             return false
         }
-    }
+    },
 
     /**
      * 直播情况
@@ -79,7 +71,7 @@ export class RoomService  {
         } else {
             return false
         }
-    }
+    },
 
     async createLive(roomId: string, date: string) {
         const live = await prisma.live.create({
@@ -94,11 +86,10 @@ export class RoomService  {
             return false
         }
 
-    }
-
+    },
     async increaseEnterRoomNum(num = 1) {
         // 当日进房量+1
-    }
+    },
     async increaseSpeakerNum(roomId:string,date:string) {
         // 当日发言人数+1
         if(await this.exsitLive(roomId,date)){
@@ -124,25 +115,25 @@ export class RoomService  {
         }else{
             return await this.createLive(roomId,date)
         }
-    }
+    },
     async increaseDanmakuNum(num = 1) {
         // 当日弹幕数量+1
-    }
+    },
     async increaseConsumptionNum(num = 1000) {
         // 当日消费金额
-    }
+    },
     async increaseGiftNum(num = 1) {
         // 当日礼物数量
-    }
+    },
     async increaseLikeNum(num = 1) {
         // 当日点赞数
-    }
+    },
     async increaseShareNum(num = 1) {
         // 当日分享数
-    }
+    },
     async increaseFollowNum(num = 1) {
         // 当日关注数
-    }
+    },
     async updateLiveFans(roomId:string,date:string,fans:number,fansClub:number){
         if(await this.exsitLive(roomId,date)){
             const live = await prisma.live.updateMany({
@@ -165,7 +156,7 @@ export class RoomService  {
         }else{
             return await this.createLive(roomId,date)
         }
-    }
+    },
     async updateRedNotice(roomId:string,date:string,tag:number){
         if(await this.exsitLive(roomId,date)){
             const notice = await prisma.redNotice.create({
