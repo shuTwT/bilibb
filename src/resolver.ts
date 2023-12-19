@@ -66,6 +66,11 @@ export const resolver: Resolver = {
     //进入直播间或关注主播
     'INTERACT_WORD': async function (roomId: string, { data }: Msg<any>) {
         //console.log(data.uinfo.base)
+        if(!data.uinfo){
+            console.log(data)
+        }else if(!data.uinfo.base){
+            console.log(data.uinfo)
+        }
         const msg_type=data.msg_type //1为进场,2为关注
         const fansMedal:FansMedal=data.fans_medal
         const uid=data.uid

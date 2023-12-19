@@ -87,7 +87,7 @@ import dayjs from "dayjs";
         }
 
     }
-    export async function increaseEnterRoomNum(num = 1) {
+    export async function increaseEnterRoomNum(roomId:string,date:string) {
         // 当日进房量+1
     }
     export async function increaseSpeakerNum(roomId:string,date:string) {

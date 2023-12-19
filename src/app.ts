@@ -92,7 +92,7 @@ const port=Number.parseInt(process.env.PORT+"");
       if (data.cmd in resolver) {
         await resolver[data.cmd](room_id+"",data);
       } else {
-        console.log(data);
+        //console.log(data);
       }
 
     });

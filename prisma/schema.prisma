@@ -94,6 +94,7 @@ model RedNotice{
 // 用户相对于某直播间进入数据
 model UserEntry{
   id Int @id @default(autoincrement())
+  uid String
   first String?
   latest String?
   num Int? //进入直播间次数
