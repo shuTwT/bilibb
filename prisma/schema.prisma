@@ -13,7 +13,7 @@ datasource db {
 model User{
     id Int @id @default(autoincrement())
     uid String @unique
-    uname String 
+    uname String
     fansNum Int @default(0)// 粉丝数
     fa String? // 头像链接
     sign String? // 签名
@@ -23,6 +23,13 @@ model User{
     moral Int @default(0) // 节操值
     silence Int @default(0) // 封禁状态
     fans_badge Boolean @default(false) //是否具有粉丝勋章
+}
+// 用户日志表
+model UserLog{
+    id Int @id @default(autoincrement())
+    uid String // 用户uid
+    content String // 日志内容
+    date String //时间 YYYY-MM-DD HH:mm:ss
 }
 //用户粉丝勋章
 model UserFansModal{

@@ -36,7 +36,8 @@ class App {
   }
   async bootstrap() {
     if(allowTCP) await this.TCPServer()
-    await this.HTTPServer()
+    if(allowHTTP) await this.HTTPServer()
+
   }
   async TCPServer() {
     const { room_id } = await getRoomid(short_room_id, cookie)

@@ -6,18 +6,11 @@ import { ParsedUrlQuery } from "querystring"
 import path from "node:path"
 import ejs from "ejs"
 
-const templateMap=new Map<string,string>()
-
-function getTemplate(key:string){
-    if(!templateMap.has(key)){
-        console.log('%s is not found in templates',key)
-    }
-    return templateMap.get(key)+""
-}
-function setTemplate(name:string,ext:string='html'){
+function getTemplate(name:string,ext:string='html'){
     const buffer=fs.readFileSync(path.resolve(process.cwd(),'template',`${name}.${ext}`))
-    templateMap.set(name,buffer.toString())
+    return buffer.toString()
 }
+
 const v1Router = new Router({
     prefix:'/api/v1'
 })
@@ -129,20 +122,50 @@ v1Router.get('/user/info/:uid', async (ctx, next) => {
     const query = ctx.query
     const headers = ctx.headers
     const body = ctx.request.body
+    const page = str2num(parseQuery(query, 'page'), 1, { min: 1 })
+    const limit = str2num(parseQuery(query, 'limit'), 10, { min: 10 })
     let template='user-info'
 
     const user=await prisma.user.findUnique({
         where:{
             uid:params['uid']
-        }
+        },
     })
     if(!user){
         return
     }
-    if(!templateMap.has(template)){
-        setTemplate(template,'ejs')
-    }
-    ctx.body=ejs.render(getTemplate(template),{user:user})
+    const [speaks,speakCount] = await prisma.$transaction([
+        prisma.speak.findMany({
+            where:{
+                uid:params['uid']
+            },
+            skip: (page - 1)*limit,
+            take: limit,
+        }),
+        prisma.speak.count()
+    ])
+    const [userLogs,userLogsCount] = await prisma.$transaction([
+        prisma.userLog.findMany({
+            where:{
+                uid:params['uid']
+            },
+            skip: (page - 1)*limit,
+            take: limit,
+        }),
+        prisma.userLog.count()
+    ])
+    
+    ctx.body=ejs.render(getTemplate(template,'ejs'),{
+        user:user,
+        speak:{
+            count:speakCount,
+            data:speaks
+        },
+        logs:{
+            count:userLogsCount,
+            data:userLogs
+        },
+    })
 })
 
 function parseQuery(query: ParsedUrlQuery, key: string): string {
@@ -166,7 +189,11 @@ function str2num(str: string, defaultValue: number, options?: {
     min?: number,
     max?: number
 }): number {
-    let num = isNaN(Number.parseInt(str)) ? defaultValue : Number.parseInt(str)
+    
+    let num = Number.parseInt(str)
+    if(isNaN(num)){
+        return defaultValue
+    }
     if (options) {
         if (options.min && options.max) {
             if (options.max <= options.min) throw "max必须大于min"

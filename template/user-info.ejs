@@ -4,9 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/component/pear/css/pear.css" />
 </head>
 <body>
-    <div class="layui-row"></div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col">
+            <div class="avatar">
+                <% if(user.fa){%>
+                    <img src="<%=user.fa%>" alt="avatar">
+                <%}%>
+            </div>
+        </div>
+        <div class="layui-col">
+            <h2><%=user.uname%></h2>
+        </div>
+        <div class="layui-col">
+            <h2><%=user.uid%></h2>
+        </div>
+        
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-rol"><%=user.sex%></div>
+        
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-xs12">
+            <button class="layui-btn">获取数据</button>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-xs12">
+            <div class="layui-card layui-col-md6 layui-col-space10">
+                <div class="layui-card-header">speak</div>
+                <div class="layui-card-body">
+                    <table class="layui-table" lay-filter="speakTable">
+                        <thead>
+                            <tr>
+                                <th lay-data="{field:'id',width:80}">ID</th>
+                                <th lay-data="{field:'roomId',width:100}">roomId</th>
+                                <th lay-data="{field:'content'}">content</th>
+                                <th lay-data="{field:'date',width:180}">date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%speak.data.forEach(function(item){%>
+                            <tr>
+                                <td><%=item.id%></td>
+                                <td><%=item.roomId%></td>
+                                <td><%=item.content%></td>
+                                <td><%=item.date%></td>
+                            </tr>
+                            <%})%>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="layui-card layui-col-md6 layui-col-space10">
+                <div class="layui-card-header">日志</div>
+                <div class="layui-card-body">
+                    <table class="layui-table" lay-filter="logTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>content</th>
+                                <th>date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%logs.data.forEach(function(item){%>
+                            <tr>
+                                <td><%=item.id%></td>
+                                <td><%=item.content%></td>
+                                <td><%=item.date%></td>
+                            </tr>
+                            <%})%>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="/component/layui/layui.js"></script>
+    <script src="/component/pear/pear.js"></script>
+    <script>
+        layui.use(['table','count'],function(){
+            var table=layui.table;
+                
+            table.init('speakTable')
+                
+            
+        })
+    </script>
 </body>
 </html>
