@@ -1,7 +1,7 @@
-import { ILogService } from "../interface";
 
 
-export class LogService implements ILogService{
+
+export class LogService {
     /**
      * 发送日志
      * @param  module 模块
@@ -14,7 +14,7 @@ export class LogService implements ILogService{
      * @param  operator 操作人
      * @param  status 访问状态
      */
-    async pushLog(module:string,method:string,url:string,browser:string,ip:string,system:string,date:string,operator:string,status:string){
+    static async pushLog(module:string,method:string,url:string,browser:string,ip:string,system:string,date:string,operator:string,status:string){
 
     }
 }

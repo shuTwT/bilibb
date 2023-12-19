@@ -26,12 +26,6 @@ function createDecorator(method: RequestMethod) {
     };
 }
 
-export function Application() {
-    return function (target: any) {
-        const app = new target()
-        return target
-    }
-}
 
 export function Controller(path = '') {
     return function (target: Constructor) {

@@ -2,9 +2,11 @@ import Router from "koa-router"
 import { connectPool } from "../../pool"
 import prisma from "../../lib/prisma"
 import { ParsedUrlQuery } from "querystring"
-const v1Router = new Router()
+const v1Router = new Router({
+    prefix:'/api/v1'
+})
 
-v1Router.get('/v1/connect/list', async (ctx, next) => {
+v1Router.get('/connect/list', async (ctx, next) => {
     const params = ctx.params
     const query = ctx.query
     const headers = ctx.headers
@@ -19,7 +21,7 @@ v1Router.get('/v1/connect/list', async (ctx, next) => {
 /**
  * 进房量分页查询
  */
-v1Router.get('/v1/entry/list', async (ctx, next) => {
+v1Router.get('/entry/list', async (ctx, next) => {
     const params = ctx.params
     const query = ctx.query
     const headers = ctx.headers
@@ -29,7 +31,7 @@ v1Router.get('/v1/entry/list', async (ctx, next) => {
 /**
  * 弹幕量分页查询
  */
-v1Router.get('/v1/danmu/list', async (ctx, next) => {
+v1Router.get('/danmu/list', async (ctx, next) => {
     const params = ctx.params
     const query = ctx.query
     const headers = ctx.headers
@@ -39,7 +41,7 @@ v1Router.get('/v1/danmu/list', async (ctx, next) => {
 /**
  * 点赞量分页查询
  */
-v1Router.get('/v1/like/list', async (ctx, next) => {
+v1Router.get('/like/list', async (ctx, next) => {
     const params = ctx.params
     const query = ctx.query
     const headers = ctx.headers
@@ -49,7 +51,7 @@ v1Router.get('/v1/like/list', async (ctx, next) => {
 /**
  * 分享量分页查询
  */
-v1Router.get('/v1/share/list', async (ctx, next) => {
+v1Router.get('/share/list', async (ctx, next) => {
     const params = ctx.params
     const query = ctx.query
     const headers = ctx.headers
@@ -59,7 +61,7 @@ v1Router.get('/v1/share/list', async (ctx, next) => {
 /**
  * 关注量分页查询
  */
-v1Router.get('/v1/follow/list', async (ctx, next) => {
+v1Router.get('/follow/list', async (ctx, next) => {
     const params = ctx.params
     const query = ctx.query
     const headers = ctx.headers
@@ -69,7 +71,7 @@ v1Router.get('/v1/follow/list', async (ctx, next) => {
 /**
  * 礼物分页查询
  */
-v1Router.get('/v1/gift/list', async (ctx, next) => {
+v1Router.get('/gift/list', async (ctx, next) => {
     const params = ctx.params
     const query = ctx.query
     const headers = ctx.headers
@@ -79,18 +81,17 @@ v1Router.get('/v1/gift/list', async (ctx, next) => {
 /**
  * 用户分页查询
  */
-v1Router.get('/v1/:roomid/user/list', async (ctx, next) => {
+v1Router.get('/user/list', async (ctx, next) => {
     const params = ctx.params
     const query = ctx.query
     const headers = ctx.headers
     const body = ctx.request.body
-    const roomid=ctx.params["roomid"]
-    const pageNum = str2num(parseQuery(query, 'pageNum'), 1, { min: 1 })
+    const page = str2num(parseQuery(query, 'page'), 1, { min: 1 })
     const limit = str2num(parseQuery(query, 'limit'), 1, { min: 1 })
 
     const [users, count] = await prisma.$transaction([
         prisma.user.findMany({
-            skip: (pageNum - 1)*limit,
+            skip: (page - 1)*limit,
             take: limit,
         }),
         prisma.user.count()
@@ -107,7 +108,7 @@ v1Router.get('/v1/:roomid/user/list', async (ctx, next) => {
 /**
  * 用户信息查询
  */
-v1Router.get('/v1/user/info/:uid', async (ctx, next) => {
+v1Router.get('/user/info/:uid', async (ctx, next) => {
     const params = ctx.params
     const query = ctx.query
     const headers = ctx.headers

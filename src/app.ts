@@ -7,18 +7,17 @@
  */
 import "reflect-metadata"
 import Koa from "koa";
-import routing from "./api/routes"
 import * as dotenv from "dotenv";
 import { getDanmuConf, getRoomid, getRoomInfo } from "./utils";
 import { LiveTCP } from "bilibili-live-ws";
 import { resolver } from "./resolver";
 import type { Msg } from "./resolver";
 import { RoomService } from "./service/RoomService";
-import { Application } from "./decorator";
 import { TYPES } from "./type";
 import { myContainer } from "./inversify.config";
 import { IRoomService } from "./interface";
 import { connectPool } from "./pool";
+import routing from "./api/routes"
 
 dotenv.config();
 const short_room_id = Number.parseInt(process.env.ROOM_ID + "");
@@ -29,7 +28,6 @@ const allowHTTP=process.env.ALLOW_HTTP=="true"?true:false;
 const allowTCP=process.env.ALLOW_TCP=="true"?true:false;
 const port=Number.parseInt(process.env.PORT+"");
 
-@Application()
 class App {
   private roomService: RoomService
   constructor() {
@@ -119,6 +117,4 @@ class App {
   }
 }
 
-
-
-
+new App()

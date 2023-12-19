@@ -24,6 +24,3 @@ export interface IRoomService{
     updateLiveFans(roomId:string,date:string,fans:number,fansClub:number):Promise<boolean>
     updateRedNotice(roomId:string,date:string,tag:number):Promise<boolean>
 }
-export interface ILogService{
-    
-}
