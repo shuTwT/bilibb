@@ -13,9 +13,6 @@ import { LiveTCP } from "bilibili-live-ws";
 import { resolver } from "./resolver";
 import type { Msg } from "./resolver";
 import { RoomService } from "./service/RoomService";
-import { TYPES } from "./type";
-import { myContainer } from "./inversify.config";
-import { IRoomService } from "./interface";
 import { connectPool } from "./pool";
 import routing from "./api/routes"
 
@@ -31,7 +28,7 @@ const port=Number.parseInt(process.env.PORT+"");
 class App {
   private roomService: RoomService
   constructor() {
-    this.roomService = myContainer.get<IRoomService>(TYPES.RoomService)
+    this.roomService = new RoomService()
     this.bootstrap()
   }
   async bootstrap() {

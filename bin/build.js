@@ -1,5 +1,4 @@
 import pkg from "../package.json" assert { type:'json'}
-import vuePlugin from "esbuild-plugin-vue3"
 import { build } from 'esbuild'
 build({
     entryPoints:['src/app.ts'],
@@ -8,6 +7,6 @@ build({
     platform:'node',
     bundle:true,
     outdir:'dist',
-    plugins:[vuePlugin()],
+    plugins:[],
     external:[...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})],
 })

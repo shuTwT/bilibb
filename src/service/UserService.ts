@@ -1,9 +1,7 @@
-import { injectable } from "inversify"
 import prisma from "../lib/prisma"
-import { IUserService } from "../interface"
 
-@injectable()
-export class UserService implements IUserService {
+
+export class UserService {
     async existUser(uid: string) {
         const user = await prisma.user.findUnique({
             where: {

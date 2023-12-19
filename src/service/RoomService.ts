@@ -1,17 +1,13 @@
-import { inject, injectable } from "inversify";
 import prisma from "../lib/prisma"
 import { UserService } from "./UserService"
-import { TYPES } from "../type";
-import { IRoomService } from "../interface";
 import dayjs from "dayjs";
 
-@injectable()
-export class RoomService implements IRoomService {
-    @inject(TYPES.UserService) userService!: UserService;
+export class RoomService  {
+    userService: UserService
     constructor(
-
+        
     ) {
-
+        this.userService=new UserService()
     }
 
     /**
@@ -72,8 +68,10 @@ export class RoomService implements IRoomService {
     async exsitLive(roomId: string, date: string) {
         const live = await prisma.live.findFirst({
             where: {
-                roomId,
-                date:dayjs(date).format("YYYY-MM-DD")
+                AND:[
+                    {roomId},
+                    {date:dayjs(date).format("YYYY-MM-DD")}
+                ]   
             }
         })
         if (live) {
@@ -111,8 +109,11 @@ export class RoomService implements IRoomService {
                     }
                 },
                 where:{
-                    roomId,
-                    date:dayjs(date).format("YYYY-MM-DD")
+                    AND:[
+                        {roomId},
+                        {date:dayjs(date).format("YYYY-MM-DD")}
+                    ]
+                    
                 }
             })
             if(live){
@@ -150,8 +151,10 @@ export class RoomService implements IRoomService {
                     fansClub
                 },
                 where:{
-                    roomId,
-                    date:dayjs(date).format("YYYY-MM-DD")
+                    AND:[
+                        {roomId},
+                        {date:dayjs(date).format("YYYY-MM-DD")}
+                    ]
                 }
             })
             if(live){
@@ -179,8 +182,11 @@ export class RoomService implements IRoomService {
                     }
                 },
                 where:{
-                    roomId,
-                    date:dayjs(date).format("YYYY-MM-DD")
+                    AND:[
+                        {roomId},
+                        {date:dayjs(date).format("YYYY-MM-DD")}
+                    ]
+                    
                 }
             })
             if(notice&&live){

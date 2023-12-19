@@ -1,7 +1,6 @@
 import dayjs from "dayjs"
-import { IRoomService, IUserService } from "./interface"
-import { myContainer } from "./inversify.config"
-import { TYPES } from "./type"
+import { UserService } from "./service/UserService"
+import { RoomService } from "./service/RoomService"
 
 type FansMedal = {
     anchor_roomid: number,
@@ -50,8 +49,8 @@ interface Resolver {
  * 在线人数
  */
 const currentRankNum = { value: 0 }
-const userService = myContainer.get<IUserService>(TYPES.UserService)
-const roomService = myContainer.get<IRoomService>(TYPES.RoomService)
+const userService = new UserService()
+const roomService = new RoomService()
 export const resolver: Resolver = {
     // 'LOG_IN_NOTICE':function(data){
     //     console.log(data)

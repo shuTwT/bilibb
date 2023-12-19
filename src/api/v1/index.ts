@@ -26,6 +26,23 @@ v1Router.get('/connect/list', async (ctx, next) => {
         data: Object.keys(connectPool)
     }
 })
+v1Router.get('/room/list',async(ctx,next)=>{
+    const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
+    const limit = str2num(parseQuery(ctx.query, 'limit'), 1, { min: 1 })
+    const [rooms,count]=await prisma.$transaction([
+        prisma.room.findMany({
+            skip: (page - 1)*limit,
+            take: limit,
+        }),
+        prisma.room.count()
+    ])
+    ctx.body={
+        code:0,
+        msg:"ok",
+        count,
+        data:rooms
+    }
+})
 
 /**
  * 进房量分页查询
@@ -38,13 +55,52 @@ v1Router.get('/entry/list', async (ctx, next) => {
 })
 
 /**
- * 弹幕量分页查询
+ * 弹幕分页查询
  */
 v1Router.get('/danmu/list', async (ctx, next) => {
-    const params = ctx.params
-    const query = ctx.query
-    const headers = ctx.headers
-    const body = ctx.request.body
+    const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
+    const limit = str2num(parseQuery(ctx.query, 'limit'), 1, { min: 1 })
+    const [speaks,count]=await prisma.$transaction([
+        prisma.speak.findMany({
+            skip: (page - 1)*limit,
+            take: limit,
+        }),
+        prisma.speak.count()
+    ])
+    ctx.body={
+        code:0,
+        msg:"ok",
+        count,
+        data:speaks
+    }
+})
+/**
+ * 某个直播间的弹幕
+ */
+v1Router.get('/danmu/list/:roomId', async (ctx, next) => {
+    const roomId=ctx.params['roomId']
+    const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
+    const limit = str2num(parseQuery(ctx.query, 'limit'), 1, { min: 1 })
+    const [speaks,count]=await prisma.$transaction([
+        prisma.speak.findMany({
+            skip: (page - 1)*limit,
+            take: limit,
+            where:{
+                roomId
+            }
+        }),
+        prisma.speak.count({
+            where:{
+                roomId
+            }
+        })
+    ])
+    ctx.body={
+        code:0,
+        msg:"ok",
+        count,
+        data:speaks
+    }
 })
 
 /**

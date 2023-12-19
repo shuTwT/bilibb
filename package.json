@@ -14,6 +14,7 @@
   "license": "MIT",
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",
+    "@types/ejs": "^3.1.5",
     "@types/koa": "^2.13.12",
     "@types/koa-bodyparser": "^4.3.12",
     "@types/koa-router": "^7.4.8",
@@ -22,19 +23,16 @@
     "@types/node": "^18.14.0",
     "@types/ws": "^8.5.10",
     "esbuild": "^0.19.9",
-    "esbuild-plugin-vue3": "^0.3.2",
     "nodemon": "^3.0.1",
     "prisma": "^5.7.0",
     "typescript": "^5.2.2"
   },
   "dependencies": {
     "@prisma/client": "^5.7.0",
-    "@types/ejs": "^3.1.5",
     "bilibili-live-ws": "^6.3.1",
     "dayjs": "^1.11.10",
     "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
-    "inversify": "^6.0.2",
     "koa": "^2.14.2",
     "koa-bodyparser": "^4.4.1",
     "koa-router": "^12.0.1",
