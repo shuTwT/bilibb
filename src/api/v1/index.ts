@@ -1,7 +1,23 @@
+import fs from "node:fs"
 import Router from "koa-router"
 import { connectPool } from "../../pool"
 import prisma from "../../lib/prisma"
 import { ParsedUrlQuery } from "querystring"
+import path from "node:path"
+import ejs from "ejs"
+
+const templateMap=new Map<string,string>()
+
+function getTemplate(key:string){
+    if(!templateMap.has(key)){
+        console.log('%s is not found in templates',key)
+    }
+    return templateMap.get(key)+""
+}
+function setTemplate(name:string,ext:string='html'){
+    const buffer=fs.readFileSync(path.resolve(process.cwd(),'template',`${name}.${ext}`))
+    templateMap.set(name,buffer.toString())
+}
 const v1Router = new Router({
     prefix:'/api/v1'
 })
@@ -113,6 +129,20 @@ v1Router.get('/user/info/:uid', async (ctx, next) => {
     const query = ctx.query
     const headers = ctx.headers
     const body = ctx.request.body
+    let template='user-info'
+
+    const user=await prisma.user.findUnique({
+        where:{
+            uid:params['uid']
+        }
+    })
+    if(!user){
+        return
+    }
+    if(!templateMap.has(template)){
+        setTemplate(template,'ejs')
+    }
+    ctx.body=ejs.render(getTemplate(template),{user:user})
 })
 
 function parseQuery(query: ParsedUrlQuery, key: string): string {
