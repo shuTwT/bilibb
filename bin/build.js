@@ -7,6 +7,7 @@ build({
     platform:'node',
     bundle:true,
     outdir:'dist',
+    sourcemap:true,
     plugins:[],
     external:[...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})],
 })

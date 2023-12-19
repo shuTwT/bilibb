@@ -66,21 +66,20 @@ export const resolver: Resolver = {
     //进入直播间或关注主播
     'INTERACT_WORD': async function (roomId: string, { data }: Msg<any>) {
         //console.log(data.uinfo.base)
-        if(!data.uinfo){
-            console.log(data)
-        }else if(!data.uinfo.base){
-            console.log(data.uinfo)
-        }
         const msg_type=data.msg_type //1为进场,2为关注
         const fansMedal:FansMedal=data.fans_medal
-        const uid=data.uid
+        const uid=data.uid+""
         const uinfo=data.uinfo
         const uname=data.uname
-        const face=data.uinfo.base.face
-        await userService.processUser(uid+"",{
+        const face=data.uinfo?data.uinfo.base.face:''
+        const date=dayjs().format('YYYY-MM-DD HH:mm:ss')
+        await userService.processUser(uid,{
             uname,
             fa:face,
         })
+        if(msg_type==1){
+            await roomService.increaseEnterRoomNum(roomId,uid,date)
+        }
     },
     /**
      * 停播房间列表

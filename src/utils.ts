@@ -86,7 +86,7 @@ export const getRoomInfo=async(roomid:number|string,cookie:string)=>{
     uid
   }}=raw
   return {
-    description,
+    description:description.slice(0,150),
     parent_area_name,
     title,
     user_cover,

@@ -9,143 +9,210 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
 // 用户
-model User{
+model User {
     id Int @id @default(autoincrement())
-    uid String @unique
-    uname String
-    fansNum Int @default(0)// 粉丝数
-    fa String? // 头像链接
-    sign String? // 签名
-    sex String? // 性别
-    level String? // 当前等级 0-6级
-    jointime Int @default(0) // 注册时间
-    moral Int @default(0) // 节操值
-    silence Int @default(0) // 封禁状态
-    fans_badge Boolean @default(false) //是否具有粉丝勋章
+  uid           String         @unique
+  uname         String
+  fansNum       Int            @default(0) // 粉丝数
+  fa            String? // 头像链接
+  sign          String? // 签名
+  sex           String? // 性别
+  level         String? // 当前等级 0-6级
+  jointime      Int            @default(0) // 注册时间
+  moral         Int            @default(0) // 节操值
+  silence       Int            @default(0) // 封禁状态
+  fans_badge    Boolean        @default(false) //是否具有粉丝勋章
+  UserEntry     UserEntry[]
+  UserFansModal UserFansModal?
+  UserLog       UserLog[]
+  UserOfficial  UserOfficial?
+  UserVip       UserVip?
+  Speak         Speak[]
+  UserDanmu     UserDanmu[]
+  UserCaptain   UserCaptain[]
+  UserLike      UserLike[]
+  UserGift      UserGift[]
+  UserFavor     UserFavor[]
 }
+
 // 用户日志表
-model UserLog{
-    id Int @id @default(autoincrement())
-    uid String // 用户uid
-    content String // 日志内容
-    date String //时间 YYYY-MM-DD HH:mm:ss
+model UserLog {
+  id      Int    @id @default(autoincrement())
+  uid     String // 用户uid
+  content String // 日志内容
+  date    String //时间 YYYY-MM-DD HH:mm:ss
+ User    User   @relation(fields: [uid], references: [uid])
 }
+
 //用户粉丝勋章
-model UserFansModal{
-  id Int @id @default(autoincrement())
-  uid String
-}
-model UserOfficial{
-  id Int @id @default(autoincrement())
-  uid String
-  role Int // 认证类型 0无 1知名up主 2大V达人 3企业 4组织 5媒体 6政府 7高能主播 8未知 9社会知名人士
-  title String // 认证信息
-  desc String // 认证备注
-  type Int // 是否认证 -1无 0个人 1机构
-}
-model UserVip{
-  id Int @id @default(autoincrement())
-  uid String
-  type Int //会员类型 0无1月大会员2年度及以上大会员
-  role Int //大角色类型 1月度大会员 3年度大会员 7十年大会员 15百年大会员
-  color String @default("#FB7299")
-}
-// 房间
-model Room{
+model UserFansModal {
     id Int @id @default(autoincrement())
-    roomId String @unique //房间号
-    roomOwnerUid String @unique //主播uid
-    description String
-    parentAreaName String
-    title String
-    userCover String
-    keyframe String
-    tags String
-    areaName String
+  uid  String @unique
+  User User   @relation(fields: [uid], references: [uid])
 }
-// 房间的直播情况
-model Live{
+
+model UserOfficial {
+    id Int @id @default(autoincrement())
+  uid   String @unique
+  role  Int // 认证类型 0无 1知名up主 2大V达人 3企业 4组织 5媒体 6政府 7高能主播 8未知 9社会知名人士
+  title String // 认证信息
+  desc  String // 认证备注
+  type  Int // 是否认证 -1无 0个人 1机构
+  User  User   @relation(fields: [uid], references: [uid])
+}
+
+model UserVip {
+    id Int @id @default(autoincrement())
+  uid   String @unique
+  type  Int //会员类型 0无1月大会员2年度及以上大会员
+  role  Int //大角色类型 1月度大会员 3年度大会员 7十年大会员 15百年大会员
+  color String @default("#FB7299")
+  User  User   @relation(fields: [uid], references: [uid])
+}
+
+// 房间
+model Room {
   id Int @id @default(autoincrement())
-  roomId String //房间号
-  fans Int @default(0) //x人看过
-  entryNum Int @default(0)//进房量
-  speakNum Int @default(0)//发言数
-  redNoticeNum Int @default(0) //红色警告数
-  fansClub Int @default(0) //粉丝团
-  date String// 日期 YYYY-MM-DD
+  roomId         String        @unique //房间号
+  roomOwnerUid   String          //主播uid
+  description    String?
+  parentAreaName String
+  title          String
+  userCover      String
+  keyframe       String
+  tags           String
+  areaName       String
+  UserEntry      UserEntry[]
+  Live           Live[]
+  Speak          Speak[]
+  RedNotice      RedNotice[]
+  UserDanmu      UserDanmu[]
+  UserCaptain    UserCaptain[]
+  UserLike       UserLike[]
+  UserGift       UserGift[]
+  UserFavor      UserFavor[]
+}
+
+// 房间的直播情况
+model Live {
+  id           Int @id @default(autoincrement())
+  roomId       String //房间号
+  fans         Int    @default(0) //x人看过
+  entryNum     Int    @default(0) //进房量
+  speakNum     Int    @default(0) //发言数
+  redNoticeNum Int    @default(0) //红色警告数
+  fansClub     Int    @default(0) //粉丝团
+  date         String // 日期 YYYY-MM-DD
+  Room         Room   @relation(fields: [roomId], references: [roomId])
+  @@unique([roomId,date])
 }
 
 // 发言
-model Speak{
-    id Int @id @default(autoincrement())
-    uid String //关联用户uid
-    roomId String //关联直播间
-    content String //发言内容
-    date String // 发言时间 YYYY-MM-DD HH:mm:ss
+model Speak {
+  id      Int    @id @default(autoincrement())
+  uid     String //关联用户uid
+  roomId  String //关联直播间
+  content String //发言内容
+  date    String // 发言时间 YYYY-MM-DD HH:mm:ss
+  User    User   @relation(fields: [uid], references: [uid])
+  Room    Room   @relation(fields: [roomId], references: [roomId])
 }
+
 // 红色警告
-model RedNotice{
-  id  Int @id @default(autoincrement())
-  roomId String //关联直播间
+model RedNotice {
+  id           Int    @id @default(autoincrement())
+  roomId       String //关联直播间
   redNoticeTag Int // 对应真实事件消息更新中red_notice标志
-  date String // 警告时间 YYYY-MM-DD HH:mm:ss
+  date         String // 警告时间 YYYY-MM-DD HH:mm:ss
+  Room         Room   @relation(fields: [roomId], references: [roomId])
 }
+
 // 用户相对于某直播间进入数据
-model UserEntry{
+model UserEntry {
   id Int @id @default(autoincrement())
-  uid String
-  first String?
+  uid    String
+  roomId String
+  first  String?
   latest String?
-  num Int? //进入直播间次数
+  num    Int? //进入直播间次数
+  User   User    @relation(fields: [uid], references: [uid])
+  Room   Room    @relation(fields: [roomId], references: [roomId])
+
+  @@unique([uid, roomId])
 }
+
 // 用户相对于某直播间的弹幕数据
-model UserDanmu{
+model UserDanmu {
   id Int @id @default(autoincrement())
-  uid String
-  first String? //第一次发送弹幕
+  uid    String
+  roomId String
+  first  String? //第一次发送弹幕
   latest String? //最后一次发送弹幕
-  num Int? //弹幕数量
+  num    Int? //弹幕数量
+  User   User    @relation(fields: [uid], references: [uid])
+  Room   Room    @relation(fields: [roomId], references: [roomId])
+
+  @@unique([uid, roomId])
 }
+
 //用户相对于某直播间的上舰数据
-model UserCaptain{
+model UserCaptain {
   id Int @id @default(autoincrement())
-  uid String
-  first String? //第一次上舰
+  uid    String
+  roomId String
+  first  String? //第一次上舰
   latest String? //最后一次上舰
-  num Int? //上舰次数
+  num    Int? //上舰次数
+  User   User    @relation(fields: [uid], references: [uid])
+  Room   Room    @relation(fields: [roomId], references: [roomId])
+
+  @@unique([uid, roomId])
 }
+
 //用户相对于某直播间的点赞
-model UserLike{
-  id Int @id @default(autoincrement())
-  uid String
-  first String? //第一次点赞
-  latest String? //最后一次点赞
-  num Int?//点赞次数
-}
-//用户相对于某直播间的送礼数据
-model UserGift{
-  id Int @id @default(autoincrement())
-  uid String
-  first String? //第一次送礼
-  latest String? //最后一次送礼
-  num Int? //送礼次数
-}
-//送礼
-model Gift{
-  id Int @id @default(autoincrement())
-  uid String //送礼的用户
-  date String //送礼时间
-}
-//用户相对于某直播间好感度
-model UserFavor{
-  id Int @id @default(autoincrement())
-  uid String //用户
-  favor Int @default(0) //好感度
-}
-//配置项
-model Options{
+model UserLike {
     id Int @id @default(autoincrement())
-    optionName String @unique
-    optionValue String
+  uid    String
+  roomId String
+  first  String? //第一次点赞
+  latest String? //最后一次点赞
+  num    Int? //点赞次数
+  User   User    @relation(fields: [uid], references: [uid])
+  Room   Room    @relation(fields: [roomId], references: [roomId])
+
+  @@unique([uid, roomId])
+}
+
+//用户相对于某直播间的送礼数据
+model UserGift {
+  id Int @id @default(autoincrement())
+  uid    String
+  roomId String
+  first  String? //第一次送礼
+  latest String? //最后一次送礼
+  num    Int? //送礼次数
+  User   User    @relation(fields: [uid], references: [uid])
+  Room   Room    @relation(fields: [roomId], references: [roomId])
+
+  @@unique([uid, roomId])
+}
+
+//用户相对于某直播间好感度
+model UserFavor {
+  id Int @id @default(autoincrement())
+  uid    String //用户
+  roomId String
+  favor  Int    @default(0) //好感度
+  User   User   @relation(fields: [uid], references: [uid])
+  Room   Room   @relation(fields: [roomId], references: [roomId])
+
+  @@unique([uid, roomId])
+}
+
+//配置项
+model Options {
+  optionName  String @id
+  optionValue String
 }

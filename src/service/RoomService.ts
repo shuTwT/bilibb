@@ -87,8 +87,31 @@ import dayjs from "dayjs";
         }
 
     }
-    export async function increaseEnterRoomNum(roomId:string,date:string) {
+    export async function increaseEnterRoomNum(roomId:string,uid:string,date:string) {
+        const today=dayjs(date).format('YYYY-MM-DD')
         // 当日进房量+1
+        try{
+            await prisma.live.upsert({
+                where:{
+                    roomId_date:{
+                        roomId,
+                        date:today
+                    }
+                },
+                update:{
+                    entryNum:{
+                        increment:1
+                    }
+                },
+                create:{
+                    roomId,
+                    date:today
+                }
+            })
+            return true
+        }catch(e){
+            throw e
+        }
     }
     export async function increaseSpeakerNum(roomId:string,date:string) {
         // 当日发言人数+1
