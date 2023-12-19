@@ -67,15 +67,14 @@ export const resolver: Resolver = {
     },
     //进入直播间或关注主播
     'INTERACT_WORD': async function (roomId: string, { data }: Msg<any>) {
-        //console.log(data)
+        //console.log(data.uinfo.base)
         const msg_type=data.msg_type //1为进场,2为关注
         const fansMedal:FansMedal=data.fans_medal
         const uid=data.uid
         const uinfo=data.uinfo
-        console.log(uinfo)
         const uname=data.uname
         const face=data.uinfo.base.face
-        await userService.processUser(uid,{
+        await userService.processUser(uid+"",{
             uname,
             fa:face,
         })
@@ -162,7 +161,7 @@ export const resolver: Resolver = {
         const face=data.face //头像
         const copy_writing=data.copy_writing //进场欢迎文本
         const copy_color=data.copy_color //进场欢迎文本颜色
-        console.log(data)
+        //console.log(data)
     },
     /**
      * 人气排名
