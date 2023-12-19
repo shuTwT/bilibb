@@ -1,6 +1,6 @@
 import dayjs from "dayjs"
-import { userService } from "./service/UserService"
-import { roomService } from "./service/RoomService"
+import * as userService  from "./service/UserService"
+import * as roomService  from "./service/RoomService"
 
 type FansMedal = {
     anchor_roomid: number,

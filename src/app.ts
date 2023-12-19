@@ -12,7 +12,7 @@ import { getDanmuConf, getRoomid, getRoomInfo } from "./utils";
 import { LiveTCP } from "bilibili-live-ws";
 import { resolver } from "./resolver";
 import type { Msg } from "./resolver";
-import { roomService } from "./service/RoomService";
+import * as roomService  from "./service/RoomService";
 import { connectPool } from "./pool";
 import routing from "./api/routes"
 
