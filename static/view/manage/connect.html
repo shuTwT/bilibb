@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<div class="pear-container">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <form class="layui-form layui-row layui-col-space16">
+                        <div class="layui-col-md4">
+                            <div class="layui-input-wrap">
+                                <div class="layui-input-prefix">
+                                    <i class="layui-icon layui-icon-username"></i>
+                                </div>
+                                <input type="text" name="roomId" value="" placeholder="房间号" class="layui-input"
+                                    lay-affix="clear" lay-verify="required|number">
+                            </div>
+                        </div>
+                        <div class="layui-btn-container layui-col-xs12">
+                            <button class="layui-btn" lay-submit lay-filter="add">新增</button>
+                            
+                        </div>
+                    </form>
+                    <table id="connect-table" lay-filter="connect-table">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<template id="submit-add">
+<div>
+    1
+</div>
+</template>
+<script>
+    layui.use([ 'form', 'table','layer'], function () {
+        var table=layui.table,
+            form=layui.form,
+            layer=layui.layer,
+            $=layui.jquery;
+        form.render()
+        table.render({
+            elem: "#connect-table",
+            url: "/api/v1/connect/list",
+            lineStyle: 'height:100px',
+            cols:[[
+                { type: 'checkbox', fixed: 'flex' },
+                { field: 'roomId',width:80,title:'房间号',},
+                { field:'title',title:'标题',templet:function(d){return `${d.Room.title}`}},
+                { field:'tags',title:'标签'},
+                { field:'keyframe',width:100,title:'关键帧',templet:function(d){return`<div><img alt="" src="${d.keyframe}"></div>`}},
+                { field:'userCover',width:100,title:'封面',templet:function(d){return`<div><img alt="" src="${d.userCover}"></div>`}},
+            ]]
+        })
+        form.on('submit(add)',function(data){
+            layer.confirm('确定建立连接吗', {icon: 3}, function(){
+            });
+                return false
+            })
+    })
+</script>

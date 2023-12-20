@@ -30,6 +30,11 @@
                     </form>
                     <table id="room-table" lay-filter="room-table">
                     </table>
+                    <template id="room-table-template-opera">
+                        <div>
+                            <button class="layui-btn layui-btn-sm" lay-event="detail">详细</button>
+                        </div>
+                    </template>
                 </div>
             </div>
         </div>
@@ -53,8 +58,24 @@
                 { field:'title',title:'标题',},
                 { field:'description',title:'简介'},
                 { field:'areaName',width:100,title:'分区'},
-                { field:'userCover',width:100,title:'封面',templet:function(d){return`<div><img alt="" src="${d.userCover}"></div>`}}
+                { field:'userCover',width:100,title:'封面',templet:function(d){return`<div><img alt="" src="${d.userCover}"></div>`}},
+                { width: 80, title: '操作', templet: '#room-table-template-opera' }
             ]]
+        })
+
+        table.on('tool(room-table)', function (obj) {
+            var data = obj.data; // 得到当前行数据
+            var dataCache = obj.dataCache; // 得到当前行缓存数据，包含特定字段 --- 2.8.8+
+            var layEvent = obj.event; // 获得元素对应的 lay-event 属性值
+            if (layEvent == 'detail') {
+                layer.open({
+                    type: 2,
+                    title: ' ',
+                    closeBtn: 1,
+                    area: ['100%', '100%'],
+                    content: `/api/v1/user/list/${data.roomId}`
+                })
+            }
         })
 
         form.on('submit(add)',function(data){

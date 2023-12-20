@@ -37,9 +37,6 @@
 </div>
 <script>
     layui.use(['layer', 'form', 'table'], function () {
-        fetch('/api/v1/connect/list').then(res=>res.json()).then(res=>{
-            console.log(res.data)
-        })
         var form=layui.form,
             table=layui.table
         form.render()

@@ -167,6 +167,7 @@ model UserDanmu {
   roomId String
   first  String? //第一次发送弹幕
   latest String? //最后一次发送弹幕
+  content String? //最后一次弹幕内容
   num    Int     @default(1) //弹幕数量
   User   User    @relation(fields: [uid], references: [uid])
   Room   Room    @relation(fields: [roomId], references: [roomId])

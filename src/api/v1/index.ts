@@ -6,6 +6,7 @@ import { ParsedUrlQuery } from "querystring"
 import path from "node:path"
 import ejs from "ejs"
 
+
 function getTemplate(name: string, ext: string = 'html') {
     const buffer = fs.readFileSync(path.resolve(process.cwd(), 'template', `${name}.${ext}`))
     return buffer.toString()
@@ -14,16 +15,40 @@ function getTemplate(name: string, ext: string = 'html') {
 const v1Router = new Router({
     prefix: '/api/v1'
 })
+v1Router.get('/options/all',async(ctx,next)=>{
+    const options=await prisma.options.findMany()
+    ctx.body={
+        code:0,
+        msg:"ok",
+        data:options
+    }
+})
+/**
+ * 头像代理
+ */
+// v1Router.get('/bfs/face/:path',async(ctx,next)=>{
+//     const path=ctx.params['path']
+   
+// })
 
 v1Router.get('/connect/list', async (ctx, next) => {
     const params = ctx.params
     const query = ctx.query
     const headers = ctx.headers
     const body = ctx.request.body
+    const roomIds=Object.keys(connectPool) 
+    const rooms=await Promise.all(roomIds.map(async(item)=>{
+        return await prisma.room.findUnique({
+            where:{
+                roomId:item
+            }
+        })
+    }))
+
     ctx.body = {
         code: 0,
         msg: "ok",
-        data: Object.keys(connectPool)
+        data: rooms
     }
 })
 v1Router.get('/room/list', async (ctx, next) => {
@@ -247,6 +272,11 @@ v1Router.get('/user/list', async (ctx, next) => {
         data: users
     }
 
+})
+
+v1Router.get('/user/list/:roomId', async (ctx, next) => {
+    let template = 'user-list'
+    ctx.body = ejs.render(getTemplate(template, 'ejs'))
 })
 
 /**

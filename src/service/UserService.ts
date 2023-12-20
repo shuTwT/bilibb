@@ -129,13 +129,15 @@ export async function saveUserSpeak(
             latest:date,
             num:{
                 increment:1
-            }
+            },
+            content
         },
         create:{
             uid,
             roomId,
             first:date,
-            latest:date
+            latest:date,
+            content
         }
     })
     return true;

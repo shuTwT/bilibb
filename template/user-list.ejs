@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/component/pear/css/pear.css" />
+</head>
+<body>
+    <div class="pear-container">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <form class="layui-form layui-row layui-col-space16">
+                            <div class="layui-col-xs6">
+                                <div class="layui-input-wrap">
+                                    <div class="layui-input-prefix">
+                                        <i class="layui-icon layui-icon-username"></i>
+                                    </div>
+                                    <input type="text" name="uname" value="" placeholder="用户名" class="layui-input"
+                                        lay-affix="clear">
+                                </div>
+                            </div>
+                            <div class="layui-btn-container layui-col-xs6">
+                                <button class="layui-btn" lay-submit lay-filter="users-table-search">Search</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">Clear</button>
+                            </div>
+                        </form>
+                        <div class="layui-rorw layui-col-space16">
+                            <table lay-filter="user-table">
+                                <thead>
+                                    <tr>
+                                        <th>用户名</th>
+                                        <th>uid</th>
+                                        <th>头像</th>
+                                        <th>弹幕内容</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/component/layui/layui.js"></script>
+    <script src="/component/pear/pear.js"></script>
+    <script>
+        layui.use(['table','form'],function(){
+            var table =layui.table,
+                form = layui.form;
+                table.init('user-table', {
+                    // height: ''
+                });
+        })
+    </script>
+</body>
+    
