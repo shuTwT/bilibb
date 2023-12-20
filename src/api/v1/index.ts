@@ -153,13 +153,24 @@ v1Router.get('/user/list', async (ctx, next) => {
     const body = ctx.request.body
     const page = str2num(parseQuery(query, 'page'), 1, { min: 1 })
     const limit = str2num(parseQuery(query, 'limit'), 1, { min: 1 })
-
+    const uname= parseQuery(query,'uname')
     const [users, count] = await prisma.$transaction([
         prisma.user.findMany({
             skip: (page - 1)*limit,
             take: limit,
+            where:{
+                uname:{
+                    contains:uname
+                }
+            }
         }),
-        prisma.user.count()
+        prisma.user.count({
+            where:{
+                uname:{
+                    contains:uname
+                }
+            }
+        })
     ])
     ctx.body={
         code:0,
@@ -233,7 +244,7 @@ function parseQuery(query: ParsedUrlQuery, key: string): string {
             return value
         }
     } else {
-        return 'undefined'
+        return ''
     }
 }
 function str2num(str: string, defaultValue: number): number

@@ -12,7 +12,6 @@ import { getDanmuConf, getRoomid, getRoomInfo } from "./utils";
 import { LiveTCP } from "bilibili-live-ws";
 import { resolver } from "./resolver";
 import type { Msg } from "./resolver";
-import * as roomService from "./service/RoomService";
 import { connectPool } from "./pool";
 import routing from "./api/routes"
 import prisma from "./lib/prisma";

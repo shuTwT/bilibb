@@ -1,4 +1,5 @@
 import dayjs from "dayjs"
+import * as log4js from "./utils/log4js"
 import * as userService  from "./service/UserService"
 import * as roomService  from "./service/RoomService"
 
@@ -102,7 +103,20 @@ export const resolver: Resolver = {
         //console.log(data.online_list)
     },
     'SEND_GIFT': async function (roomId: string, { data }: Msg<any>) {
-        console.log(`${data.uname}${data.action}${data.giftName}`)
+        log4js.info(`${data.uname}${data.action}${data.giftName}`)
+        const uid=data.uid+""
+        const uname=data.uname
+        const date=dayjs().format("YYYY-MM-DD HH:mm:ss")
+        const face=data.face
+        const giftId=data.giftId
+        const giftName=data.giftName
+        const medal_info=data.medal_info
+        const giftNum=data.num
+        const coinType=data.coin_type //礼物是否付费
+        const price=data.price //礼物价值
+        const totalCoin=data.total_coin
+        await roomService.updateGift(roomId,uid,uname,date,face,giftId,giftName,medal_info,giftNum)
+        await userService.userLog(uid,`在${roomId}直播间赠送礼物${giftName}`,date)
     },
     'DANMU_MSG': async function (roomId: string, data: Msg<any>) {
         if ('info' in data) {
@@ -195,5 +209,42 @@ export const resolver: Resolver = {
         const uid=data.uid
         const uname=data.uname
         const msg=data.msg
+    },
+    // 购买大航海
+    "GUARD_BUY":async function(roomId:string,{data}:Msg<any>){
+        const price=data.price //金瓜子标价，即rmb*1000
+        const giftId=data.gift_id
+        const giftName=data.gift_name
+        const uid=data.uid
+        const uname=data.username
+        const guardLevel=data.guard_level
+        console.log(uname+"购买了大航海")
+    },
+    "USER_TOAST_MSG":async function(roomId:string,{data}:Msg<any>){
+        const toastMsg=data.toast_msg
+        const price=data.price
+        const uid=data.uid
+        const uname=data.username
+        const unit=data.unit
+        const num=data.num
+        const targetGuardCount=data.target_guard_count
+        console.log(toastMsg)
+    },
+    "PREPARING":async function(roomId:string,{data}:Msg<any>){
+        console.log("直播终止")
+    },
+    "LIVE":async function(roomId:string,{data}:Msg<any>){
+        //console.log('直播开始')
+    },
+    "WARNING":async function(roomId:string,{data}:Msg<any>){
+        console.log(data.msg)
+    },
+    "CUT_OFF":async function(roomId:string,{data}:Msg<any>){
+        console.log(data.msg)
+    },
+    "WATCHED_CHANG":async function(roomId:string,{data}:Msg<any>){
+        const num=data.num
+        const text_small=data.text_small
+        console.log(data.text_large)
     }
 }

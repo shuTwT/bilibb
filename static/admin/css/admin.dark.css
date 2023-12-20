@@ -212,7 +212,14 @@
     background-color: transparent;
 }
 
-.pear-admin-dark .layui-table tr:hover {
+.pear-admin-dark .layui-table tr.layui-table-checked{
+    background-color: #141414 !important;
+}
+
+.pear-admin-dark .layui-table-click,
+.pear-admin-dark .layui-table-hover,
+.pear-admin-dark .layui-table[lay-even] tbody tr:nth-child(even)
+{
     background-color: #141414 !important;
 }
 
@@ -324,4 +331,35 @@
 
 .pear-admin-dark *::-webkit-scrollbar-thumb:hover {
 	background: #0a0a0a;
+}
+
+/** checkbox */
+.pear-admin-dark .layui-form-checkbox[lay-skin=primary]>i{
+    border-color: #2E2E30;
+    background-color: #1d1e1f;
+    color: #fff;
+}
+.pear-admin-dark .layui-form-checked[lay-skin=primary]>i {
+    background-color: #16B777;
+    color: #fff;
+    border-color: #0e9c68;
+}
+.pear-admin-dark .layui-form-checkbox>i:before{
+    opacity: 0;
+}
+.pear-admin-dark  .layui-form-checked.layui-checkbox-disabled:hover>i:before,
+.pear-admin-dark  .layui-form-checked:hover>i:before,
+.pear-admin-dark  .layui-form-checked>i:before{
+    opacity: 1;
+}
+
+/** select */
+.pear-admin-dark .layui-form-select dl{
+background-color: #141414;
+}
+.pear-admin-dark .layui-form-select dl dd.layui-this{
+    background-color: #000;
+}
+.pear-admin-dark .layui-form-select dl dd:hover{
+    background-color: #000;
 }

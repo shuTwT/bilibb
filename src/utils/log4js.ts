@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client'
 import log4j from 'log4js'
 const levels = {
     'trace'     : log4j.levels.TRACE,
@@ -43,26 +44,37 @@ let debugLogger = log4j.getLogger('debug')
 /**
  * 日志输出 level为bug
  */
-export const debug = ( content:string ) => {
+export function debug ( content:string,...args:any[] ) {
     
     debugLogger.level = levels.debug
-    debugLogger.debug(content)
+    debugLogger.debug(content,...args)
 }
 
 let infoLogger = log4j.getLogger('info')
 /**
  * 日志输出 level为info
  */
- export const info = ( content:string ) => {
+ export function info ( content:string,...args:any[] )  {
     infoLogger.level = levels.info
-    infoLogger.info(content)
+    infoLogger.info(content,...args)
 }
 
 let errorLogger = log4j.getLogger('error')
 /**
  * 日志输出 level为error
  */
-export const error = ( content:string ) => {
+export function error ( content:string,...args:any[] )  {
     errorLogger.level = levels.error
-    errorLogger.error(content)
+    errorLogger.error(content,...args)
+}
+
+export function prismaError(e:unknown){
+    if(e instanceof Prisma.PrismaClientKnownRequestError){
+        error('===prisma error===')
+        error('code:%s',e.code)
+        error('clientVersion:%s',e.clientVersion)
+        error('%s',e.message)
+        error('meta:%o',e.meta)
+        error('==================')
+    }else throw e
 }
