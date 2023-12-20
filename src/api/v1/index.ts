@@ -6,13 +6,13 @@ import { ParsedUrlQuery } from "querystring"
 import path from "node:path"
 import ejs from "ejs"
 
-function getTemplate(name:string,ext:string='html'){
-    const buffer=fs.readFileSync(path.resolve(process.cwd(),'template',`${name}.${ext}`))
+function getTemplate(name: string, ext: string = 'html') {
+    const buffer = fs.readFileSync(path.resolve(process.cwd(), 'template', `${name}.${ext}`))
     return buffer.toString()
 }
 
 const v1Router = new Router({
-    prefix:'/api/v1'
+    prefix: '/api/v1'
 })
 
 v1Router.get('/connect/list', async (ctx, next) => {
@@ -26,21 +26,21 @@ v1Router.get('/connect/list', async (ctx, next) => {
         data: Object.keys(connectPool)
     }
 })
-v1Router.get('/room/list',async(ctx,next)=>{
+v1Router.get('/room/list', async (ctx, next) => {
     const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
     const limit = str2num(parseQuery(ctx.query, 'limit'), 1, { min: 1 })
-    const [rooms,count]=await prisma.$transaction([
+    const [rooms, count] = await prisma.$transaction([
         prisma.room.findMany({
-            skip: (page - 1)*limit,
+            skip: (page - 1) * limit,
             take: limit,
         }),
         prisma.room.count()
     ])
-    ctx.body={
-        code:0,
-        msg:"ok",
+    ctx.body = {
+        code: 0,
+        msg: "ok",
         count,
-        data:rooms
+        data: rooms
     }
 })
 
@@ -60,46 +60,46 @@ v1Router.get('/entry/list', async (ctx, next) => {
 v1Router.get('/danmu/list', async (ctx, next) => {
     const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
     const limit = str2num(parseQuery(ctx.query, 'limit'), 1, { min: 1 })
-    const [speaks,count]=await prisma.$transaction([
+    const [speaks, count] = await prisma.$transaction([
         prisma.speak.findMany({
-            skip: (page - 1)*limit,
+            skip: (page - 1) * limit,
             take: limit,
         }),
         prisma.speak.count()
     ])
-    ctx.body={
-        code:0,
-        msg:"ok",
+    ctx.body = {
+        code: 0,
+        msg: "ok",
         count,
-        data:speaks
+        data: speaks
     }
 })
 /**
  * 某个直播间的弹幕
  */
 v1Router.get('/danmu/list/:roomId', async (ctx, next) => {
-    const roomId=ctx.params['roomId']
+    const roomId = ctx.params['roomId']
     const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
     const limit = str2num(parseQuery(ctx.query, 'limit'), 1, { min: 1 })
-    const [speaks,count]=await prisma.$transaction([
+    const [speaks, count] = await prisma.$transaction([
         prisma.speak.findMany({
-            skip: (page - 1)*limit,
+            skip: (page - 1) * limit,
             take: limit,
-            where:{
+            where: {
                 roomId
             }
         }),
         prisma.speak.count({
-            where:{
+            where: {
                 roomId
             }
         })
     ])
-    ctx.body={
-        code:0,
-        msg:"ok",
+    ctx.body = {
+        code: 0,
+        msg: "ok",
         count,
-        data:speaks
+        data: speaks
     }
 })
 
@@ -153,30 +153,45 @@ v1Router.get('/user/list', async (ctx, next) => {
     const body = ctx.request.body
     const page = str2num(parseQuery(query, 'page'), 1, { min: 1 })
     const limit = str2num(parseQuery(query, 'limit'), 1, { min: 1 })
-    const uname= parseQuery(query,'uname')
+    const uname = parseQuery(query, 'uname')
+    const sex = parseQuery(query, 'sex')==''?null:parseQuery(query, 'sex')
     const [users, count] = await prisma.$transaction([
         prisma.user.findMany({
-            skip: (page - 1)*limit,
+            skip: (page - 1) * limit,
             take: limit,
-            where:{
-                uname:{
-                    contains:uname
-                }
+            where: {
+                AND: [
+                    {
+                        uname: {
+                            contains: uname
+                        }
+                    },
+                    {
+                        sex: sex
+                    }
+                ]
             }
         }),
         prisma.user.count({
-            where:{
-                uname:{
-                    contains:uname
-                }
+            where: {
+                AND: [
+                    {
+                        uname: {
+                            contains: uname
+                        }
+                    },
+                    {
+                        sex: sex
+                    }
+                ]
             }
         })
     ])
-    ctx.body={
-        code:0,
-        msg:"ok",
+    ctx.body = {
+        code: 0,
+        msg: "ok",
         count,
-        data:users
+        data: users
     }
 
 })
@@ -191,46 +206,46 @@ v1Router.get('/user/info/:uid', async (ctx, next) => {
     const body = ctx.request.body
     const page = str2num(parseQuery(query, 'page'), 1, { min: 1 })
     const limit = str2num(parseQuery(query, 'limit'), 10, { min: 10 })
-    let template='user-info'
+    let template = 'user-info'
 
-    const user=await prisma.user.findUnique({
-        where:{
-            uid:params['uid']
+    const user = await prisma.user.findUnique({
+        where: {
+            uid: params['uid']
         },
     })
-    if(!user){
+    if (!user) {
         return
     }
-    const [speaks,speakCount] = await prisma.$transaction([
+    const [speaks, speakCount] = await prisma.$transaction([
         prisma.speak.findMany({
-            where:{
-                uid:params['uid']
+            where: {
+                uid: params['uid']
             },
-            skip: (page - 1)*limit,
+            skip: (page - 1) * limit,
             take: limit,
         }),
         prisma.speak.count()
     ])
-    const [userLogs,userLogsCount] = await prisma.$transaction([
+    const [userLogs, userLogsCount] = await prisma.$transaction([
         prisma.userLog.findMany({
-            where:{
-                uid:params['uid']
+            where: {
+                uid: params['uid']
             },
-            skip: (page - 1)*limit,
+            skip: (page - 1) * limit,
             take: limit,
         }),
         prisma.userLog.count()
     ])
-    
-    ctx.body=ejs.render(getTemplate(template,'ejs'),{
-        user:user,
-        speak:{
-            count:speakCount,
-            data:speaks
+
+    ctx.body = ejs.render(getTemplate(template, 'ejs'), {
+        user: user,
+        speak: {
+            count: speakCount,
+            data: speaks
         },
-        logs:{
-            count:userLogsCount,
-            data:userLogs
+        logs: {
+            count: userLogsCount,
+            data: userLogs
         },
     })
 })
@@ -256,9 +271,9 @@ function str2num(str: string, defaultValue: number, options?: {
     min?: number,
     max?: number
 }): number {
-    
+
     let num = Number.parseInt(str)
-    if(isNaN(num)){
+    if (isNaN(num)) {
         return defaultValue
     }
     if (options) {

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node dist/app.js",
-    "watch:build": "node bin/watch.js ",
+    "watch:build": "node --no-warnings bin/watch.js ",
     "watch:server": "nodemon dist/app.js ",
     "build": "rimraf dist&&node --no-warnings bin/build.js "
   },
