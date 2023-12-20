@@ -28,13 +28,41 @@ v1Router.get('/connect/list', async (ctx, next) => {
 })
 v1Router.get('/room/list', async (ctx, next) => {
     const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
-    const limit = str2num(parseQuery(ctx.query, 'limit'), 1, { min: 1 })
+    const limit = str2num(parseQuery(ctx.query, 'limit'), 10, { min: 1 })
     const [rooms, count] = await prisma.$transaction([
         prisma.room.findMany({
             skip: (page - 1) * limit,
             take: limit,
         }),
         prisma.room.count()
+    ])
+    ctx.body = {
+        code: 0,
+        msg: "ok",
+        count,
+        data: rooms
+    }
+})
+v1Router.get('/live/list', async (ctx, next) => {
+    const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
+    const limit = str2num(parseQuery(ctx.query, 'limit'), 10, { min: 1 })
+    const date= parseQuery(ctx.query,'date')
+    const [rooms, count] = await prisma.$transaction([
+        prisma.live.findMany({
+            skip: (page - 1) * limit,
+            take: limit,
+            where:{
+                date
+            },
+            include:{
+                Room:true,
+            }
+        }),
+        prisma.live.count({
+            where:{
+                date
+            }
+        })
     ])
     ctx.body = {
         code: 0,
@@ -250,7 +278,7 @@ v1Router.get('/user/info/:uid', async (ctx, next) => {
     })
 })
 
-function parseQuery(query: ParsedUrlQuery, key: string): string {
+function parseQuery(query: ParsedUrlQuery, key: string): string |undefined{
     const value = query[key]
     if (typeof value !== 'undefined') {
         if (Array.isArray(value)) {
@@ -259,20 +287,20 @@ function parseQuery(query: ParsedUrlQuery, key: string): string {
             return value
         }
     } else {
-        return ''
+        return void 0
     }
 }
-function str2num(str: string, defaultValue: number): number
-function str2num(str: string, defaultValue: number, options?: {
+function str2num(str: string|undefined, defaultValue: number): number
+function str2num(str: string|undefined, defaultValue: number, options?: {
     min?: number,
     max?: number
 }): number
-function str2num(str: string, defaultValue: number, options?: {
+function str2num(str: string|undefined, defaultValue: number, options?: {
     min?: number,
     max?: number
 }): number {
 
-    let num = Number.parseInt(str)
+    let num = Number.parseInt(str+"")
     if (isNaN(num)) {
         return defaultValue
     }
@@ -292,4 +320,5 @@ function str2num(str: string, defaultValue: number, options?: {
     }
     return num
 }
+
 export default v1Router

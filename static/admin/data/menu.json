@@ -23,14 +23,30 @@
 			},
             {
 				"id": "12",
-				"title": "播间管理",
+				"title": "连接管理",
 				"icon": "layui-icon layui-icon-console",
 				"type": 1,
 				"openType": "_component",
-				"href": "view/manage/listen.html"
+				"href": "view/manage/connect.html"
 			},
             {
 				"id": "13",
+				"title": "房间管理",
+				"icon": "layui-icon layui-icon-console",
+				"type": 1,
+				"openType": "_component",
+				"href": "view/manage/room.html"
+			},
+            {
+				"id": "14",
+				"title": "直播管理",
+				"icon": "layui-icon layui-icon-console",
+				"type": 1,
+				"openType": "_component",
+				"href": "view/manage/live.html"
+			},
+            {
+				"id": "15",
 				"title": "用户管理",
 				"icon": "layui-icon layui-icon-console",
 				"type": 1,

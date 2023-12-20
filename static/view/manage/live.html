@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<div class="pear-container">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <form class="layui-form layui-row layui-col-space16">
+                        <div class="layui-col-md4">
+                            <div class="layui-input-wrap">
+                                <div class="layui-input-prefix">
+                                    <i class="layui-icon layui-icon-username"></i>
+                                </div>
+                                <input type="text" name="roomId" value="" placeholder="房间号" class="layui-input"
+                                    lay-affix="clear">
+                            </div>
+                        </div>
+                        <div class="layui-col-md4">
+                            <div class="layui-input-wrap">
+                                <div class="layui-input-prefix">
+                                    <i class="layui-icon layui-icon-username"></i>
+                                </div>
+                                <input type="text" name="title" value="" placeholder="标题" class="layui-input"
+                                    lay-affix="clear">
+                            </div>
+                        </div>
+                        <div class="layui-btn-container layui-col-xs12">
+                            <button class="layui-btn" lay-submit lay-filter="users-table-search">Search</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">Clear</button>
+                        </div>
+                    </form>
+                    <table id="live-table" lay-filter="live-table">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['layer', 'form', 'table'], function () {
+        fetch('/api/v1/connect/list').then(res=>res.json()).then(res=>{
+            console.log(res.data)
+        })
+        var form=layui.form,
+            table=layui.table
+        form.render()
+        form.on('submit(add)',function(data){
+            return false
+        })
+        table.render({
+            elem: "#live-table",
+            url: "/api/v1/live/list",
+            page: true,
+            toolbar: true,
+            lineStyle: 'height:100px',
+            cols:[[
+                { type: 'checkbox', fixed: 'flex' },
+                { field: 'roomId',width:80,title:'房间号',},
+                { field:'Room.title',title:'标题',templet:function(d){return `${d.Room.title}`}},
+                { field:'entryNum', width:80,title:'进房',sort:true},
+                { field:'fans',width:80,title:'粉丝',sort:true},
+                { field:'fansClub',width:90,title:'粉丝团',sort:true},
+                { field:'redNoticeNum',width:80,title:'警告',sort:true},
+                { field:'speakNum',width:80,title:'发言',sort:true},
+                { field:'date',title:'日期',sort:true}
+            ]]
+        })
+    })
+</script>
