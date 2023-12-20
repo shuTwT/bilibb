@@ -12,11 +12,11 @@ datasource db {
 
 // 用户
 model User {
-    id Int @id @default(autoincrement())
+  id            Int            @id @default(autoincrement())
   uid           String         @unique
   uname         String
   fansNum       Int            @default(0) // 粉丝数
-  fa            String?  @default("/avatar.webp")  // 头像链接
+  fa            String?        @default("/avatar.webp") // 头像链接
   sign          String? // 签名
   sex           String? // 性别
   level         String? // 当前等级 0-6级
@@ -43,18 +43,18 @@ model UserLog {
   uid     String // 用户uid
   content String // 日志内容
   date    String //时间 YYYY-MM-DD HH:mm:ss
- User    User   @relation(fields: [uid], references: [uid])
+  User    User   @relation(fields: [uid], references: [uid])
 }
 
 //用户粉丝勋章
 model UserFansModal {
-    id Int @id @default(autoincrement())
+  id   Int    @id @default(autoincrement())
   uid  String @unique
   User User   @relation(fields: [uid], references: [uid])
 }
 
 model UserOfficial {
-    id Int @id @default(autoincrement())
+  id    Int    @id @default(autoincrement())
   uid   String @unique
   role  Int // 认证类型 0无 1知名up主 2大V达人 3企业 4组织 5媒体 6政府 7高能主播 8未知 9社会知名人士
   title String // 认证信息
@@ -64,7 +64,7 @@ model UserOfficial {
 }
 
 model UserVip {
-    id Int @id @default(autoincrement())
+  id    Int    @id @default(autoincrement())
   uid   String @unique
   type  Int //会员类型 0无1月大会员2年度及以上大会员
   role  Int //大角色类型 1月度大会员 3年度大会员 7十年大会员 15百年大会员
@@ -74,9 +74,9 @@ model UserVip {
 
 // 房间
 model Room {
-  id Int @id @default(autoincrement())
+  id             Int           @id @default(autoincrement())
   roomId         String        @unique //房间号
-  roomOwnerUid   String          //主播uid
+  roomOwnerUid   String //主播uid
   description    String?
   parentAreaName String
   title          String
@@ -97,7 +97,7 @@ model Room {
 
 // 房间的直播情况
 model Live {
-  id           Int @id @default(autoincrement())
+  id           Int    @id @default(autoincrement())
   roomId       String //房间号
   fans         Int    @default(0) //x人看过
   entryNum     Int    @default(0) //进房量
@@ -106,7 +106,8 @@ model Live {
   fansClub     Int    @default(0) //粉丝团
   date         String // 日期 YYYY-MM-DD
   Room         Room   @relation(fields: [roomId], references: [roomId])
-  @@unique([roomId,date])
+
+  @@unique([roomId, date])
 }
 
 // 发言
@@ -119,20 +120,21 @@ model Speak {
   User    User   @relation(fields: [uid], references: [uid])
   Room    Room   @relation(fields: [roomId], references: [roomId])
 }
-model Gift{
-    id Int @id @default(autoincrement())
-    giftId Int @unique
-    giftName String
+
+model Gift {
+  id       Int    @id @default(autoincrement())
+  giftId   Int    @unique
+  giftName String
 }
+
 // 用户送礼
-model SendGift{
-    id Int @id @default(autoincrement())
-    uid String // 关联用户id
-    roomId String // 关联直播间
-    giftId Int
-    giftName String //礼物内容
-    date String
-    
+model SendGift {
+  id       Int    @id @default(autoincrement())
+  uid      String // 关联用户id
+  roomId   String // 关联直播间
+  giftId   Int
+  giftName String //礼物内容
+  date     String
 }
 
 // 红色警告
@@ -146,12 +148,12 @@ model RedNotice {
 
 // 用户相对于某直播间进入数据
 model UserEntry {
-  id Int @id @default(autoincrement())
+  id     Int     @id @default(autoincrement())
   uid    String
   roomId String
   first  String?
   latest String?
-  num    Int @default(1)//进入直播间次数
+  num    Int     @default(1) //进入直播间次数
   User   User    @relation(fields: [uid], references: [uid])
   Room   Room    @relation(fields: [roomId], references: [roomId])
 
@@ -160,12 +162,12 @@ model UserEntry {
 
 // 用户相对于某直播间的弹幕数据
 model UserDanmu {
-  id Int @id @default(autoincrement())
+  id     Int     @id @default(autoincrement())
   uid    String
   roomId String
   first  String? //第一次发送弹幕
   latest String? //最后一次发送弹幕
-  num    Int @default(1) //弹幕数量
+  num    Int     @default(1) //弹幕数量
   User   User    @relation(fields: [uid], references: [uid])
   Room   Room    @relation(fields: [roomId], references: [roomId])
 
@@ -174,12 +176,12 @@ model UserDanmu {
 
 //用户相对于某直播间的上舰数据
 model UserCaptain {
-  id Int @id @default(autoincrement())
+  id     Int     @id @default(autoincrement())
   uid    String
   roomId String
   first  String? //第一次上舰
   latest String? //最后一次上舰
-  num    Int @default(1) //上舰次数
+  num    Int     @default(1) //上舰次数
   User   User    @relation(fields: [uid], references: [uid])
   Room   Room    @relation(fields: [roomId], references: [roomId])
 
@@ -188,12 +190,12 @@ model UserCaptain {
 
 //用户相对于某直播间的点赞
 model UserLike {
-    id Int @id @default(autoincrement())
+  id     Int     @id @default(autoincrement())
   uid    String
   roomId String
   first  String? //第一次点赞
   latest String? //最后一次点赞
-  num    Int @default(1)//点赞次数
+  num    Int     @default(1) //点赞次数
   User   User    @relation(fields: [uid], references: [uid])
   Room   Room    @relation(fields: [roomId], references: [roomId])
 
@@ -202,12 +204,12 @@ model UserLike {
 
 //用户相对于某直播间的送礼数据
 model UserGift {
-  id Int @id @default(autoincrement())
+  id     Int     @id @default(autoincrement())
   uid    String
   roomId String
   first  String? //第一次送礼
   latest String? //最后一次送礼
-  num    Int @default(1) //送礼次数
+  num    Int     @default(1) //送礼次数
   User   User    @relation(fields: [uid], references: [uid])
   Room   Room    @relation(fields: [roomId], references: [roomId])
 
@@ -216,7 +218,7 @@ model UserGift {
 
 //用户相对于某直播间好感度
 model UserFavor {
-  id Int @id @default(autoincrement())
+  id     Int    @id @default(autoincrement())
   uid    String //用户
   roomId String
   favor  Int    @default(0) //好感度

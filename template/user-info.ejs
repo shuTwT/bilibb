@@ -12,6 +12,8 @@
             <div class="avatar">
                 <% if(user.fa){%>
                     <img src="<%=user.fa%>" alt="avatar">
+                <%}else{%>
+                    <img src="/avatar.webp" alt="avatar">
                 <%}%>
             </div>
         </div>
@@ -47,7 +49,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <%speak.data.forEach(function(item){%>
+                            <%user.Speak.forEach(function(item){%>
                             <tr>
                                 <td><%=item.id%></td>
                                 <td><%=item.roomId%></td>
@@ -71,7 +73,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <%logs.data.forEach(function(item){%>
+                            <%user.UserLog.forEach(function(item){%>
                             <tr>
                                 <td><%=item.id%></td>
                                 <td><%=item.content%></td>

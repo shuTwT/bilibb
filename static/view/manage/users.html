@@ -65,7 +65,7 @@
                 { field: 'fa', width: 130, title: '头像', templet: '#users-table-template-avatar' },
                 { field: 'sex', width: 60, title: '性别' },
                 { field: 'fansNum', width: 80, title: '粉丝数' },
-                { field: 'fans_badge', width: 80, title: '勋章' },
+                { field: '_count.Speak', width: 80, title: '发言',templet:function(d){return d._count.Speak} },
                 { width: 80, title: '操作', templet: '#users-table-template-opera' }
             ]]
         })

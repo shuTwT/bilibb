@@ -76,10 +76,25 @@ v1Router.get('/live/list', async (ctx, next) => {
  * 进房量分页查询
  */
 v1Router.get('/entry/list', async (ctx, next) => {
-    const params = ctx.params
-    const query = ctx.query
-    const headers = ctx.headers
-    const body = ctx.request.body
+    const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
+    const limit = str2num(parseQuery(ctx.query, 'limit'), 10, { min: 1 })
+    const [entry,count] = await prisma.$transaction([
+        prisma.userEntry.findMany({
+            skip: (page - 1) * limit,
+            take: limit,
+            include:{
+                User:true,
+                Room:true
+            }
+        }),
+        prisma.userEntry.count()
+    ])
+    ctx.body = {
+        code: 0,
+        msg: "ok",
+        count,
+        data: entry
+    }
 })
 
 /**
@@ -115,6 +130,9 @@ v1Router.get('/danmu/list/:roomId', async (ctx, next) => {
             take: limit,
             where: {
                 roomId
+            },
+            include:{
+                User:true
             }
         }),
         prisma.speak.count({
@@ -198,6 +216,13 @@ v1Router.get('/user/list', async (ctx, next) => {
                         sex: sex
                     }
                 ]
+            },
+            include:{
+                _count:{
+                    select:{
+                        Speak:true
+                    }
+                }
             }
         }),
         prisma.user.count({
@@ -240,42 +265,86 @@ v1Router.get('/user/info/:uid', async (ctx, next) => {
         where: {
             uid: params['uid']
         },
+        include:{
+            Speak:true,
+            UserLog:true,
+            UserCaptain:true,
+            UserDanmu:true,
+            _count:{
+                select:{
+                    Speak:true,
+                    UserLog:true,
+                    UserCaptain:true,
+                    UserDanmu:true,
+                }
+            }
+        }
     })
     if (!user) {
         return
     }
-    const [speaks, speakCount] = await prisma.$transaction([
-        prisma.speak.findMany({
-            where: {
-                uid: params['uid']
-            },
-            skip: (page - 1) * limit,
-            take: limit,
-        }),
-        prisma.speak.count()
-    ])
-    const [userLogs, userLogsCount] = await prisma.$transaction([
-        prisma.userLog.findMany({
-            where: {
-                uid: params['uid']
-            },
-            skip: (page - 1) * limit,
-            take: limit,
-        }),
-        prisma.userLog.count()
-    ])
 
     ctx.body = ejs.render(getTemplate(template, 'ejs'), {
         user: user,
-        speak: {
-            count: speakCount,
-            data: speaks
-        },
-        logs: {
-            count: userLogsCount,
-            data: userLogs
-        },
     })
+})
+
+v1Router.get('/user/info/:uid/:roomId', async (ctx, next) => {
+    const params = ctx.params
+    const query = ctx.query
+    const headers = ctx.headers
+    const body = ctx.request.body
+    const page = str2num(parseQuery(query, 'page'), 1, { min: 1 })
+    const limit = str2num(parseQuery(query, 'limit'), 10, { min: 10 })
+    let template = 'user-info'
+
+    const user = await prisma.user.findUnique({
+        where: {
+            uid: params['uid']
+        },
+        include:{
+            Speak:{
+                where:{
+                    roomId:params['roomId']
+                }
+            },
+            UserLog:true,
+            UserCaptain:{
+                where:{
+                    roomId:params['roomId']
+                }
+            },
+            UserDanmu:{
+                where:{
+                    roomId:params['roomId']
+                }
+            },
+            _count:{
+                select:{
+                    Speak:{
+                        where:{
+                            roomId:params['roomId']
+                        }
+                    },
+                    UserLog:true,
+                    UserCaptain:{
+                        where:{
+                            roomId:params['roomId']
+                        }
+                    },
+                    UserDanmu:{
+                        where:{
+                            roomId:params['roomId']
+                        }
+                    },
+                }
+            }
+        }
+    })
+    if (!user) {
+        return
+    }
+
 })
 
 function parseQuery(query: ParsedUrlQuery, key: string): string |undefined{
