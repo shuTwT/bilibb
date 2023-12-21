@@ -60,7 +60,11 @@
                                 进房量
                             </div>
                             <div class="layui-card-body number">
-                                <%=user.UserEntry[0].num%>
+                                <% if(user.UserEntry.length!=0){ %>
+                                    <%=user.UserEntry[0].num%>
+                                <% } else{%>
+                                    0
+                                <% } %>
                             </div>
                         </div>
 
@@ -71,7 +75,11 @@
                                 弹幕数量
                             </div>
                             <div class="layui-card-body number">
+                                <% if(user.UserDanmu.length!=0){ %>
                                 <%=user.UserDanmu[0].num%>
+                                <% }else{ %>
+                                0
+                                <%}  %>
                             </div>
                         </div>
 
@@ -81,7 +89,9 @@
                             <div class="layui-card-header">
                                 点赞次数
                             </div>
-                            <div class="layui-card-body number"></div>
+                            <div class="layui-card-body number">
+                                0
+                            </div>
                         </div>
 
                     </div>
@@ -90,7 +100,9 @@
                             <div class="layui-card-header">
                                 送礼次数
                             </div>
-                            <div class="layui-card-body number"></div>
+                            <div class="layui-card-body number">
+                                0
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -101,7 +113,11 @@
                                 第一次进房
                             </div>
                             <div class="layui-card-body">
+                                <% if(user.UserEntry.length!=0){ %>
                                 <%=user.UserEntry[0].first%>
+                                <% }else{ %>
+                                    暂无
+                                <%}  %>
                             </div>
                         </div>
                     </div>
@@ -111,7 +127,11 @@
                                 第一次发弹幕
                             </div>
                             <div class="layui-card-body">
+                                <% if(user.UserDanmu.length!=0){ %>
                                 <%=user.UserDanmu[0].first%>
+                                <% }else{ %>
+                                    暂无
+                                    <% } %>
                             </div>
                         </div>
                     </div>
@@ -119,7 +139,7 @@
                         <div class="layui-card">
                             <div class="layui-card-header">上舰次数</div>
                             <div class="layui-card-body number">
-
+                                0
                             </div>
                         </div>
                     </div>
@@ -129,7 +149,7 @@
                                 礼物价值(银瓜子)
                             </div>
                             <div class="layui-card-body number">
-
+                                0.00
                             </div>
                         </div>
                     </div>
@@ -141,7 +161,11 @@
                                 最后一次进房
                             </div>
                             <div class="layui-card-body">
+                                <% if(user.UserEntry.length!=0){ %>
                                 <%=user.UserEntry[0].latest%>
+                                <% }else{ %>
+                                    暂无
+                                    <% } %>
                             </div>
                         </div>
 
@@ -152,7 +176,11 @@
                                 最后一次发弹幕
                             </div>
                             <div class="layui-card-body">
-                                <%=user.UserEntry[0].latest%>
+                                <% if(user.UserDanmu.length!=0){ %>
+                                <%=user.UserDanmu[0].latest%>
+                                <% }else{ %>
+                                    暂无
+                                <% } %>
                             </div>
                         </div>
                     </div>
@@ -161,7 +189,9 @@
                             <div class="layui-card-header">
                                 第一次上舰
                             </div>
-                            <div class="layui-card-body number"></div>
+                            <div class="layui-card-body ">
+                                暂无
+                            </div>
                         </div>
                     </div>
                     <div class="layui-col layui-col-xs3">
@@ -169,7 +199,9 @@
                             <div class="layui-card-header">
                                 第一次送礼
                             </div>
-                            <div class="layui-card-body number"></div>
+                            <div class="layui-card-body">
+                                暂无
+                            </div>
                         </div>
                     </div>
                 </div>

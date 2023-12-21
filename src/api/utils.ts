@@ -1,3 +1,4 @@
+import { Context } from "koa"
 import fs from "node:fs"
 import path from "node:path"
 import { ParsedUrlQuery } from "node:querystring"

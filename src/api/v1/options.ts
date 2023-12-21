@@ -14,7 +14,8 @@ const defaultOption = {
      "bili_ticket_expires":"",
      "DedeUserID":"",
      "bili_jct":"",
-     "installed":"true"
+     "installed":"true",
+     "host":""
 }
 export async function initializeOptions(ctx:Context,next:Next) {
     try{

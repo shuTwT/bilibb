@@ -72,8 +72,13 @@ export const resolver: Resolver = {
         const uid=data.uid+""
         const uinfo=data.uinfo
         const uname=data.uname
-        const face=data.uinfo?data.uinfo.base.face:''
+        let face=''
         const date=dayjs().format('YYYY-MM-DD HH:mm:ss')
+        if(data.uinfo){
+            // face='/api/proxy/bfs/face/'+data.uinfo.base.face.slice(
+            //     data.uinfo.base.face.lastIndexOf('/') + 1);
+            face=data.uinfo.base.face
+        }
         await userService.processUser(uid,{
             uname,
             fa:face,
