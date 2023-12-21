@@ -18,7 +18,8 @@ model User {
   fansNum       Int            @default(0) // 粉丝数
   fa            String?        @default("/avatar.webp") // 头像链接
   sign          String? // 签名
-  sex           String? // 性别
+  sex           String? // 性别(废弃)
+  gender        String? // 性别
   level         String? // 当前等级 0-6级
   jointime      Int            @default(0) // 注册时间
   moral         Int            @default(0) // 节操值

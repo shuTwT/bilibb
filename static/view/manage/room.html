@@ -58,7 +58,7 @@
                 { field:'title',title:'标题',},
                 { field:'description',title:'简介'},
                 { field:'areaName',width:100,title:'分区'},
-                { field:'userCover',width:100,title:'封面',templet:function(d){return`<div><img alt="" src="${d.userCover}"></div>`}},
+                { field:'userCover',width:120,title:'封面',templet:function(d){return`<div><img style="width:100px;height:52px;" alt="" src="${d.userCover}"></div>`}},
                 { width: 80, title: '操作', templet: '#room-table-template-opera' }
             ]]
         })
@@ -73,7 +73,7 @@
                     title: ' ',
                     closeBtn: 1,
                     area: ['100%', '100%'],
-                    content: `/api/v1/user/list/${data.roomId}`
+                    content: `/api/view/danmu/list/${data.roomId}`
                 })
             }
         })

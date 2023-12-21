@@ -29,8 +29,8 @@
                     </form>
                     <table id="users-table" lay-filter="users-table"></table>
                     <template id="users-table-template-avatar">
-                        <div style="width: 100px;height: 100px;">
-                            <img style="object-fit: cover;width: 100%;height: 100%;"  src="{{d.fa??'/avatar.webp'}}"
+                        <div>
+                            <img style="object-fit: cover;width: 64px;height: 64px;"  src="{{d.fa??'/avatar.webp'}}"
                                 alt="头像">
                         </div>
                     </template>
@@ -62,7 +62,7 @@
                 { type: 'checkbox', fixed: 'flex' },
                 { field: 'uid',  title: 'uid' },
                 { field: 'uname', title: '用户名' },
-                { field: 'fa', width: 130, title: '头像', templet: '#users-table-template-avatar' },
+                { field: 'fa', width: 90, title: '头像', templet: '#users-table-template-avatar' },
                 { field: 'sex', width: 60, title: '性别' },
                 { field: 'fansNum', width: 80, title: '粉丝数' },
                 { field: '_count.Speak', width: 80, title: '发言',templet:function(d){return d._count.Speak} },
