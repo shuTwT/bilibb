@@ -25,10 +25,19 @@ viewRouter.get('/user/info/:uid/:roomId', async (ctx, next) => {
             uid
         },
         include:{
-            UserDanmu:true
+            UserDanmu:{
+                where:{
+                    roomId
+                }
+            },
+            UserEntry:{
+                where:{
+                    roomId
+                }
+            }
         }
     })
-    
+    if(!user) return
     ctx.body = ejs.render(getTemplate(template, "ejs"), {
         uid,
         roomId,

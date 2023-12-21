@@ -11,7 +11,7 @@ layui.define(['jquery', 'element'], function(exports) {
 
 			options = options || {};
 
-			var $this = document.getElementById(targetEle),
+			var $this = typeof targetEle=='string'?document.getElementById(targetEle):targetEle,
 				time = options.time,     
 				finalNum = options.num, 
 				regulator = options.regulator, 

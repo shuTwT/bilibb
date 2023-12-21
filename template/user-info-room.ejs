@@ -1,107 +1,203 @@
 <!DOCTYPE html>
-<html >
+<html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/component/pear/css/pear.css" />
+    <style>
+        .layui-card {
+            text-align: center;
+        }
+
+        .layui-card-body.number {
+            font-size: 29px;
+            line-height: 60px;
+        }
+    </style>
 </head>
+
 <body>
-    <div class="layui-row layui-col-space10">
-        <div class="layui-col">
-            
-            <div class="layui-row" style="display: flex;align-items: center;">
-                <div class="layui-col avatar" >
-                    <% if(user.fa){%>
-                        <img style="object-fit: cover;width: 100px;height: 100px;" src="<%=user.fa%>" alt="avatar">
-                    <%}else{%>
-                        <img style="object-fit: cover;width: 100px;height: 100px;" src="/avatar.webp" alt="avatar">
-                    <%}%>
+    <div class="layui-container">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col">
+
+                <div class="layui-row" style="display: flex;align-items: center;">
+                    <div class="layui-col avatar">
+                        <% if(user.fa){%>
+                            <img style="object-fit: cover;width: 100px;height: 100px;" src="<%=user.fa%>" alt="avatar">
+                            <%}else{%>
+                                <img style="object-fit: cover;width: 100px;height: 100px;" src="/avatar.webp"
+                                    alt="avatar">
+                                <%}%>
+                    </div>
+
                 </div>
-                
-            </div>
-            <div class="layui-row">
-                <div class="layui-col layui-col-xs4" >
-                    <h2><%=user.uname%></h2>
+                <div class="layui-row">
+                    <div class="layui-col layui-col-xs4">
+                        <h2>
+                            <%=user.uname%>
+                        </h2>
+                    </div>
+                    <div class="layui-col layui-col-xs4">
+                        <h3>uid:<%=user.uid%>
+                        </h3>
+                    </div>
+                    <div class="layui-col layui-col-xs4">
+                        <%if(user.gender){%>
+                            <span>性别:<%=user.gender%></span>
+                            <%}else{%>
+                                <span>性别:暂无</span>
+                                <%}%>
+                    </div>
                 </div>
-                <div class="layui-col layui-col-xs4" >
-                    <h3>uid:<%=user.uid%></h3>
+
+                <div class="layui-row">
+                    <div class="layui-col layui-col-xs3">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                进房量
+                            </div>
+                            <div class="layui-card-body number">
+                                <%=user.UserEntry[0].num%>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="layui-col layui-col-xs3">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                弹幕数量
+                            </div>
+                            <div class="layui-card-body number">
+                                <%=user.UserDanmu[0].num%>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="layui-col layui-col-xs3">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                点赞次数
+                            </div>
+                            <div class="layui-card-body number"></div>
+                        </div>
+
+                    </div>
+                    <div class="layui-col layui-col-xs3">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                送礼次数
+                            </div>
+                            <div class="layui-card-body number"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="layui-col layui-col-xs4">
-                    <%if(user.gender){%>
-                        <span>性别:<%=user.gender%></span>
-                    <%}else{%>
-                        <span>性别:暂无</span>
-                    <%}%>
+                <div class="layui-row">
+                    <div class="layui-col layui-col-xs3">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                第一次进房
+                            </div>
+                            <div class="layui-card-body">
+                                <%=user.UserEntry[0].first%>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col layui-col-xs3">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                第一次发弹幕
+                            </div>
+                            <div class="layui-card-body">
+                                <%=user.UserDanmu[0].first%>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col layui-col-xs3">
+                        <div class="layui-card">
+                            <div class="layui-card-header">上舰次数</div>
+                            <div class="layui-card-body number">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col layui-col-xs3">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                礼物价值(银瓜子)
+                            </div>
+                            <div class="layui-card-body number">
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <div class="layui-row">
+                    <div class="layui-col layui-col-xs3">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                最后一次进房
+                            </div>
+                            <div class="layui-card-body">
+                                <%=user.UserEntry[0].latest%>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="layui-col layui-col-xs3">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                最后一次发弹幕
+                            </div>
+                            <div class="layui-card-body">
+                                <%=user.UserEntry[0].latest%>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col layui-col-xs3">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                第一次上舰
+                            </div>
+                            <div class="layui-card-body number"></div>
+                        </div>
+                    </div>
+                    <div class="layui-col layui-col-xs3">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                第一次送礼
+                            </div>
+                            <div class="layui-card-body number"></div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
-            <div class="layui-row">
-                <div class="layui-col layui-col-xs3">
-                    <span>进房量</span>
-                </div>
-                <div class="layui-col layui-col-xs3">
-                    <span>弹幕数量:<%=user.UserDanmu.num%></span>
-                </div>
-                <div class="layui-col layui-col-xs3">
-                    <span>点赞次数:</span>
-                </div>
-                <div class="layui-col layui-col-xs3">
-                    <span>送礼次数:</span>
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col layui-col-xs3">
-                    <span>第一次进房</span>
-                </div>
-                <div class="layui-col layui-col-xs3">
-                    <span>第一次发弹幕</span>
-                </div>
-                <div class="layui-col layui-col-xs3">
-                    <span>上舰次数</span>
-                </div>
-                <div class="layui-col layui-col-xs3">
-                    <span>礼物价值(银瓜子)</span>
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col layui-col-xs3">
-                    <span>最后一次进房</span>
-                </div>
-                <div class="layui-col layui-col-xs3">
-                    <span>最后一次发弹幕</span>
-                </div>
-                <div class="layui-col layui-col-xs3">
-                    <span>第一次上舰</span>
-                </div>
-                <div class="layui-col layui-col-xs3">
-                    <span>第一次送礼</span>
-                </div>
-            </div>
-            
         </div>
-        
-    </div>
-    <div class="layui-row layui-col-space10">
-        <div class="layui-col-xs12">
-            <button class="layui-btn">获取数据</button>
-        </div>
-    </div>
-    <div class="layui-row layui-col-space10">
-        <div class="layui-col-xs12">
-            <div class="layui-card layui-col-md6 layui-col-space10">
-                <div class="layui-card-header">speak</div>
-                <div class="layui-card-body">
-                    <table class="layui-table" id="speak-table" lay-filter="speak-table">
-                        
-                    </table>
-                </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-xs12">
+                <button class="layui-btn">更新数据</button>
             </div>
-            <div class="layui-card layui-col-md6 layui-col-space10">
-                <div class="layui-card-header">日志</div>
-                <div class="layui-card-body">
-                    <table class="layui-table" id="log-table" lay-filter="log-table">
-                    </table>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-xs12">
+                <div class="layui-card layui-col-md6 layui-col-space10">
+                    <div class="layui-card-header">speak</div>
+                    <div class="layui-card-body">
+                        <table class="layui-table" id="speak-table" lay-filter="speak-table">
+
+                        </table>
+                    </div>
+                </div>
+                <div class="layui-card layui-col-md6 layui-col-space10">
+                    <div class="layui-card-header">日志</div>
+                    <div class="layui-card-body">
+                        <table class="layui-table" id="log-table" lay-filter="log-table">
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -109,24 +205,50 @@
     <script src="/component/layui/layui.js"></script>
     <script src="/component/pear/pear.js"></script>
     <script>
-        var roomId='<%=roomId%>',
-            uid='<%uid%>';
-        layui.use(['table','count'],function(){
-            var table=layui.table;
-                
+        var roomId = '<%=roomId%>',
+            uid = '<%uid%>';
+        layui.use(['table', 'count'], function () {
+            var table = layui.table,
+                count = layui.count;
+
+            document.querySelectorAll('.layui-card-body.number').forEach(value => {
+                const num = parseFloat(value.textContent)
+                if (!isNaN(num) && num != 0) {
+                    count.up(value, {
+                        time: 2000,
+                        num: num,
+                        bit: 2,
+                        regulator: 50
+                    })
+                }
+
+            })
+
             table.render({
-                elem:'#speak-table',
-                url:`/api/v1/danmu/list/${roomId}?uid=${uid}`,
-                page:true,
-                cols:[[
+                elem: '#speak-table',
+                url: `/api/v1/danmu/list/${roomId}?uid=${uid}`,
+                page: true,
+                cols: [[
                     { type: 'checkbox', fixed: 'flex' },
-                    { field:'content',title:'内容'},
-                    { field:'date',width:160,title:'时间'}
+                    { field: 'content', title: '内容' },
+                    { field: 'date', width: 160, title: '时间' }
                 ]]
             })
-        
-            
+
+            table.render({
+                elem: "#log-table",
+                url: `/api/v1/user/logs/${uid}`,
+                page: true,
+                cols: [[
+                    { type: 'checkbox', fixed: 'flex' },
+                    { field: 'content', title: '内容' },
+                    { field: 'date', width: 160, title: '时间' }
+                ]]
+            })
+
+
         })
     </script>
 </body>
+
 </html>

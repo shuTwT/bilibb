@@ -16,7 +16,7 @@ userRouter.get('/list', async (ctx, next) => {
     const page = str2num(parseQuery(query, 'page'), 1, { min: 1 })
     const limit = str2num(parseQuery(query, 'limit'), 1, { min: 1 })
     const uname = parseQuery(query, 'uname')
-    const sex = parseQuery(query, 'sex')==''?null:parseQuery(query, 'sex')
+    const gender = parseQuery(query, 'gender')==''?null:parseQuery(query, 'gender')
     const [users, count] = await prisma.$transaction([
         prisma.user.findMany({
             skip: (page - 1) * limit,
@@ -29,7 +29,7 @@ userRouter.get('/list', async (ctx, next) => {
                         }
                     },
                     {
-                        sex: sex
+                        gender
                     }
                 ]
             },
@@ -50,7 +50,7 @@ userRouter.get('/list', async (ctx, next) => {
                         }
                     },
                     {
-                        sex: sex
+                        gender
                     }
                 ]
             }
@@ -164,5 +164,41 @@ userRouter.get('/info/:uid/:roomId', async (ctx, next) => {
         user: user,
     })
 })
+
+/**
+ * 用户日志
+ */
+userRouter.get('/logs',async(ctx,next)=>{
+    const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
+    const limit = str2num(parseQuery(ctx.query, 'limit'), 10, { min: 10 })
+    const logs=await prisma.userLog.findMany({
+        skip: (page - 1) * limit,
+        take: limit,
+    })
+    ctx.body={
+        code:0,
+        msg:'ok',
+        data:logs
+    }
+})
+
+userRouter.get('/logs/:uid',async(ctx,next)=>{
+    const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
+    const limit = str2num(parseQuery(ctx.query, 'limit'), 10, { min: 10 })
+    const uid= ctx.params['uid']
+    const logs=await prisma.userLog.findMany({
+        skip: (page - 1) * limit,
+        take: limit,
+        where:{
+            uid
+        }
+    })
+    ctx.body={
+        code:0,
+        msg:'ok',
+        data:logs
+    }
+})
+
 
 export default userRouter

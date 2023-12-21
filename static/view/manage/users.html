@@ -15,7 +15,7 @@
                             </div>
                         </div>
                         <div class="layui-col-md4">
-                            <select name="sex">
+                            <select name="gender">
                                 <option value="">请选择</option>
                                 <option value="男">男</option>
                                 <option value="女">女</option>
@@ -63,7 +63,7 @@
                 { field: 'uid',  title: 'uid' },
                 { field: 'uname', title: '用户名' },
                 { field: 'fa', width: 90, title: '头像', templet: '#users-table-template-avatar' },
-                { field: 'sex', width: 60, title: '性别' },
+                { field: 'gender', width: 60, title: '性别' },
                 { field: 'fansNum', width: 80, title: '粉丝数' },
                 { field: '_count.Speak', width: 80, title: '发言',templet:function(d){return d._count.Speak} },
                 { width: 80, title: '操作', templet: '#users-table-template-opera' }
