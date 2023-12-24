@@ -64,18 +64,18 @@
 		]
 	},
 	{
-		"id": 9,
-		"title": "列表页面",
-		"icon": "layui-icon layui-icon-auz",
-		"type": 0,
-		"children": [
+		"id":"my",
+		"title":"我的",
+		"icon":"layui-icon layui-icon-console",
+		"type":0,
+		"children":[
 			{
-				"id": 91,
-				"title": "查询表格",
+				"id": 21,
+				"title": "我的直播间",
 				"icon": "layui-icon layui-icon-face-smile",
 				"type": 1,
 				"openType": "_component",
-				"href": "view/listing/table.html"
+				"href": "view/my/mylive.html"
 			}
 		]
 	},
