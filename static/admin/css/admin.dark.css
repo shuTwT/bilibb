@@ -333,6 +333,16 @@
 	background: #0a0a0a;
 }
 
+/** profile */
+.pear-admin-dark .user-name,
+.pear-admin-dark .user-desc {
+    color: whitesmoke;
+}
+
+.pear-admin-dark .user-desc {
+    border-top: 1px solid #141414;
+}
+
 /** checkbox */
 .pear-admin-dark .layui-form-checkbox[lay-skin=primary]>i{
     border-color: #2E2E30;
