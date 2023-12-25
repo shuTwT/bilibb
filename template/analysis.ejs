@@ -328,12 +328,18 @@
         </div>
     </div>
     <script>
+        var danmuCount= '<%=room._count.UserDanmu%>'
         layui.use(['layer', 'echarts', 'element', 'count'], function () {
             var $ = layui.jquery,
                 layer = layui.layer,
                 element = layui.element,
                 count = layui.count,
                 echarts = layui.echarts;
+
+            fetch('/api/v1/analysis/analysis').then(res=>res.json())
+            .then(res=>{
+                console.log(res)
+            })
 
             count.up("value1", {
                 time: 4000,
@@ -351,7 +357,7 @@
 
             count.up("value3", {
                 time: 4000,
-                num: 634.43,
+                num: danmuCount / 1.00,
                 bit: 2,
                 regulator: 50
             })

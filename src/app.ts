@@ -39,18 +39,30 @@ io.on("connection", (socket) => {
     const num={value:0}
     const timer=setInterval(()=>{
         num.value++
-        socket.emit('msg',
-        {
-            type:"danmu",
-            data:{
+        const rnd=Math.floor(Math.random()*2)
+        if(rnd==1){
+            socket.emit('msg',
+            {
+                type:"entry",
+                user:{
+                    avatar:"/avatar.webp",
+                    username:`测试用户${num.value}`
+                },
+                msg:`欢迎测试用户${num.value}进入直播间`
+                
+            })
+        }else {
+            socket.emit('msg',
+            {
+                type:"danmu",
                 user:{
                     avatar:"/avatar.webp",
                     username:`测试用户${num.value}`
                 },
                 msg:`测试消息${num.value}`
-            }
-            
-        })
+                
+            })
+        }
     },2000)
     socket.on('disconnect', () => {
         console.log('🔥: 一个用户已断开连接');

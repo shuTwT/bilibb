@@ -57,4 +57,44 @@ viewRouter.get('/user/info/:uid/:roomId', async (ctx, next) => {
     });
 })
 
+viewRouter.get('/analysis/index.html',async(ctx,next)=>{
+    const template='analysis'
+
+    const roomId=await prisma.options.findUnique({
+        where:{
+            optionName:"roomId"
+        }
+    })
+
+    if(roomId&&roomId.optionValue!==""){
+        const room=await prisma.room.findUnique({
+            where:{
+                roomId:roomId.optionValue
+            },
+            include:{
+                Live:{
+                    orderBy:{
+                        date:'desc'
+                    },
+                    take:7
+                },
+                _count:{
+                    select:{
+                        UserDanmu:true
+                    }
+                }
+            }
+        })
+        ctx.body=ejs.render(getTemplate(template, "ejs"),{room});
+        return
+    }
+
+    const defaultRoom={
+        _count:{
+            UserData:0
+        }
+    }
+    ctx.body = ejs.render(getTemplate(template, "ejs"),{room:defaultRoom});
+})
+
 export default viewRouter;

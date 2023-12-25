@@ -32,6 +32,9 @@
             padding: 4px 24px;
             overflow: hidden;
         }
+        .danmu-item-wrapper{
+            display: flex;
+        }
         .chip{
             display: flex;
             font-size: 14px;
@@ -53,15 +56,29 @@
         <div x-data="danmuList()" id="danmu-list" class="danmu-list">
             <template x-data x-for="(item,index) in dataList">
                 <div class="danmu-item">
-                    <div class="avatar">
-                        <img :src="item.user.avatar" alt="avatar">
-                    </div>
-                    <div class="chip">
-                        <div class="username" x-text="item.user.username"></div>
-                        说
-                    </div>
-                    <div x-text="item.msg"></div>
-                    
+                    <template x-data x-if="item.type=='danmu'">
+                        <div class="danmu-item-wrapper">
+                            <div class="avatar">
+                                <img :src="item.user.avatar" alt="avatar">
+                            </div>
+                            <div class="chip">
+                                <div x-data class="username" x-text="item.user.username"></div>
+                                说
+                            </div>
+                            <div x-text="item.msg"></div>
+                        </div>
+                    </template>
+                    <template x-data x-if="item.type=='entry'">
+                        <div class="danmu-item-wrapper">
+                            <div class="avatar">
+                                <img :src="item.user.avatar" alt="avatar">
+                            </div>
+                            <div class="chip">
+                                <div x-data class="username" x-text="item.user.username"></div>
+                                进入直播间
+                            </div>
+                        </div>
+                    </template>
                 </div>
             </template>
         </div>
@@ -80,11 +97,11 @@
                     })
                     socket.on("msg", (data) => {
                         console.log(data)
-                        if (data.type == 'danmu') {
+                        if (data.type == 'danmu'||data.type=='entry') {
                             if(this.dataList.length>=40){
                                 this.dataList.shift()
                             }
-                            this.dataList.push(data.data)
+                            this.dataList.push(data)
                         }
                     })
                 }

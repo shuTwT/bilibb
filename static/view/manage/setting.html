@@ -9,74 +9,74 @@
     <div class="layui-col">
       <div class="layui-card">
         <div class="layui-card-body">
-            <form class="layui-form">
+            <form class="layui-form" lay-filter="options-form">
                 <div class="layui-form-item">
                     <label class="layui-form-label">直播间id</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="roomId" lay-verify="required" placeholder="请输入"
+                        <input type="text" name="roomId" lay-verify="number"  placeholder="请输入"
                         autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">uid</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="uid" lay-verify="required" placeholder="请输入"
+                        <input type="text" name="uid" lay-verify="number" placeholder="请输入"
                         autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">buvid</label>
                     <div class="layui-input-inline">
-                        <textarea type="text" name="sessdata" lay-verify="required" placeholder="请输入"
+                        <textarea type="text" name="buvid" placeholder="请输入"
                         autocomplete="off" class="layui-textarea"></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">sessdata</label>
+                    <label class="layui-form-label">sessData</label>
                     <div class="layui-input-inline">
-                        <textarea type="text" name="sessdata" lay-verify="required" placeholder="请输入"
+                        <textarea type="text" name="sessData" placeholder="请输入"
                         autocomplete="off" class="layui-textarea"></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">cookie</label>
+                    <label class="layui-form-label">cookies</label>
                     <div class="layui-input-inline">
-                        <textarea type="text" name="cookie" lay-verify="required" placeholder="请输入"
+                        <textarea type="text" name="cookies" placeholder="请输入"
                         autocomplete="off" class="layui-textarea"></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">dedeUserId</label>
+                    <label class="layui-form-label">dedeUserID</label>
                     <div class="layui-input-inline">
-                        <textarea type="text" name="dedeUserId" lay-verify="required" placeholder="请输入"
+                        <textarea type="text" name="dedeUserID" placeholder="请输入"
                         autocomplete="off" class="layui-textarea"></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">bili_ticket</label>
                     <div class="layui-input-inline">
-                        <textarea type="text" name="bili_ticket" lay-verify="required" placeholder="请输入"
+                        <textarea type="text" name="bili_ticket" placeholder="请输入"
                         autocomplete="off" class="layui-textarea"></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">bili_ticket_expires</label>
                     <div class="layui-input-inline">
-                        <textarea type="text" name="bili_ticket_expires" lay-verify="required" placeholder="请输入"
+                        <textarea type="text" name="bili_ticket_expires" placeholder="请输入"
                         autocomplete="off" class="layui-textarea"></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">bili_jct</label>
                     <div class="layui-input-inline">
-                        <textarea type="text" name="bili_jct" lay-verify="required" placeholder="请输入"
+                        <textarea type="text" name="bili_jct" placeholder="请输入"
                         autocomplete="off" class="layui-textarea"></textarea>
                     </div>
                 </div>
                 <div>
                     <label class="layui-form-label">外部访问地址</label>
                     <div class="layui-input-inline">
-                        <textarea type="text" name="host" lay-verify="required" placeholder="请输入"
+                        <textarea type="text" name="host" placeholder="请输入"
                         autocomplete="off" class="layui-textarea"></textarea>
                     </div>
                 </div>
@@ -93,8 +93,34 @@
   </div>
 </div>
 <script>
-    layui.use(['form'],function(){
-        var form=layui.form;
+    layui.use(['form','layer'],function(){
+        var form=layui.form,
+            layer=layui.layer;
         form.render()
+        fetch('/api/v1/options/all').then(res=>res.json())
+            .then(res=>{
+                console.log(res)
+                const obj=Object.fromEntries(
+                    res.data.map(item=>{
+                        return [item.optionName,item.optionValue]
+                    })
+                )
+                form.val('options-form',obj)
+            })
+        form.on('submit(submit)',function(data){
+            fetch('/api/v1/options/save',{
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                method:'POST',
+                body:JSON.stringify(data.field)
+            }).then(res=>res.json())
+            .then(res=>{
+                if(res.code==0){
+                    layer.msg('提交成功')
+                }
+            })
+            return false
+        })
     })
 </script>

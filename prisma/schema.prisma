@@ -234,6 +234,7 @@ model UserFavor {
 
 //配置项
 model Options {
-  optionName  String @id
+  id Int @id @default(autoincrement())
+  optionName  String @unique
   optionValue String
 }

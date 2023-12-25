@@ -7,6 +7,7 @@ import connectRouter from "./connect"
 import liveRouter from "./live"
 import userRouter from "./user"
 import danmuRouter from "./danmu"
+import analysisRouter from "./analysis"
 
 
 const v1Router = new Router({
@@ -19,7 +20,7 @@ v1Router.use(connectRouter.routes())
 v1Router.use(liveRouter.routes())
 v1Router.use(userRouter.routes())
 v1Router.use(danmuRouter.routes())
-
+v1Router.use(analysisRouter.routes())
 
 /**
  * 进房量分页查询
