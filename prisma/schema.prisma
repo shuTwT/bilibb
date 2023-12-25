@@ -42,8 +42,10 @@ model UserLog {
   id      Int    @id @default(autoincrement())
   uid     String // 用户uid
   content String // 日志内容
+  roomId  String
   date    String //时间 YYYY-MM-DD HH:mm:ss
   User    User   @relation(fields: [uid], references: [uid])
+  Room    Room   @relation(fields: [roomId], references: [roomId])
 }
 
 //用户粉丝勋章
@@ -93,6 +95,7 @@ model Room {
   UserLike       UserLike[]
   UserGift       UserGift[]
   UserFavor      UserFavor[]
+  UserLog        UserLog[]
 }
 
 // 房间的直播情况
@@ -162,15 +165,15 @@ model UserEntry {
 
 // 用户相对于某直播间的弹幕数据
 model UserDanmu {
-  id     Int     @id @default(autoincrement())
-  uid    String
-  roomId String
-  first  String? //第一次发送弹幕
-  latest String? //最后一次发送弹幕
+  id      Int     @id @default(autoincrement())
+  uid     String
+  roomId  String
+  first   String? //第一次发送弹幕
+  latest  String? //最后一次发送弹幕
   content String? //最后一次弹幕内容
-  num    Int     @default(1) //弹幕数量
-  User   User    @relation(fields: [uid], references: [uid])
-  Room   Room    @relation(fields: [roomId], references: [roomId])
+  num     Int     @default(1) //弹幕数量
+  User    User    @relation(fields: [uid], references: [uid])
+  Room    Room    @relation(fields: [roomId], references: [roomId])
 
   @@unique([uid, roomId])
 }

@@ -13,7 +13,9 @@ export function parseQuery(query: ParsedUrlQuery, key: string): string |undefine
     if (typeof value !== 'undefined') {
         if (Array.isArray(value)) {
             return value.join(',')
-        } else {
+        } else if (value==='') {
+            return void 0
+        }else{
             return value
         }
     } else {

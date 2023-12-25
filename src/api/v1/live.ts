@@ -15,6 +15,9 @@ liveRouter.get('/list', async (ctx, next) => {
             where:{
                 date
             },
+            orderBy:{
+                date:'desc'
+            },
             include:{
                 Room:true,
             }

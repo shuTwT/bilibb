@@ -33,6 +33,9 @@ userRouter.get('/list', async (ctx, next) => {
                     }
                 ]
             },
+            orderBy:{
+                id:'desc'
+            },
             include:{
                 _count:{
                     select:{
@@ -82,8 +85,16 @@ userRouter.get('/info/:uid', async (ctx, next) => {
             uid: params['uid']
         },
         include:{
-            Speak:true,
-            UserLog:true,
+            Speak:{
+                orderBy:{
+                    date:'desc'
+                }
+            },
+            UserLog:{
+                orderBy:{
+                    date:'desc'
+                }
+            },
             UserCaptain:true,
             UserDanmu:true,
             _count:{
@@ -122,9 +133,16 @@ userRouter.get('/info/:uid/:roomId', async (ctx, next) => {
             Speak:{
                 where:{
                     roomId:params['roomId']
+                },
+                orderBy:{
+                    date:'desc'
                 }
             },
-            UserLog:true,
+            UserLog:{
+                orderBy:{
+                    date:'desc'
+                }
+            },
             UserCaptain:{
                 where:{
                     roomId:params['roomId']
@@ -171,9 +189,19 @@ userRouter.get('/info/:uid/:roomId', async (ctx, next) => {
 userRouter.get('/logs',async(ctx,next)=>{
     const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
     const limit = str2num(parseQuery(ctx.query, 'limit'), 10, { min: 10 })
+    const roomId = parseQuery(ctx.query,'roomId')
     const logs=await prisma.userLog.findMany({
+        where:{
+            roomId
+        },
+        include:{
+            User:true
+        },
         skip: (page - 1) * limit,
         take: limit,
+        orderBy:{
+            date:'desc'
+        }
     })
     ctx.body={
         code:0,
@@ -189,6 +217,9 @@ userRouter.get('/logs/:uid',async(ctx,next)=>{
     const logs=await prisma.userLog.findMany({
         skip: (page - 1) * limit,
         take: limit,
+        orderBy:{
+            date:"desc"
+        },
         where:{
             uid
         }

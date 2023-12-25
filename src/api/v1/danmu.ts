@@ -1,6 +1,7 @@
 import Router from "koa-router"
 import prisma from "../../lib/prisma"
 import { parseQuery, str2num } from "../utils"
+import { Context, Next } from "koa"
 
 const danmuRouter=new Router({prefix:'/danmu'})
 
@@ -14,6 +15,10 @@ danmuRouter.get('/list', async (ctx, next) => {
         prisma.speak.findMany({
             skip: (page - 1) * limit,
             take: limit,
+            orderBy:
+                {
+                date:'desc'
+            }
         }),
         prisma.speak.count()
     ])
@@ -50,6 +55,9 @@ danmuRouter.get('/list/:roomId', async (ctx, next) => {
                 content: {
                     contains: content,
                 },
+            },
+            orderBy:{
+                date:'desc'
             },
             include:{
                 User:true

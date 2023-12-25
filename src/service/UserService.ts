@@ -156,11 +156,14 @@ export async function entryRoom(uid: string, uname: string, roomId: string) {
   }
 }
 
-export async function userLog(uid:string,content:string,date:string){
+export async function userLog(uid:string,roomId:string,content:string,date:string){
     try{
         await prisma.userLog.create({
             data:{
-                uid,content,date
+                uid,
+                roomId,
+                content,
+                date
             }
         })
     }catch(e){

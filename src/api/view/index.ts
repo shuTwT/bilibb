@@ -6,6 +6,14 @@ const viewRouter = new Router({
     prefix: "/view",
 });
 
+viewRouter.get("/room/my",async (ctx,next)=>{
+    let template='my-live-info'
+    const roomId=30743142
+    ctx.body = ejs.render(getTemplate(template, "ejs"), {
+        roomId
+    });
+})
+
 viewRouter.get("/danmu/list/:roomId", async (ctx, next) => {
     let template = "user-list";
     const roomId=ctx.params['roomId']
