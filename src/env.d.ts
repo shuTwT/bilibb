@@ -1,5 +1,9 @@
-declare module "*.vue"{
-    import {defineComponent} from "vue"
-    const Component: ReturnType<typeof defineComponent>;
-    export default Component
-}
+import type { Server } from "socket.io";
+
+declare global{
+    
+    namespace globalThis{
+        var io: Server
+    }
+} 
+export {}

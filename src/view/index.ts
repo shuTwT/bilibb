@@ -1,7 +1,7 @@
 import Router from "koa-router";
-import prisma from "../../lib/prisma";
+import prisma from "../lib/prisma";
 import ejs from "ejs";
-import { str2num, parseQuery, getTemplate } from "../utils";
+import { str2num, parseQuery, getTemplate } from "../api/utils";
 const viewRouter = new Router({
     prefix: "/view",
 });
@@ -12,6 +12,10 @@ viewRouter.get("/room/my",async (ctx,next)=>{
     ctx.body = ejs.render(getTemplate(template, "ejs"), {
         roomId
     });
+})
+viewRouter.get('/danmuji',async (ctx,next)=>{
+    let template = 'danmuji'
+    ctx.body = ejs.render(getTemplate(template,'ejs'))
 })
 
 viewRouter.get("/danmu/list/:roomId", async (ctx, next) => {

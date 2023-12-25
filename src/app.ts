@@ -7,24 +7,58 @@
  */
 import Koa from "koa";
 import * as dotenv from "dotenv";
+import { createServer } from "http";
+import { Server } from "socket.io";
 import routing from "./api/routes";
-import {TCPServer} from "./service/connectService"
+import { TCPServer } from "./service/connectService";
 
 dotenv.config();
-const allowHTTP = process.env.ALLOW_HTTP == "true" ? true : false;
 const allowTCP = process.env.ALLOW_TCP == "true" ? true : false;
 const port = Number.parseInt(process.env.PORT + "");
 
-async function bootstrap() {
-  if (allowTCP) await TCPServer()
-  if (allowHTTP) await HTTPServer()
-}
+if (allowTCP) TCPServer();
 
+const app = new Koa();
 
-async function HTTPServer() {
-  const app = new Koa()
-  routing(app)
-  app.listen(port, () => console.log(`started server on http://localhost:${port}`));
-}
+routing(app);
 
-bootstrap()
+const HTTPServer = createServer(app.callback());
+
+const io = new Server(HTTPServer, {
+  /** options */
+});
+
+io.on("connection", (socket) => {
+    console.log(`⚡: ${socket.id} 用户已连接!`)
+    socket.emit('msg',
+        {
+            type:"hello",
+            msg:"Hello World"
+        }
+    )
+    const num={value:0}
+    const timer=setInterval(()=>{
+        num.value++
+        socket.emit('msg',
+        {
+            type:"danmu",
+            data:{
+                user:{
+                    avatar:"/avatar.webp",
+                    username:`测试用户${num.value}`
+                },
+                msg:`测试消息${num.value}`
+            }
+            
+        })
+    },2000)
+    socket.on('disconnect', () => {
+        console.log('🔥: 一个用户已断开连接');
+        clearInterval(timer)
+    });
+});
+HTTPServer.listen(port, () =>
+  console.log(`started server on http://localhost:${port}`)
+);
+
+global.io=io

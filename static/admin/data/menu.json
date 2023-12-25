@@ -75,7 +75,7 @@
 				"icon": "layui-icon layui-icon-face-smile",
 				"type": 1,
 				"openType": "_component",
-				"href": "/api/view/room/my"
+				"href": "/view/room/my"
 			}
 		]
 	},
