@@ -5,7 +5,7 @@ import { resolver } from "../resolver";
 import type { Msg } from "../resolver";
 import * as log4js from "../utils/log4js";
 
-export const connectPool = new Map<string | number, any>();
+export const connectPool = new Map< number, LiveTCP>();
 
 export async function createConnect(short_room_id: number) {
   const cookies = globalThis.env.cookies;
@@ -13,23 +13,19 @@ export async function createConnect(short_room_id: number) {
   const uid = parseInt(globalThis.env.uid + "");
 
   if (!buvid || buvid == "") {
-    log4js.debug("请先在系统设置中设置buvid");
-    return;
+    throw "请先在系统设置中设置buvid"
   }
   if (isNaN(uid)) {
-    log4js.debug("请先在系统设置中设置uid");
-    return;
+    throw "请先在系统设置中设置uid"
   }
   if(isNaN(short_room_id)){
-    log4js.debug("请确认roomId正确")
-    return
+    throw "请确认roomId正确"
   }
 
   const { room_id } = await getRoomid(short_room_id, cookies);
 
   if (connectPool.has(room_id)) {
-    console.log("该房间已在连接池中");
-    return;
+    throw "该房间已在连接池中"
   }
   const {
     description,
@@ -77,7 +73,7 @@ export async function createConnect(short_room_id: number) {
     buvid: buvid,
   });
   live.on("open", (data) => {
-    console.log("Connection is established");
+    log4js.info("Connection is established");
   });
   live.on("live", () => {
     live.on("heartbeat", (online) => {
@@ -92,7 +88,7 @@ export async function createConnect(short_room_id: number) {
     }
   });
   live.on("error", (e) => {
-    console.log(e);
+    log4js.error(e);
   });
   connectPool.set(room_id, live);
 }
@@ -104,6 +100,20 @@ export async function TCPServer() {
     return;
   }
 
+  try{
+    await createConnect(parseInt(short_room_id));
+  }catch(e){
+    log4js.error(e)
+  }
 
-  await createConnect(parseInt(short_room_id));
+}
+
+export async function closeConnect(roomId:number){
+    const connect=connectPool.get(roomId)
+    if(connect){
+        connect.close()
+        connectPool.delete(roomId)
+    }else{
+        throw new Error("无此连接")
+    }
 }

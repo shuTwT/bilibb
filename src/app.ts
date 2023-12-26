@@ -12,6 +12,7 @@ import { Server } from "socket.io";
 import routing from "./api/routes";
 import { TCPServer } from "./service/connectService";
 import { loadEnv } from "./env";
+import * as log4js from "./utils/log4js"
 
 dotenv.config();
 await loadEnv()
@@ -31,7 +32,7 @@ const io = new Server(HTTPServer, {
 });
 
 io.on("connection", (socket) => {
-    console.log(`⚡: ${socket.id} 用户已连接!`)
+    log4js.info(`⚡: ${socket.id} 用户已连接!`)
     socket.emit('msg',
         {
             type:"hello",
@@ -67,11 +68,11 @@ io.on("connection", (socket) => {
         }
     },2000)
     socket.on('disconnect', () => {
-        console.log('🔥: 一个用户已断开连接');
+        log4js.info('🔥: 一个用户已断开连接');
         clearInterval(timer)
     });
 });
 globalThis.io=io
 HTTPServer.listen(port, () =>
-  console.log(`started server on http://localhost:${port}`)
+  log4js.info(`started server on http://localhost:${port}`)
 );

@@ -65,7 +65,7 @@ optionRouter.post('/save',async(ctx,next)=>{
                 }
             })
         }catch(e){
-            console.log(e)
+            log4js.prismaError(e)
         }
     })
     ctx.body={

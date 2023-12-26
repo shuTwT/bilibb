@@ -92,7 +92,6 @@
         form.render()
         fetch('/api/v1/options/all').then(res=>res.json())
             .then(res=>{
-                console.log(res)
                 const obj=Object.fromEntries(
                     res.data.map(item=>{
                         return [item.optionName,item.optionValue]

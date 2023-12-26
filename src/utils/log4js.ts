@@ -63,8 +63,17 @@ let errorLogger = log4j.getLogger('error')
 /**
  * 日志输出 level为error
  */
-export function error ( content:string,...args:any[] )  {
+export function error ( content:string,...args:any[] )  :void
+export function error ( content:unknown,...args:any[] )  :void
+export function error ( content:string|unknown,...args:any[] )  {
     errorLogger.level = levels.error
+    if(content instanceof Error){
+        errorLogger.error(content.name,...args)
+        errorLogger.error(content.message,...args)
+        errorLogger.error(content.stack,...args)
+        return
+    }
+    
     errorLogger.error(content,...args)
 }
 

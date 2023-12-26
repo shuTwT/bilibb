@@ -8,7 +8,15 @@ const viewRouter = new Router({
 
 viewRouter.get("/room/my",async (ctx,next)=>{
     let template='my-live-info'
-    const roomId=30743142
+    let roomId=30743142
+    const option=await prisma.options.findUnique({
+        where:{
+            optionName:"roomId"
+        }
+    })
+    if(option){
+        roomId=parseInt(option.optionValue)
+    }
     ctx.body = ejs.render(getTemplate(template, "ejs"), {
         roomId
     });

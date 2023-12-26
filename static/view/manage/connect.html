@@ -5,7 +5,7 @@
             <div class="layui-card">
                 <div class="layui-card-body">
                     <form class="layui-form layui-row layui-col-space16">
-                        <div class="layui-col-md4">
+                        <div class="layui-col layui-col-md4">
                             <div class="layui-input-wrap">
                                 <div class="layui-input-prefix">
                                     <i class="layui-icon layui-icon-username"></i>
@@ -14,13 +14,20 @@
                                     lay-affix="clear" lay-verify="required|number">
                             </div>
                         </div>
-                        <div class="layui-btn-container layui-col-xs12">
+                        <div class="layui-col layui-col-md4">
+                            <div style="height: 38px;line-height: 38px;">建立额外的连接</div>
+                        </div>
+                        <div class="layui-btn-container layui-col layui-col-xs12">
                             <button class="layui-btn" lay-submit lay-filter="add">新增</button>
-                            
                         </div>
                     </form>
                     <table id="connect-table" lay-filter="connect-table">
                     </table>
+                    <template id="connect-table-template-opera">
+                         <div>
+                            <button class="layui-btn layui-btn-sm" lay-filter="close">关闭连接</button>
+                         </div>
+                    </template>
                 </div>
             </div>
         </div>
@@ -45,14 +52,51 @@
             cols:[[
                 { type: 'checkbox', fixed: 'flex' },
                 { field: 'roomId',width:80,title:'房间号',},
-                { field:'title',title:'标题',templet:function(d){return `${d.Room.title}`}},
-                { field:'tags',title:'标签'},
-                { field:'keyframe',width:100,title:'关键帧',templet:function(d){return`<div><img alt="" src="${d.keyframe}"></div>`}},
-                { field:'userCover',width:100,title:'封面',templet:function(d){return`<div><img alt="" src="${d.userCover}"></div>`}},
+                { field: 'title',title:'标题',templet:function(d){return `${d.Room.title}`}},
+                { field: 'tags',title:'标签'},
+                { field: 'keyframe',width:100,title:'关键帧',templet:function(d){return`<div><img alt="" src="${d.keyframe}"></div>`}},
+                { field: 'userCover',width:100,title:'封面',templet:function(d){return`<div><img alt="" src="${d.userCover}"></div>`}},
+                { width: 80, title: '操作', templet: '#connect-table-template-opera' }
             ]]
+        })
+        table.on('tool(connect-table)',function(obj){
+            var data=obj.data
+            layer.confirm('确定关闭链接吗', {icon: 3}, function(){
+                fetch('/api/v1/connect/remove/'+data.roomId,{
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    method:'POST',
+                }).then(res=>res.json())
+                .then(res=>{
+                    if(res.code==0){
+                        layer.msg("成功",function(){
+                            PearAdmin.refresh()
+                        })
+                    }else{
+                        layer.msg(res.msg)
+                    }
+                })
+            });
         })
         form.on('submit(add)',function(data){
             layer.confirm('确定建立连接吗', {icon: 3}, function(){
+                fetch('/api/v1/connect/add',{
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    method:'POST',
+                    body:JSON.stringify(data.field)
+                }).then(res=>res.json())
+                .then(res=>{
+                    if(res.code==0){
+                        layer.msg("成功",function(){
+                            PearAdmin.refresh()
+                        })
+                    }else{
+                        layer.msg(res.msg)
+                    }
+                })
             });
                 return false
             })

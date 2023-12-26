@@ -1,6 +1,8 @@
 import Router from "koa-router"
 import prisma from "../../lib/prisma"
-import { connectPool } from "../../service/connectService"
+import { closeConnect, connectPool } from "../../service/connectService"
+import { createConnect } from "../../service/connectService"
+import * as log4js from "../../utils/log4js"
 
 const connectRouter=new Router({prefix:'/connect'})
 
@@ -26,7 +28,41 @@ connectRouter.get('/list', async (ctx, next) => {
 })
 
 connectRouter.post('/add', async (ctx, next) => {
-    const body = ctx.request.body
+    const body= ctx.request.body as any
+    const roomId = parseInt(body.roomId)
+    if(isNaN(roomId)){
+        ctx.body={
+            code:-1,
+            msg:"类型错误"
+        }
+        return
+    }
+    try{
+        await createConnect(roomId)
+    }catch(e){
+        log4js.error(e)
+    }
+    
+    ctx.body={
+        code:0,
+        msg:'ok'
+    }
+})
+
+connectRouter.post('/remove/:roomId', async (ctx, next) => {
+    const roomId=parseInt(ctx.params['roomId'])
+    if(isNaN(roomId)){
+        ctx.body={
+            code:-1,
+            msg:"类型错误"
+        }
+        return
+    }
+    await closeConnect(roomId)
+    ctx.body={
+        code:0,
+        msg:"ok"
+    }
 })
 
 export default connectRouter
