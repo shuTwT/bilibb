@@ -11,8 +11,10 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import routing from "./api/routes";
 import { TCPServer } from "./service/connectService";
+import { loadEnv } from "./env";
 
 dotenv.config();
+await loadEnv()
 const allowTCP = process.env.ALLOW_TCP == "true" ? true : false;
 const port = Number.parseInt(process.env.PORT + "");
 
@@ -69,8 +71,7 @@ io.on("connection", (socket) => {
         clearInterval(timer)
     });
 });
+globalThis.io=io
 HTTPServer.listen(port, () =>
   console.log(`started server on http://localhost:${port}`)
 );
-
-global.io=io

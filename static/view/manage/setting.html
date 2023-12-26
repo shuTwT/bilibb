@@ -39,13 +39,6 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">cookies</label>
-                    <div class="layui-input-inline">
-                        <textarea type="text" name="cookies" placeholder="请输入"
-                        autocomplete="off" class="layui-textarea"></textarea>
-                    </div>
-                </div>
-                <div class="layui-form-item">
                     <label class="layui-form-label">dedeUserID</label>
                     <div class="layui-input-inline">
                         <textarea type="text" name="dedeUserID" placeholder="请输入"
@@ -118,7 +111,11 @@
             .then(res=>{
                 if(res.code==0){
                     layer.msg('提交成功')
+                }else{
+                    layer.msg('失败')
                 }
+            }).catch(res=>{
+                layer.msg(res)
             })
             return false
         })

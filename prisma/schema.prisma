@@ -244,5 +244,5 @@ model UserFavor {
 model Options {
   id Int @id @default(autoincrement())
   optionName  String @unique
-  optionValue String
+  optionValue String @db.VarChar(255)
 }

@@ -2,27 +2,14 @@ import { Context, Next } from "koa";
 import * as log4js from "../../utils/log4js"
 import prisma from "../../lib/prisma";
 import Router from "koa-router";
+import type { DefaultOptions } from "../../env";
 
-const optionRouter=new Router({prefix:'/options'})
+const optionRouter = new Router({prefix:'/options'})
 
-type DefaultOption = {
-    "roomId":string
-    "uid":string
-    "cookies":string
-    "buvid":string
-    "sessData":string
-    "bili_ticket":string
-    "bili_ticket_expires":string
-    "DedeUserID":string
-    "bili_jct":string
-    "installed":string
-    "host":string
-    [key:string]:string
-}
+
 const defaultOption = {
     "roomId":"",
     "uid":"",
-    "cookies": "" ,
     "buvid":"",
     "sessData":"",
     "bili_ticket":"",
@@ -61,7 +48,7 @@ optionRouter.get('/all',async(ctx,next)=>{
 })
 
 optionRouter.post('/save',async(ctx,next)=>{
-    const body=ctx.request.body as DefaultOption
+    const body=ctx.request.body as DefaultOptions
     Object.keys(body).forEach(async(item)=>{
         const value=body[item]
         try{
