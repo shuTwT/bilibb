@@ -25,7 +25,7 @@
                     </table>
                     <template id="connect-table-template-opera">
                          <div>
-                            <button class="layui-btn layui-btn-sm" lay-filter="close">关闭连接</button>
+                            <button class="layui-btn layui-btn-sm" lay-event="close">关闭连接</button>
                          </div>
                     </template>
                 </div>
@@ -33,51 +33,53 @@
         </div>
     </div>
 </div>
-<template id="submit-add">
-<div>
-    1
-</div>
-</template>
 <script>
     layui.use([ 'form', 'table','layer'], function () {
         var table=layui.table,
             form=layui.form,
-            layer=layui.layer,
-            $=layui.jquery;
+            layer=layui.layer
+            
         form.render()
         table.render({
             elem: "#connect-table",
             url: "/api/v1/connect/list",
             lineStyle: 'height:100px',
+            toolbar:true,
             cols:[[
                 { type: 'checkbox', fixed: 'flex' },
                 { field: 'roomId',width:80,title:'房间号',},
-                { field: 'title',title:'标题',templet:function(d){return `${d.Room.title}`}},
+                { field: 'title',title:'标题',templet:function(d){return `${d.title}`}},
                 { field: 'tags',title:'标签'},
-                { field: 'keyframe',width:100,title:'关键帧',templet:function(d){return`<div><img alt="" src="${d.keyframe}"></div>`}},
-                { field: 'userCover',width:100,title:'封面',templet:function(d){return`<div><img alt="" src="${d.userCover}"></div>`}},
-                { width: 80, title: '操作', templet: '#connect-table-template-opera' }
+                { field: 'keyframe',width:120,title:'关键帧',templet:function(d){return`<div><img alt="" src="${d.keyframe}"></div>`}},
+                { field: 'userCover',width:120,title:'封面',templet:function(d){return`<div><img alt="" src="${d.userCover}"></div>`}},
+                { width: 100, title: '操作', templet: '#connect-table-template-opera' }
             ]]
         })
+
         table.on('tool(connect-table)',function(obj){
-            var data=obj.data
-            layer.confirm('确定关闭链接吗', {icon: 3}, function(){
-                fetch('/api/v1/connect/remove/'+data.roomId,{
-                    headers:{
-                        'Content-Type':'application/json'
-                    },
-                    method:'POST',
-                }).then(res=>res.json())
-                .then(res=>{
-                    if(res.code==0){
-                        layer.msg("成功",function(){
-                            PearAdmin.refresh()
-                        })
-                    }else{
-                        layer.msg(res.msg)
-                    }
-                })
-            });
+            
+            var data=obj.data;
+            var layEvent=obj.event;
+            if(layEvent=='close'){
+                layer.confirm('确定关闭链接吗', {icon: 3}, function(){
+                    fetch('/api/v1/connect/remove/'+data.roomId,{
+                        headers:{
+                            'Content-Type':'application/json'
+                        },
+                        method:'POST',
+                    }).then(res=>res.json())
+                    .then(res=>{
+                        if(res.code==0){
+                            layer.msg("成功",function(){
+                                PearAdmin.refresh()
+                            })
+                        }else{
+                            layer.msg(res.msg)
+                        }
+                    })
+                });
+            }
+            
         })
         form.on('submit(add)',function(data){
             layer.confirm('确定建立连接吗', {icon: 3}, function(){

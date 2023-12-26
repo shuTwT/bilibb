@@ -90,13 +90,14 @@ export async function createConnect(short_room_id: number) {
   live.on("error", (e) => {
     log4js.error(e);
   });
+
   connectPool.set(room_id, live);
 }
 export async function TCPServer() {
   const short_room_id = globalThis.env.roomId;
 
   if (!short_room_id || short_room_id == "") {
-    log4js.debug("请先在系统设置中设置直播间ID");
+    log4js.error("请先在系统设置中设置直播间ID");
     return;
   }
 

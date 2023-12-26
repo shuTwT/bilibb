@@ -364,7 +364,7 @@
                 },
                 series: [
                     {
-                        data: [120, 200, 150, 80, 70, 110, 130],
+                        data: [0, 0, 0, 0, 0, 0, 0],
                         type: 'bar',
                         showBackground: true,
                         backgroundStyle: {
@@ -399,7 +399,7 @@
                 },
                 series: [
                     {
-                        data: [120, 200, 150, 80, 70, 110, 130],
+                        data: [0, 0, 0, 0, 0, 0, 0],
                         type: 'bar',
                         showBackground: true,
                         backgroundStyle: {
@@ -434,7 +434,7 @@
                 },
                 series: [
                     {
-                        data: [120, 200, 150, 80, 70, 110, 130],
+                        data: [0, 0, 0, 0, 0, 0, 0],
                         type: 'bar',
                         showBackground: true,
                         backgroundStyle: {
@@ -469,7 +469,7 @@
                 },
                 series: [
                     {
-                        data: [120, 200, 150, 80, 70, 110, 130],
+                        data: [0, 0, 0, 0, 0, 0, 0],
                         type: 'bar',
                         showBackground: true,
                         backgroundStyle: {
@@ -500,7 +500,9 @@
             }
 
             fetch('/api/v1/analysis/analysis').then(res=>res.json())
-            .then(({data})=>{
+            .then((res)=>{
+                var data=res.data
+                if(res.code!=0) return 
                 count.up("value1", {
                     time: 4000,
                     num: data.analysis.entryNum,

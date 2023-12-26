@@ -56,7 +56,7 @@ analysisRouter.get('/analysis',async(ctx,next)=>{
                     followNum:0,
                     unfollowNum:0
                 }
-                lives.push(elem)
+                lives.unshift(elem)
             }
         }
         const _sum={

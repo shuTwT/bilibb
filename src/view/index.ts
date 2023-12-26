@@ -2,6 +2,7 @@ import Router from "koa-router";
 import prisma from "../lib/prisma";
 import ejs from "ejs";
 import { str2num, parseQuery, getTemplate } from "../api/utils";
+import * as log4js from "../utils/log4js"
 const viewRouter = new Router({
     prefix: "/view",
 });
@@ -97,12 +98,8 @@ viewRouter.get('/analysis/index.html',async(ctx,next)=>{
         return
     }
 
-    const defaultRoom={
-        _count:{
-            UserData:0
-        }
-    }
-    ctx.body = ejs.render(getTemplate(template, "ejs"),{room:defaultRoom});
+
+    ctx.body = "请先去系统设置设置基本信息";
 })
 
 export default viewRouter;

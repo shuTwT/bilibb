@@ -11,11 +11,12 @@ connectRouter.get('/list', async (ctx, next) => {
     const query = ctx.query
     const headers = ctx.headers
     const body = ctx.request.body
-    const roomIds=Object.keys(connectPool) 
+    const roomIds=Array.from(connectPool.keys())
+    
     const rooms=await Promise.all(roomIds.map(async(item)=>{
         return await prisma.room.findUnique({
             where:{
-                roomId:item
+                roomId:item+""
             }
         })
     }))
