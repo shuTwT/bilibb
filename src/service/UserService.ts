@@ -171,3 +171,31 @@ export async function userLog(uid:string,roomId:string,content:string,date:strin
     }
     
 }
+
+export async function userLike(uid:string,roomId:string,date:string,uname:string){
+    try{
+        await processUser(uid,{uname})
+        await prisma.userLike.upsert({
+            where:{
+                uid_roomId:{
+                    uid,
+                    roomId
+                }
+            },
+            update:{
+                latest:date,
+                num:{
+                    increment:1
+                }
+            },
+            create:{
+                uid,
+                roomId,
+                first:date,
+                latest:date
+            }
+        })
+    }catch(e){
+        log4js.prismaError(e)
+    }
+}

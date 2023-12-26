@@ -60,9 +60,12 @@ export const resolver: Resolver = {
     },
     'LIKE_INFO_V3_CLICK': async function (roomId: string, { data }: Msg<any>) {
         //console.log(`V3点赞,${data.uname}${data.like_text}`)
+        const date=dayjs().format("YYYY-MM-DD HH:mm:ss")
+        userService.userLike(data.uid,roomId,date,data.uname)
     },
     'LIKE_INFO_V3_UPDATE': async function (roomId: string, { data }: Msg<any>) {
-        //console.log(`v3点赞更新,${data.click_count}`)
+        const date=dayjs().format("YYYY-MM-DD HH:mm:ss")
+        roomService.updateLikeNum(roomId,data.click_count,date)
     },
     //进入直播间或关注主播
     'INTERACT_WORD': async function (roomId: string, { data }: Msg<any>) {
@@ -85,6 +88,8 @@ export const resolver: Resolver = {
         })
         if(msg_type==1){
             await roomService.increaseEnterRoomNum(roomId,uid,date)
+        }else if(msg_type==2){
+            await roomService.increaseFollowNum(roomId,date)
         }
     },
     /**

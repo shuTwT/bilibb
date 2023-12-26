@@ -1,5 +1,6 @@
 import Router from "koa-router"
 import prisma from "../../lib/prisma"
+import dayjs from "dayjs"
 
 const analysisRouter=new Router({
     prefix:"/analysis"
@@ -26,15 +27,60 @@ analysisRouter.get('/analysis',async(ctx,next)=>{
                 },
                 _count:{
                     select:{
-                        UserDanmu:true
+                        UserDanmu:true,
+                        UserGift:true
                     }
-                }
+                },
+               
             }
+        })
+        let lives = await prisma.live.groupBy({
+            by:['roomId','date','entryNum','likeNum','speakNum','followNum','unfollowNum'],
+            where:{
+                roomId:roomId.optionValue
+            },
+            orderBy:{
+                date:'desc'
+            },
+            take:7,
+        })
+        if(lives.length<7&&lives.length>0){
+            const start=lives.length-1
+            for (let i = start; i < 6; i++) {
+                const elem={
+                    date:dayjs(lives[i].date).subtract(1,'day').format("YYYY-MM-DD"),
+                    entryNum:0,
+                    likeNum:0,
+                    roomId:lives[i].roomId,
+                    speakNum:0,
+                    followNum:0,
+                    unfollowNum:0
+                }
+                lives.push(elem)
+            }
+        }
+        const _sum={
+            entryNum:0,
+            speakNum:0,
+            likeNum:0,
+            followNum:0,
+            unfollowNum:0
+        }
+        lives.forEach(value=>{
+            _sum.entryNum+=value.entryNum
+            _sum.speakNum+=value.speakNum
+            _sum.likeNum+=value.likeNum
+            _sum.followNum+=value.followNum
+            _sum.unfollowNum+=value.unfollowNum
         })
         ctx.body={
             code:0,
             msg:"ok",
-            data:room
+            data:{
+                room,
+                lives,
+                analysis:_sum
+            }
         }
         return
     }

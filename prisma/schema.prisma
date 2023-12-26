@@ -35,6 +35,7 @@ model User {
   UserLike      UserLike[]
   UserGift      UserGift[]
   UserFavor     UserFavor[]
+  SendGift      SendGift[]
 }
 
 // 用户日志表
@@ -96,6 +97,7 @@ model Room {
   UserGift       UserGift[]
   UserFavor      UserFavor[]
   UserLog        UserLog[]
+  SendGift       SendGift[]
 }
 
 // 房间的直播情况
@@ -105,8 +107,12 @@ model Live {
   fans         Int    @default(0) //x人看过
   entryNum     Int    @default(0) //进房量
   speakNum     Int    @default(0) //发言数
+  likeNum      Int    @default(0) //点赞量
   redNoticeNum Int    @default(0) //红色警告数
   fansClub     Int    @default(0) //粉丝团
+  giftNum      Int    @default(0) //礼物数量
+  followNum    Int    @default(0) //新增关注
+  unfollowNum  Int    @default(0) //取关数
   date         String // 日期 YYYY-MM-DD
   Room         Room   @relation(fields: [roomId], references: [roomId])
 
@@ -138,6 +144,8 @@ model SendGift {
   giftId   Int
   giftName String //礼物内容
   date     String
+  User     User   @relation(fields: [uid],references: [uid])
+  Room     Room   @relation(fields: [roomId],references: [roomId])
 }
 
 // 红色警告

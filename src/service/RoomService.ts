@@ -152,8 +152,26 @@ export async function updateGift(
   medalInfo:object,
   giftNum:number
 ) {
+    const today=dayjs(date).format("YYYY-MM-DD")
   // 当日礼物数量
     try{
+        await prisma.live.upsert({
+            where:{
+                roomId_date:{
+                    roomId,
+                    date:today
+                }
+            },
+            update:{
+                giftNum:{
+                    increment:1
+                }
+            },
+            create:{
+                roomId,
+                date:today
+            }
+        })
         await prisma.gift.upsert({
             where:{
                 giftId
@@ -207,14 +225,54 @@ export async function updateGift(
     }
 
 }
-export async function increaseLikeNum(num = 1) {
+export async function updateLikeNum(roomId:string,likeNum:number,date:string) {
   // 当日点赞数
+  const today=dayjs(date).format("YYYY-MM-DD")
+  try{
+    await prisma.live.update({
+        where:{
+            roomId_date:{
+                roomId,
+                date:today
+            }
+        },
+        data:{
+            likeNum
+        }
+    })
+  }catch(e){
+    log4js.prismaError(e)
+  }
+
 }
 export async function increaseShareNum(num = 1) {
   // 当日分享数
 }
-export async function increaseFollowNum(num = 1) {
+export async function increaseFollowNum(roomId:string,date:string) {
   // 当日关注数
+  const today=dayjs(date).format("YYYY-MM-DD HH:mm:ss")
+  try{
+    await prisma.live.upsert({
+        where:{
+            roomId_date:{
+                roomId,
+                date:today
+            }
+        },
+        update:{
+            followNum:{
+                increment:1
+            }
+        },
+        create:{
+            roomId,
+            date:today,
+            followNum:1
+        }
+    })
+  }catch(e){
+    log4js.prismaError(e)
+  }
 }
 export async function updateLiveFans(
   roomId: string,
