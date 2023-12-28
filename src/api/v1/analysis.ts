@@ -1,8 +1,9 @@
 import Router from "koa-router"
 import prisma from "../../lib/prisma"
 import dayjs from "dayjs"
+import type { Context, DefaultState } from "koa"
 
-const analysisRouter=new Router({
+const analysisRouter=new Router<DefaultState,Context>({
     prefix:"/analysis"
 })
 

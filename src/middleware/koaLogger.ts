@@ -1,15 +1,6 @@
 import { Context, Next } from "koa";
 import * as log4js from "../utils/log4js"
 
-declare module "koa"{
-    interface Context{
-        log4js:{
-            debug:(content:string)=>void,
-            info:(content:string)=>void
-            error:(content:string)=>void
-        }
-    }
-}
 export default function(){
     return async function(ctx:Context,next:Next){
         if(!ctx.log4js){

@@ -1,8 +1,9 @@
 import Router from "koa-router"
 import prisma from "../../lib/prisma"
 import { parseQuery, str2num } from "../utils"
+import type { Context, DefaultState } from "koa"
 
-const roomRouter=new Router({prefix:'/room'})
+const roomRouter=new Router<DefaultState,Context>({prefix:'/room'})
 
 roomRouter.get('/list', async (ctx, next) => {
     const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })

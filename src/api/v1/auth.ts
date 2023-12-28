@@ -1,9 +1,10 @@
+import type {DefaultState,Context} from "koa"
 import Router from "koa-router"
 import prisma from "../../lib/prisma"
 import dayjs from "dayjs"
 import { Captcha } from 'captcha.gif';
 
-const authRouter=new Router({
+const authRouter=new Router<DefaultState,Context>({
     prefix:"/auth"
 })
 
@@ -32,8 +33,11 @@ authRouter.post('/login', async (ctx,next)=>{
 })
 
 authRouter.get('/captcha',async (ctx,next)=>{
+    const {token,buffer}= captcha.generate()
+    ctx.session!.captcha=token.toLowerCase()
+    ctx.log4js.info(JSON.stringify(ctx.session))
     ctx.type='image/gif'
-    ctx.body=captcha.generate().buffer
+    ctx.body=buffer
 })
 
 export default authRouter;

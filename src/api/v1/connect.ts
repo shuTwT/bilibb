@@ -3,8 +3,9 @@ import prisma from "../../lib/prisma"
 import { closeConnect, connectPool } from "../../service/connectService"
 import { createConnect } from "../../service/connectService"
 import * as log4js from "../../utils/log4js"
+import type { Context, DefaultState } from "koa"
 
-const connectRouter=new Router({prefix:'/connect'})
+const connectRouter=new Router<DefaultState,Context>({prefix:'/connect'})
 
 connectRouter.get('/list', async (ctx, next) => {
     const params = ctx.params

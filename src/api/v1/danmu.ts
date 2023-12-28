@@ -1,9 +1,9 @@
 import Router from "koa-router"
 import prisma from "../../lib/prisma"
 import { parseQuery, str2num } from "../utils"
-import { Context, Next } from "koa"
+import type { Context, DefaultState, Next } from "koa"
 
-const danmuRouter=new Router({prefix:'/danmu'})
+const danmuRouter=new Router<DefaultState,Context>({prefix:'/danmu'})
 
 /**
  * 弹幕分页查询

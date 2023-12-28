@@ -2,8 +2,9 @@ import Router from "koa-router"
 import prisma from "../../lib/prisma"
 import { getTemplate, parseQuery, str2num } from "../utils"
 import ejs from "ejs"
+import type { Context, DefaultState } from "koa"
 
-const userRouter=new Router({prefix:'/user'})
+const userRouter=new Router<DefaultState,Context>({prefix:'/user'})
 
 /**
  * 用户分页查询

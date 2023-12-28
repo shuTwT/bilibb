@@ -21,7 +21,7 @@ const port = Number.parseInt(process.env.PORT + "");
 
 if (allowTCP) TCPServer();
 
-const app = new Koa();
+const app = new Koa<Koa.DefaultState,Koa.Context>();
 
 routing(app);
 

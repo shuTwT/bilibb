@@ -1,3 +1,4 @@
+import type{ Context, DefaultState } from "koa"
 import Router from "koa-router"
 import prisma from "../../lib/prisma"
 import {parseQuery,str2num}from "../utils"
@@ -10,8 +11,7 @@ import danmuRouter from "./danmu"
 import analysisRouter from "./analysis"
 import authRouter from "./auth"
 
-
-const v1Router = new Router({
+const v1Router = new Router<DefaultState,Context>({
     prefix: '/v1'
 })
 

@@ -1,15 +1,10 @@
 import type { Context, Next } from "koa";
 
-interface paramState{
+export interface paramState{
     page?:number
     limit?:number
 
     [key:string]:any
-}
-declare module "koa"{
-    interface Context{
-        state:paramState
-    }
 }
 
 export default function(){

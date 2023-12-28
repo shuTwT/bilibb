@@ -4,12 +4,6 @@ type RequestConfig={
     method:string
 }
 
-
-
-
-
-
-
 const request=(url:string,{method='GET'}:RequestConfig)=>{
     return fetch(url)
 }

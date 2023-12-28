@@ -2,6 +2,7 @@ import type { Server } from "socket.io";
 import * as log4js from "./utils/log4js"
 import prisma from "./lib/prisma";
 import { Options } from "@prisma/client";
+import { paramState } from "./middleware/paramMiddleware";
 
 declare global{
     
@@ -14,6 +15,20 @@ declare global{
 
     }
 } 
+
+declare module "koa"{
+    interface DefaultState{
+
+    }
+    interface DefaultContext{
+        log4js:{
+            debug:(content:string)=>void,
+            info:(content:string)=>void
+            error:(content:string)=>void
+        }
+        state:paramState
+    }
+}
 
 export interface DefaultOptions {
     roomId:string
