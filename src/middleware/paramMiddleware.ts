@@ -1,12 +1,5 @@
 import type { Context, Next } from "koa";
 
-export interface paramState{
-    page?:number
-    limit?:number
-
-    [key:string]:any
-}
-
 export default function(){
     return async function(ctx:Context,next:Next){
         const page=ctx.query.page

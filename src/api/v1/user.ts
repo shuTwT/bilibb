@@ -233,4 +233,4 @@ userRouter.get('/logs/:uid',async(ctx,next)=>{
 })
 
 
-export default userRouter
+export {userRouter}

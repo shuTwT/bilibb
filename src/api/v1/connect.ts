@@ -67,4 +67,4 @@ connectRouter.post('/remove/:roomId', async (ctx, next) => {
     }
 })
 
-export default connectRouter
+export {connectRouter}

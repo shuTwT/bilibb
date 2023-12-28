@@ -2,7 +2,7 @@ import type { Server } from "socket.io";
 import * as log4js from "./utils/log4js"
 import prisma from "./lib/prisma";
 import { Options } from "@prisma/client";
-import { paramState } from "./middleware/paramMiddleware";
+import type session from "koa-session";
 
 declare global{
     
@@ -16,17 +16,21 @@ declare global{
     }
 } 
 
+
+
 declare module "koa"{
     interface DefaultState{
-
+        page?:number
+        limit?:number
+        [key:string]:any
     }
-    interface DefaultContext{
+    interface Context {
         log4js:{
             debug:(content:string)=>void,
             info:(content:string)=>void
             error:(content:string)=>void
         }
-        state:paramState
+        session: session.Session
     }
 }
 

@@ -92,4 +92,4 @@ analysisRouter.get('/analysis',async(ctx,next)=>{
     }
 })
 
-export default analysisRouter
+export {analysisRouter}

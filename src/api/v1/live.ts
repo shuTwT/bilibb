@@ -37,4 +37,4 @@ liveRouter.get('/list', async (ctx, next) => {
     }
 })
 
-export default liveRouter
+export {liveRouter}

@@ -7,9 +7,10 @@ let ctx=await context({
     format: "esm",
     platform: 'node',
     bundle: true,
+    splitting:true,
     outdir: 'dist',
     plugins: [],
-    external: [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {}),...Object.keys(externals||{})],
+    external: [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {}),...externals],
 
 })
 await ctx.watch()

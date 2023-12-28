@@ -1,3 +1,4 @@
-export default {
-    "debug":""
-}
+export default [
+    "debug",
+    "safe-buffer"
+]

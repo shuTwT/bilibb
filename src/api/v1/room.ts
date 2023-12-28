@@ -24,4 +24,4 @@ roomRouter.get('/list', async (ctx, next) => {
  
 })
 
-export default roomRouter
+export {roomRouter}

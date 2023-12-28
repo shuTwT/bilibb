@@ -86,4 +86,4 @@ danmuRouter.get('/list/:roomId', async (ctx, next) => {
     }
 })
 
-export default danmuRouter
+export {danmuRouter}

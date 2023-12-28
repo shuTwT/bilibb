@@ -9,8 +9,8 @@ import Koa from "koa";
 import * as dotenv from "dotenv";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import routing from "./api/routes";
-import { TCPServer } from "./service/connectService";
+const {default :routing} = await import( "./api/routes");
+const { TCPServer } =await import("./service/connectService");
 import { loadEnv } from "./env";
 import * as log4js from "./utils/log4js"
 

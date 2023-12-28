@@ -28,13 +28,13 @@
 							<div class="top-desc">
 								以 超 乎 想 象 的 速 度 构 建 内 部 工 具
 							</div>
-							<div style="margin-top: 30px;">
+							<form class="layui-form" style="margin-top: 30px;">
 								<div class="layui-form-item">
 									<div class="layui-input-wrap">
 										<div class="layui-input-prefix">
 											<i class="layui-icon layui-icon-username"></i>
 										</div>
-										<input lay-verify="required" placeholder="账户" autocomplete="off"
+										<input name="username" lay-verify="required" placeholder="账户" autocomplete="off"
 											class="layui-input">
 									</div>
 								</div>
@@ -43,7 +43,7 @@
 										<div class="layui-input-prefix">
 											<i class="layui-icon layui-icon-password"></i>
 										</div>
-										<input type="password" name="confirmPassword" value=""
+										<input name="password" type="password" name="confirmPassword" value=""
 											lay-verify="required|confirmPassword" placeholder="密码" autocomplete="off"
 											class="layui-input" lay-affix="eye">
 									</div>
@@ -54,7 +54,7 @@
 											<div class="layui-input-prefix">
 												<i class="layui-icon layui-icon-auz"></i>
 											</div>
-											<input lay-verify="required" placeholder="验证码" autocomplete="off"
+											<input name="captcha" lay-verify="required" placeholder="验证码" autocomplete="off"
 												class="layui-input">
 										</div>
 									</div>
@@ -65,7 +65,7 @@
 								<div class="layui-form-item">
 									<div class="remember-passsword">
 										<div class="remember-cehcked">
-											<input type="checkbox" name="like1[write]" lay-skin="primary" title="自动登录">
+											<input type="checkbox" name="like1[write]" lay-skin="primary" title="记住我">
 										</div>
 									</div>
 								</div>
@@ -78,7 +78,7 @@
 									</div>
 									<div class="greenText">注册账号</div>
 								</div>
-							</div>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -98,10 +98,12 @@
 			form.on('submit(login)', function (data) {
 
 				/// 验证
-
                 /// 登录
                 fetch('/api/v1/auth/login',{
                     method:'POST',
+                    headers:{
+                            'Content-Type':'application/json'
+                    },
                     body:JSON.stringify(data.field)
                 }).then(res=>res.json())
                 .then(res=>{
@@ -117,7 +119,7 @@
                             }
 				        })
                     }else{
-                        popup.failure("登录失败"+res.msg);
+                        popup.failure("登录失败:"+res.msg);
                     }
                     
                 }).catch(()=>{

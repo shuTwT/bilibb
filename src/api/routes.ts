@@ -4,8 +4,8 @@ import koaStatic from "../middleware/staticMiddleware";
 import bodyParser from "koa-bodyparser";
 import session from "koa-session";
 import koaLogger from "../middleware/koaLogger";
-import v1Router from "./v1";
-import viewRouter from "../view";
+const { default:v1Router} = await import("./v1");
+const { default:viewRouter} =await import ("../view");
 import Router from "koa-router";
 import cookiesMiddleware from "../middleware/cookiesMiddleware";
 
