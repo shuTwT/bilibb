@@ -8,12 +8,14 @@ import liveRouter from "./live"
 import userRouter from "./user"
 import danmuRouter from "./danmu"
 import analysisRouter from "./analysis"
+import authRouter from "./auth"
 
 
 const v1Router = new Router({
     prefix: '/v1'
 })
 
+v1Router.use(authRouter.routes())
 v1Router.use(roomRouter.routes())
 v1Router.use(optionRouter.routes())
 v1Router.use(connectRouter.routes())

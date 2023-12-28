@@ -12,12 +12,12 @@ declare module "koa"{
 }
 export default function(){
     return async function(ctx:Context,next:Next){
-        const start=new Date().getTime();
-        await next();
-        const ms = new Date().getTime() - start;
         if(!ctx.log4js){
             ctx.log4js=log4js
         }
+        const start=new Date().getTime();
+        await next();
+        const ms = new Date().getTime() - start;
         log4js.info(`==>${ctx.path} use ${ms}ms.`)
     }
 }
