@@ -27,52 +27,24 @@ routing(app);
 
 const HTTPServer = createServer(app.callback());
 
-const io = new Server(HTTPServer, {
-  /** options */
-});
+// const io = new Server(HTTPServer, {
+//   /** options */
+// });
 
-io.on("connection", (socket) => {
-    log4js.info(`⚡: ${socket.id} 用户已连接!`)
-    socket.emit('msg',
-        {
-            type:"hello",
-            msg:"Hello World"
-        }
-    )
-    const num={value:0}
-    const timer=setInterval(()=>{
-        num.value++
-        const rnd=Math.floor(Math.random()*2)
-        if(rnd==1){
-            socket.emit('msg',
-            {
-                type:"entry",
-                user:{
-                    avatar:"/avatar.webp",
-                    username:`测试用户${num.value}`
-                },
-                msg:`欢迎测试用户${num.value}进入直播间`
-                
-            })
-        }else {
-            socket.emit('msg',
-            {
-                type:"danmu",
-                user:{
-                    avatar:"/avatar.webp",
-                    username:`测试用户${num.value}`
-                },
-                msg:`测试消息${num.value}`
-                
-            })
-        }
-    },2000)
-    socket.on('disconnect', () => {
-        log4js.info('🔥: 一个用户已断开连接');
-        clearInterval(timer)
-    });
-});
-globalThis.io=io
+// io.on("connection", (socket) => {
+//     log4js.info(`⚡: ${socket.id} 用户已连接!`)
+//     socket.emit('msg',
+//         {
+//             type:"hello",
+//             msg:"Hello World"
+//         }
+//     )
+//     socket.on('disconnect', () => {
+//         log4js.info('🔥: 一个用户已断开连接');
+        
+//     });
+// });
+// globalThis.io=io
 HTTPServer.listen(port, () =>
   log4js.info(`started server on http://localhost:${port}`)
 );
