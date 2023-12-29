@@ -13,6 +13,12 @@ viewRouter.get('/analysis',async(ctx,next)=>{
     ctx.body = ejs.render(getTemplate(template, "ejs"));
 })
 
+viewRouter.get("/profile",async(ctx,next)=>{
+    const template='admin/profile'
+    ctx.body=ejs.render(getTemplate(template,'ejs'))
+})
+
+
 viewRouter.get("/room/my",async (ctx,next)=>{
     let template='my-live-info'
     let roomId=30743142

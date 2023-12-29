@@ -1,9 +1,7 @@
 import type { Context, Next } from "koa";
 import jwt from "jsonwebtoken"
 
-const whiteList=["/login","/static"]
-
-export default function(){
+export default function(whiteList:string[]=[]){
     return async function(ctx:Context,next:Next){
         
         // for (const item of whiteList) {

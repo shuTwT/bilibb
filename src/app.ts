@@ -39,7 +39,6 @@ app.use(session(app));
 app.use(cookiesMiddleware());
 app.use(koaStatic(path.resolve(process.cwd(), "static")));
 app.use(koaStatic(path.resolve(process.cwd(), "public")));
-app.use(jwtMiddleware())
 routes(app)
 
 const HTTPServer = createServer(app.callback());
