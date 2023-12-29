@@ -9,7 +9,8 @@ const adminRouter = new Router<DefaultState, Context>({
     prefix:"/admin"
 });
 
-adminRouter.use(jwtMiddleware())
+adminRouter.use(jwtMiddleware(
+    ["/admin"]))
 
 adminRouter.use(viewRouter.routes())
 

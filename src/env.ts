@@ -1,6 +1,6 @@
 import type { Server } from "socket.io";
 import * as log4js from "./utils/log4js.js"
-import prisma from "./lib/prisma.js";
+import prisma from "./utils/prisma.js";
 import { Options } from "@prisma/client";
 import type session from "koa-session";
 

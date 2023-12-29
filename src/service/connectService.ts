@@ -1,5 +1,5 @@
 import { LiveTCP } from "bilibili-live-ws";
-import prisma from "../lib/prisma.js";
+import prisma from "../utils/prisma.js";
 import { getDanmuConf, getRoomid, getRoomInfo } from "../utils.js";
 import { resolver } from "../resolver.js";
 import type { Msg } from "../resolver.js";

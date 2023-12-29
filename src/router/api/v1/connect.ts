@@ -1,5 +1,5 @@
 import Router from "koa-router"
-import prisma from "../../../lib/prisma.js"
+import prisma from "../../../utils/prisma.js"
 import { closeConnect, connectPool } from "../../../service/connectService.js"
 import { createConnect } from "../../../service/connectService.js"
 import * as log4js from "../../../utils/log4js.js"

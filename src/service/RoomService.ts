@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import prisma from "../lib/prisma.js";
+import prisma from "../utils/prisma.js";
 import * as log4js from "../utils/log4js.js"
 import { Prisma } from "@prisma/client";
 

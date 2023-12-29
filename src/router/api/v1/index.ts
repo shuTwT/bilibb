@@ -1,6 +1,6 @@
 import type { Context, DefaultState } from "koa";
 import Router from "koa-router";
-import prisma from "../../../lib/prisma.js";
+import prisma from "../../../utils/prisma.js";
 import { parseQuery, str2num } from "../utils.js";
 const { roomRouter } = await import("./room.js");
 const { optionRouter } = await import("./options.js");

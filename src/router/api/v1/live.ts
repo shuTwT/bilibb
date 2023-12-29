@@ -1,5 +1,5 @@
 import Router from "koa-router"
-import prisma from "../../../lib/prisma.js"
+import prisma from "../../../utils/prisma.js"
 import { parseQuery, str2num } from "../utils.js"
 import type { Context, DefaultState } from "koa"
 

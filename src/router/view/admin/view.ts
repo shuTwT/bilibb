@@ -1,5 +1,5 @@
 import type { Context, DefaultState } from "koa";
-import prisma from "../../../lib/prisma.js";
+import prisma from "../../../utils/prisma.js";
 import ejs from "ejs";
 import Router from "koa-router";
 import { str2num, parseQuery, getTemplate } from "../../api/utils.js";
