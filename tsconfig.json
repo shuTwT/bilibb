@@ -21,6 +21,6 @@
       "allowImportingTsExtensions": true
     },
     "exclude": ["dist", "node_modules","bin"],
-    "include": ["src/**/*.ts","src/**/*.vue"]
+    "include": ["lib/**/*.ts"]
   }
   

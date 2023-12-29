@@ -14,8 +14,8 @@ RUN npm install
 
 RUN npx prisma generate
 
-COPY src /app
+COPY lib /app
 
 EXPOSE 3000
 
-CMD ["node","./dist/app.js"]
+CMD ["ts-node","./lib/app.ts"]
