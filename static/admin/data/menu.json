@@ -11,7 +11,7 @@
 				"icon": "layui-icon layui-icon-console",
 				"type": 1,
 				"openType": "_component",
-				"href": "view/analysis/index.html"
+				"href": "admin/view/analysis/index.html"
 			},
 			{
 				"id": "11",
@@ -19,7 +19,7 @@
 				"icon": "layui-icon layui-icon-console",
 				"type": 1,
 				"openType": "_component",
-				"href": "view/console/index.html"
+				"href": "admin/view/console/index.html"
 			},
             {
 				"id": "12",
@@ -27,7 +27,7 @@
 				"icon": "layui-icon layui-icon-console",
 				"type": 1,
 				"openType": "_component",
-				"href": "view/manage/connect.html"
+				"href": "admin/view/manage/connect.html"
 			},
             {
 				"id": "13",
@@ -35,7 +35,7 @@
 				"icon": "layui-icon layui-icon-console",
 				"type": 1,
 				"openType": "_component",
-				"href": "view/manage/room.html"
+				"href": "admin/view/manage/room.html"
 			},
             {
 				"id": "14",
@@ -43,7 +43,7 @@
 				"icon": "layui-icon layui-icon-console",
 				"type": 1,
 				"openType": "_component",
-				"href": "view/manage/live.html"
+				"href": "admin/view/manage/live.html"
 			},
             {
 				"id": "15",
@@ -51,7 +51,7 @@
 				"icon": "layui-icon layui-icon-console",
 				"type": 1,
 				"openType": "_component",
-				"href": "view/manage/users.html"
+				"href": "admin/view/manage/users.html"
 			},
 			{
 				"id": "16",
@@ -59,7 +59,7 @@
 				"icon": "layui-icon layui-icon-console",
 				"type": 1,
 				"openType": "_component",
-				"href": "view/manage/setting.html"
+				"href": "admin/view/manage/setting.html"
 			}
 		]
 	},
@@ -75,7 +75,7 @@
 				"icon": "layui-icon layui-icon-face-smile",
 				"type": 1,
 				"openType": "_component",
-				"href": "/view/room/my"
+				"href": "admin/view/room/my"
 			}
 		]
 	},
@@ -91,7 +91,7 @@
 				"icon": "layui-icon layui-icon-face-smile",
 				"type": 1,
 				"openType": "_component",
-				"href": "view/component/grid.html"
+				"href": "admin/view/component/grid.html"
 			},
 			{
 				"id": 24,
@@ -99,7 +99,7 @@
 				"icon": "layui-icon layui-icon-face-smile",
 				"type": 1,
 				"openType": "_component",
-				"href": "view/component/toast.html"
+				"href": "admin/view/component/toast.html"
 			},
 			{
 				"id": 25,
@@ -107,7 +107,7 @@
 				"icon": "layui-icon layui-icon-face-smile",
 				"type": 1,
 				"openType": "_component",
-				"href": "view/component/nprogress.html"
+				"href": "admin/view/component/nprogress.html"
 			}
 		]
 	},
@@ -124,7 +124,7 @@
 				"icon": "layui-icon layui-icon-face-smile",
 				"type": 1,
 				"openType": "_component",
-				"href": "view/result/success.html"
+				"href": "admin/view/result/success.html"
 			},
 			{
 				"id": "failure",
@@ -132,7 +132,7 @@
 				"icon": "layui-icon layui-icon-face-cry",
 				"type": 1,
 				"openType": "_component",
-				"href": "view/result/error.html"
+				"href": "admin/view/result/error.html"
 			}
 		]
 	},
@@ -149,7 +149,7 @@
 				"icon": "layui-icon layui-icon-face-smile",
 				"type": 1,
 				"openType": "_component",
-				"href": "view/exception/403.html"
+				"href": "admin/view/exception/403.html"
 			},
 			{
 				"id": "404",
@@ -157,7 +157,7 @@
 				"icon": "layui-icon layui-icon-face-cry",
 				"type": 1,
 				"openType": "_component",
-				"href": "view/exception/404.html"
+				"href": "admin/view/exception/404.html"
 			},
 			{
 				"id": "500",
@@ -165,7 +165,7 @@
 				"icon": "layui-icon layui-icon-face-cry",
 				"type": 1,
 				"openType": "_component",
-				"href": "view/exception/500.html"
+				"href": "admin/view/exception/500.html"
 			}
 		]
 	}

@@ -14,18 +14,13 @@
       "isolatedModules": true,
       "lib": ["ES6","DOM","DOM.Iterable"],
       "types": ["node"],
-      "noEmit": false,
+      "noEmit": true,
       "experimentalDecorators": true,
       "emitDecoratorMetadata": true,
       "outDir": "dist",
+      "allowImportingTsExtensions": true
     },
     "exclude": ["dist", "node_modules","bin"],
-    "ts-node": {
-        "experimentalSpecifierResolution": "node",
-        "pretty": true,
-        "transpileOnly": true,
-        "esm": true
-    },
     "include": ["src/**/*.ts","src/**/*.vue"]
   }
   

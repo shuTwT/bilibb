@@ -5,12 +5,14 @@
         "node_modules/",
         "dist/"
     ],
-    "watch":["src/"],
+    "watch":[
+        "src/"
+    ],
     "execMap":{
-        "ts":"ts-node-esm"
+        "ts":"tsx"
     },
     "env":{
         "NODE_ENV":"development"
     },
-    "ext":"js,json,ts,vue"
+    "ext":"ts"
 }
