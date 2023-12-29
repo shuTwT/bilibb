@@ -8,6 +8,11 @@ const viewRouter = new Router<DefaultState, Context>({
     prefix:"/view"
 });
 
+viewRouter.get('/analysis',async(ctx,next)=>{
+    const template='admin/analysis'
+    ctx.body = ejs.render(getTemplate(template, "ejs"));
+})
+
 viewRouter.get("/room/my",async (ctx,next)=>{
     let template='my-live-info'
     let roomId=30743142
@@ -67,7 +72,7 @@ viewRouter.get('/user/info/:uid/:roomId', async (ctx, next) => {
     });
 })
 
-viewRouter.get('/analysis/index.html',async(ctx,next)=>{
+viewRouter.get('/analysis',async(ctx,next)=>{
     const template='analysis'
 
     const roomId=await prisma.options.findUnique({

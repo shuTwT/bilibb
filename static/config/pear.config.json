@@ -21,7 +21,7 @@
 		"max": "30",
 		"index": {
 			"id": "10",
-			"href": "view/console/console1.html",
+			"href": "admin/view/console/console1.html",
 			"title": "首页"
 		}
 	},

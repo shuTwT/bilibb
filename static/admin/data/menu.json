@@ -11,7 +11,7 @@
 				"icon": "layui-icon layui-icon-console",
 				"type": 1,
 				"openType": "_component",
-				"href": "admin/view/analysis/index.html"
+				"href": "admin/view/analysis"
 			},
 			{
 				"id": "11",
@@ -19,7 +19,7 @@
 				"icon": "layui-icon layui-icon-console",
 				"type": 1,
 				"openType": "_component",
-				"href": "admin/view/console/index.html"
+				"href": "admin/view/console"
 			},
             {
 				"id": "12",
