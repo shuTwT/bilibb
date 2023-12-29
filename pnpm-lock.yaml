@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@napi-rs/cli':
+    specifier: ^2.17.0
+    version: 2.17.0
   '@prisma/client':
     specifier: ^5.7.1
     version: 5.7.1(prisma@5.7.1)
@@ -309,6 +312,12 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@napi-rs/cli@2.17.0:
+    resolution: {integrity: sha512-/M7MZ3dIqyFs6c0Bxtk+SOobPq6vYWYqBLYCOKx3dYWqoyJNBEgmDKUTrxIZu9eHw9Ill3WyEoHPqS9P99cd8A==}
+    engines: {node: '>= 10'}
+    hasBin: true
+    dev: false
 
   /@prisma/client@5.7.1(prisma@5.7.1):
     resolution: {integrity: sha512-TUSa4nUcC4nf/e7X3jyO1pEd6XcI/TLRCA0KjkA46RDIpxUaRsBYEOqITwXRW2c0bMFyKcCRXrH4f7h4q9oOlg==}
