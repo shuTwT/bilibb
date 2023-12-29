@@ -1,6 +1,6 @@
 import Router from "koa-router"
-import prisma from "../../lib/prisma"
-import { parseQuery, str2num } from "../utils"
+import prisma from "../../../lib/prisma.js"
+import { parseQuery, str2num } from "../utils.js"
 import type { Context, DefaultState } from "koa"
 
 const roomRouter=new Router<DefaultState,Context>({prefix:'/room'})

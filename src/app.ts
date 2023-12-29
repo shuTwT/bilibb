@@ -7,23 +7,39 @@
  */
 import Koa from "koa";
 import * as dotenv from "dotenv";
+import path from "node:path";
+import koaStatic from "./middleware/staticMiddleware.js";
+import bodyParser from "koa-bodyparser";
+import session from "koa-session";
+import koaLogger from "./middleware/koaLogger.js";
+import cookiesMiddleware from "./middleware/cookiesMiddleware.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
-const {default :routing} = await import( "./api/routes");
-const { TCPServer } =await import("./service/connectService");
-import { loadEnv } from "./env";
-import * as log4js from "./utils/log4js"
+const { routes } = await import( "./router/routes.js");
+const { TCPServer } =await import("./service/connectService.js");
+import { loadEnv } from "./env.js";
+import * as log4js from "./utils/log4js.js"
 
 dotenv.config();
+
 await loadEnv()
+
 const allowTCP = process.env.ALLOW_TCP == "true" ? true : false;
-const port = Number.parseInt(process.env.PORT + "");
+const port = Number.parseInt(process.env.PORT ||'3000');
 
 if (allowTCP) TCPServer();
 
 const app = new Koa<Koa.DefaultState,Koa.Context>();
 
-routing(app);
+app.keys = ["signedKey"];
+app.use(bodyParser());
+app.use(koaLogger());
+app.use(session(app));
+//app.use(jwtMiddleware())
+app.use(cookiesMiddleware());
+app.use(koaStatic(path.resolve(process.cwd(), "static")));
+app.use(koaStatic(path.resolve(process.cwd(), "public")));
+routes(app)
 
 const HTTPServer = createServer(app.callback());
 

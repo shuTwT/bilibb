@@ -1,5 +1,5 @@
 import Router from "koa-router"
-import prisma from "../../lib/prisma"
+import prisma from "../../../lib/prisma.js"
 import dayjs from "dayjs"
 import type { Context, DefaultState } from "koa"
 

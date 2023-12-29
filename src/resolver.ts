@@ -1,7 +1,7 @@
 import dayjs from "dayjs"
-import * as log4js from "./utils/log4js"
-const userService =await import ("./service/UserService")
-const roomService = await import("./service/RoomService")
+import * as log4js from "./utils/log4js.js"
+const userService =await import ("./service/UserService.js")
+const roomService = await import("./service/RoomService.js")
 
 type FansMedal = {
     anchor_roomid: number,

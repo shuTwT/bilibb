@@ -1,6 +1,6 @@
 import Router from "koa-router"
-import prisma from "../../lib/prisma"
-import { parseQuery, str2num } from "../utils"
+import prisma from "../../../lib/prisma.js"
+import { parseQuery, str2num } from "../utils.js"
 import type { Context, DefaultState, Next } from "koa"
 
 const danmuRouter=new Router<DefaultState,Context>({prefix:'/danmu'})

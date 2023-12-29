@@ -2,7 +2,7 @@ import type {DefaultState,Context} from "koa"
 import Router from "koa-router"
 import dayjs from "dayjs"
 import jwt from "jsonwebtoken"
-import prisma from "../../lib/prisma"
+import prisma from "../../../../lib/prisma.js"
 import { Captcha } from 'captcha.gif';
 
 const authRouter=new Router<DefaultState,Context>({

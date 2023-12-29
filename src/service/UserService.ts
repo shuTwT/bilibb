@@ -1,5 +1,5 @@
-import prisma from "../lib/prisma";
-import * as log4js from "../utils/log4js"
+import prisma from "../lib/prisma.js";
+import * as log4js from "../utils/log4js.js"
 
 export async function existUser(uid: string) {
     try{

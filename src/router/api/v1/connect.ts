@@ -1,8 +1,8 @@
 import Router from "koa-router"
-import prisma from "../../lib/prisma"
-import { closeConnect, connectPool } from "../../service/connectService"
-import { createConnect } from "../../service/connectService"
-import * as log4js from "../../utils/log4js"
+import prisma from "../../../lib/prisma.js"
+import { closeConnect, connectPool } from "../../../service/connectService.js"
+import { createConnect } from "../../../service/connectService.js"
+import * as log4js from "../../../utils/log4js.js"
 import type { Context, DefaultState } from "koa"
 
 const connectRouter=new Router<DefaultState,Context>({prefix:'/connect'})

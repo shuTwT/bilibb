@@ -1,8 +1,8 @@
 import Router from "koa-router";
-import prisma from "../lib/prisma";
+import prisma from "../../lib/prisma.js";
 import ejs from "ejs";
-import { str2num, parseQuery, getTemplate } from "../api/utils";
-import * as log4js from "../utils/log4js"
+import { str2num, parseQuery, getTemplate } from "../api/utils.js";
+import * as log4js from "../../utils/log4js.js"
 const viewRouter = new Router({
     prefix: "/view",
 });

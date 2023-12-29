@@ -84,62 +84,6 @@
         </div>
     </div>
     
-    <script src="https://cdn.bootcdn.net/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
-    <script>
-        localStorage.debug = '*'
-        const danmuList = function () {
-            return {
-                dataList:[],
-                init () {
-                    const socket = io()
-                    socket.on("connect", () => {
-                        console.log('连接成功')
-                    })
-                    socket.on("msg", (data) => {
-                        console.log(data)
-                        if (data.type == 'danmu'||data.type=='entry') {
-                            if(this.dataList.length>=40){
-                                this.dataList.shift()
-                            }
-                            this.dataList.push(data)
-                        }
-                    })
-                }
-            }
-        }
-
-        window.onload = roll(25);
-
-        function roll(t) {
-            var ul1 = document.getElementById("danmu-list");
-            var ulbox = document.getElementById("app");
-            ulbox.scrollTop = 0; // 开始无滚动时设为0
-            var timer = setInterval(rollStart, t); // 设置定时器，参数t用在这为间隔时间（单位毫秒），参数t越小，滚动速度越快
-            // 鼠标移入div时暂停滚动
-            ulbox.onmouseover = function () {
-                clearInterval(timer);
-            }
-            // 鼠标移出div后继续滚动
-            ulbox.onmouseout = function () {
-                timer = setInterval(rollStart, t);
-            }
-        }
-
-        // 开始滚动函数
-        function rollStart() {
-            // 上面声明的DOM对象为局部对象需要再次声明
-            var ul1 = document.getElementById("danmu-list");
-            var ulbox = document.getElementById("app");
-            // 正常滚动不断给scrollTop的值+1,当滚动高度大于列表内容高度时恢复为0
-            if (ulbox.scrollTop >= ul1.scrollHeight) {
-                //ulbox.scrollTop = 0;
-            } else {
-                ulbox.scrollTop++;
-            }
-        }
-
-    </script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/alpinejs/3.13.0/cdn.min.js" defer></script>
 </body>
 
 </html>

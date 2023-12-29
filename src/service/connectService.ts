@@ -1,9 +1,9 @@
 import { LiveTCP } from "bilibili-live-ws";
-import prisma from "../lib/prisma";
-import { getDanmuConf, getRoomid, getRoomInfo } from "../utils";
-import { resolver } from "../resolver";
-import type { Msg } from "../resolver";
-import * as log4js from "../utils/log4js";
+import prisma from "../lib/prisma.js";
+import { getDanmuConf, getRoomid, getRoomInfo } from "../utils.js";
+import { resolver } from "../resolver.js";
+import type { Msg } from "../resolver.js";
+import * as log4js from "../utils/log4js.js";
 
 export const connectPool = new Map< number, LiveTCP>();
 
