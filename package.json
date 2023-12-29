@@ -4,11 +4,8 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "start": "node dist/app.js",
-    "watch:build": "node --no-warnings bin/watch.js ",
-    "watch:server": "nodemon dist/app.js ",
-    "build": "rimraf dist&&node --no-warnings bin/build.js",
-    "dev": "nodemon src/app.ts"
+    "start": "tsx lib/app.ts",
+    "dev": "nodemon lib/app.ts"
   },
   "keywords": [],
   "author": "",
@@ -24,7 +21,6 @@
     "@types/md5": "^2.3.5",
     "@types/node": "^20.10.5",
     "@types/ws": "^8.5.10",
-    "esbuild": "^0.19.10",
     "nodemon": "^3.0.2",
     "prisma": "^5.7.1",
     "tsx": "^4.7.0",
