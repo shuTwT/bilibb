@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仿b站</title>
+</head>
+<body>
+    <div id="app"><%-html%></div>
+    <script type="module">
+        import {createSSRApp} from "https://cdn.bootcdn.net/ajax/libs/vue/3.3.4/vue.esm-browser.js"
+        const app=createSSRApp({
+            data:()=>({count:1}),
+            template:`<button @click="count++">{{count}}</button>`
+        })
+        app.mount('#app')
+    </script>
+</body>
+</html>

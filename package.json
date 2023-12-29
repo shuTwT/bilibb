@@ -44,12 +44,13 @@
     "md5": "^2.3.0",
     "nanoid": "^5.0.4",
     "node-fetch": "^3.3.2",
-    "socket.io": "4.7.2"
+    "socket.io": "4.7.2",
+    "vue": "^3.4.0"
   },
   "engines": {
     "node": ">=20.0.0"
   },
-  "napi":{
-    "name":"native"
+  "napi": {
+    "name": "native"
   }
 }

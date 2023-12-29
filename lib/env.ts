@@ -3,11 +3,11 @@ import * as log4js from "./utils/log4js.js"
 import prisma from "./utils/prisma.js";
 import { Options } from "@prisma/client";
 import type session from "koa-session";
-import { createRequire } from "node:module";
+// import { createRequire } from "node:module";
 
-const require=createRequire(import.meta.url)
-const native= require('../native') 
-global.native=native
+// const require=createRequire(import.meta.url)
+// const native= require('../native') 
+// global.native=native
 //const nati=require('')
 declare global{
     
@@ -21,6 +21,7 @@ declare global{
 
     }
 } 
+
 
 
 
