@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "tsx lib/app.ts",
-    "dev": "nodemon lib/app.ts"
+    "dev": "tsx watch --ignore ./native/ lib/app.ts"
   },
   "keywords": [],
   "author": "",

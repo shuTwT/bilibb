@@ -1,0 +1,279 @@
+var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
+if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; return this; } }
+{
+  let window = _____WB$wombat$assign$function_____("window");
+  let self = _____WB$wombat$assign$function_____("self");
+  let document = _____WB$wombat$assign$function_____("document");
+  let location = _____WB$wombat$assign$function_____("location");
+  let top = _____WB$wombat$assign$function_____("top");
+  let parent = _____WB$wombat$assign$function_____("parent");
+  let frames = _____WB$wombat$assign$function_____("frames");
+  let opener = _____WB$wombat$assign$function_____("opener");
+
+
+var isIE=navigator.appName.toLowerCase().indexOf('internet explorer')+1;var isMac=navigator.appVersion.toLowerCase().indexOf('mac')+1;function writeDebug(msg){var o=document.getElementById('debugContainer');if(!o)return false;var d=document.createElement('div');d.innerHTML=msg;o.appendChild(d);return false;};function createRequestObj(){try{r=new XMLHttpRequest();}catch(trymicrosoft){try{r=new ActiveXObject("Msxml2.XMLHTTP");}catch(othermicrosoft){try{r=new ActiveXObject("Microsoft.XMLHTTP");}catch(failed){r=false;}}}
+if(!r)
+return false;return r;};function ajaxCallback(targetFile,extraParam,targetObj)
+{if(extraParam==undefined)extraParam="";req=createRequestObj();if(!req)alert("Ajax initalize failure.");req.open("GET",targetFile+"?rndkey="+Math.random()+(extraParam?"&"+extraParam:""),true);req.onreadystatechange=function(){if(this.readyState==4&&this.status==200){targetObj(this.responseText);}}
+req.send(null);return false;};function ajaxOverDomain(targetFile,extraParam)
+{if(extraParam==undefined)extraParam="";scrobj=document.createElement('script');scrobj.language="JavaScript";scrobj.type="text/javascript";scrobj.src=targetFile+"?rndkey="+Math.random()+(extraParam?"&"+extraParam:"");document.body.appendChild(scrobj);return false;};function ajaxCallback_NORAND(targetFile,extraParam,targetObj)
+{if(extraParam==undefined)extraParam="";req=createRequestObj();if(!req)alert("Ajax initalize failure.");req.open("GET",targetFile+(extraParam?"?"+extraParam:""),true);req.onreadystatechange=function(){if(this.readyState==4&&this.status==200){targetObj(this.responseText);}}
+req.send(null);return false;};function __GetCookie(cookieName)
+{var theCookie=""+document.cookie;var ind=theCookie.indexOf(cookieName);if(ind==-1||cookieName=="")
+return"";var ind1=theCookie.indexOf(';',ind);if(ind1==-1)
+ind1=theCookie.length;return unescape(theCookie.substring(ind+cookieName.length+1,ind1));};function __SetCookie(name,value){var Days=365;var exp=new Date();exp.setTime(exp.getTime()+Days*24*60*60*1000);document.cookie=name+"="+escape(value)+";expires="+exp.toGMTString()+"; path=/; domain=.bilibili.tv";};function ChatGetSettings(key)
+{if(typeof(localStorage)!="undefined")
+{return localStorage.getItem(key)}else
+{return __GetCookie(key);}}
+function ChatSaveSettings(key,val)
+{if(typeof(localStorage)!="undefined")
+{return localStorage.setItem(key,val)}else
+{return __SetCookie(key,val);}}
+function TimeStampToPlayTime(time)
+{var fc=(Math.floor(time/60)%60).toString();var cc=Math.floor(time%60).toString();return(fc.length>1?fc:"0"+fc)+":"+(cc.length>1?cc:"0"+cc);}
+Date.prototype.format=function(mask){var d=this;var zeroize=function(value,length){if(!length)length=2;value=String(value);for(var i=0,zeros='';i<(length-value.length);i++){zeros+='0';}
+return zeros+value;};return mask.replace(/"[^"]*"|'[^']*'|\b(?:d{1,4}|m{1,4}|yy(?:yy)?|([hHMstT])\1?|[lLZ])\b/g,function($0){switch($0){case'd':return d.getDate();case'dd':return zeroize(d.getDate());case'ddd':return['Sun','Mon','Tue','Wed','Thr','Fri','Sat'][d.getDay()];case'dddd':return['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][d.getDay()];case'M':return d.getMonth()+1;case'MM':return zeroize(d.getMonth()+1);case'MMM':return['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()];case'MMMM':return['January','February','March','April','May','June','July','August','September','October','November','December'][d.getMonth()];case'yy':return String(d.getFullYear()).substr(2);case'yyyy':return d.getFullYear();case'h':return d.getHours()%12||12;case'hh':return zeroize(d.getHours()%12||12);case'H':return d.getHours();case'HH':return zeroize(d.getHours());case'm':return d.getMinutes();case'mm':return zeroize(d.getMinutes());case's':return d.getSeconds();case'ss':return zeroize(d.getSeconds());case'l':return zeroize(d.getMilliseconds(),3);case'L':var m=d.getMilliseconds();if(m>99)m=Math.round(m/10);return zeroize(m);case'tt':return d.getHours()<12?'am':'pm';case'TT':return d.getHours()<12?'AM':'PM';case'Z':return d.toUTCString().match(/[A-Z]+$/);default:return $0.substr(1,$0.length-2);}});};if(!window.console)
+{window.console={log:function(data){}};}
+function chatRoomClass(){};chatRoomClass.prototype={chatRoomNum:100,socket:null,controller:null,Online:0,currentChatRoom:1,chatRoomInfo:[],SessionFlushInterval:[],SessionBtnContainer:null,chatBoxDOM:null,chatLogDOM:undefined,chatRoomList:undefined,status:undefined,sendTo:0,sendToUser:undefined,submitObject:undefined,soundManager:null,soundOn:true,recv_privmsg:true,autoHiddenPlayer:true,receiveBroadcastOnClose:false,CHAT_SERVER:"chat.bilibili.tv",_tmp_textObj:null,displayCount:100,JSMode:false,ws:null,onconnect:null,chatRoomNameList:[{index:1,name:"大厅",subindex:[]},{index:2,name:"动画",subindex:[24,25,26,27]},{index:3,name:"音乐",subindex:[28,29,30,31]},{index:4,name:"游戏",subindex:[16,17,18,19]},{index:5,name:"娱乐",subindex:[20,21,22,23]},{index:11,name:"专辑",subindex:[15,32]},{index:13,name:"新番",subindex:[33,34]}]};var reconnectCount=0;var reconnection;chatRoomClass.prototype.initws=function()
+{this.JSMode=true;self=this;if("WebSocket"in window)
+{if(this.ws!=null)
+{self.chatlog('',0,"[信息] 连接已存在...正在中断重新连接");this.ws.close();}
+resetConnection=true;this.ws=new WebSocket("ws://"+chatRoom.CHAT_SERVER+":88/"+this.currentChatRoom);this.status.innerHTML="WS连接中...";var self=this;this.ws.onopen=function(){clearInterval(reconnection);self.status.innerHTML='已连接.';resetConnection=false;$("#submit_msg")[0].disabled=false;if(self.onconnect!=null)self.onconnect();};this.ws.onclose=function(){self.status.innerHTML='已断开.';if(!resetConnection)
+self.chatlog('',0,"[信息] 与服务器连接中断...正在重新连接 重试次数: "+reconnectCount++);if(reconnectCount>30)
+{reconnection=setInterval(function(){clearInterval(reconnection);self.initws();},30000);}else
+{reconnection=setInterval(function(){clearInterval(reconnection);self.initws();},1000);}};this.ws.onerror=function()
+{self.status.innerHTML='错误.';self.chatlog('',0,"[信息] 与服务器连接错误!");var reconnection=setInterval(function(){clearInterval(reconnection);self.initws();},1000);};this.ws.onmessage=function(msg){msgdata=msg.data.replace(/[\x5C]{2}/g,"\x5C");if(msg.data=="REST")
+{self.initws();}else
+{eval(msgdata);}};}else
+{this.chatlog('','SYSTEM','您的浏览器不支持Flash和WebSocket，无法使用本功能');}};chatRoomClass.prototype.chatlog=function(sessid,chatid,msg,postdate)
+{omsg=msg;if(typeof(msg)=="undefined")
+{msg=chatid;chatid=sessid;sessid='';}
+msg=msg.replace(/(https?:\/\/[^'"]+?)\.(jpg|jpeg|gif|png)/i,"<a href='$1\.$2' target='_blank'><img src='$1\.$2' /></a>");msg=msg.replace(/([^\"'])(https?:\/\/www\.bilibili\.tv\/[^\s]*)/g,"$1<a href=\"$2\" target=\"_blank\">$2</a>");msg=msg.replace(/^(https?:\/\/www\.bilibili\.tv\/[^\s]*)/g,"<a href=\"$1\" target=\"_blank\">$1</a>");msg=msg.replace(/^(https?:\/\/acg\.tv\/[^\s]*)/g,"<a href=\"$1\" target=\"_blank\">$1</a>");if(msg==omsg)
+{msg=msg.replace(/av([0-9]+)/g,"<a href=\"http://acg.tv/av$1\" target=\"_blank\">av$1</a>");msg=msg.replace(/mylist([0-9]+)/g,"<a href=\"http://acg.tv/mylist$1\" target=\"_blank\">mylist$1</a>");}
+if(typeof(postdate)=="undefined"){var now=new Date();}else
+{var now=new Date(postdate*1000);}
+chdom=$("#chat_log"+sessid)[0];if(chdom==undefined||chdom==null){console.log("Session Error  Session ID:"+sessid);return false;}
+if(chdom.childNodes.length>=this.displayCount)
+{chdom.removeChild(chdom.firstChild);}
+nl=document.createElement("div");nl.innerHTML="<span"+(chatid!=0?" style=\"cursor:pointer\" onclick=\"chatRoom.sendReport("+chatid+")\"":"")+">"+now.format("HH:mm:ss: ")+"</span>"+msg+"<br />\n";var autoscroll=chdom.scrollTop>chdom.scrollHeight-chdom.offsetHeight-100;chdom.appendChild(nl);if(autoscroll)chdom.scrollTop=chdom.scrollHeight-chdom.offsetHeight;if(typeof localStorage!="undefined"&&sessid!='')
+{localStorage.setItem("__storage_chatlog"+sessid,chdom.innerHTML);this.flushSession(sessid);}
+if(sessid==""&&typeof(sessionStorage)!="undefined")
+{sessionStorage.setItem("__storage_chatlog",$("#chat_log").html());}};chatRoomClass.prototype.changeSend=function(sendid,sendnick)
+{if(sendid=="ADMIN")return;this.sendTo=sendid;this.sendToUser.value=sendnick;if(sendnick==""){this.sendToUser.value="公共聊天";this.sendToUser.className="to_all";}else
+{this.sendToUser.className="";}};chatRoomClass.prototype.enterSend=function()
+{if(this.sendToUser.value=="公共聊天"){this.sendToUser.value="";}
+this.sendToUser.select();this.sendToUser.className="";};chatRoomClass.prototype.checkWebSocket=function()
+{return(this.ws!=null&&typeof(this.ws.readyState)!="undefined"&&this.ws.readyState==1);};chatRoomClass.prototype.getChatRoom=function()
+{if(this.JSMode){if(this.checkWebSocket())
+{this.ws.send("ST");}}else
+{if(this.controller==null)return false;this.controller.getChatRoom();}};chatRoomClass.prototype.setReceiveMode=function(broadcastOn)
+{console.log("chatRoom.setReceiveMode("+broadcastOn+")");if(this.JSMode)
+{if(this.checkWebSocket())
+{this.ws.send(broadcastOn?"RS":"SO");}}else
+{if(this.controller==null)return false;this.controller.setReceiveMode(broadcastOn);}};chatRoomClass.prototype.buildChatRoomList=function()
+{var chatRoomList=this.chatRoomList;if(chatRoomList!=undefined)
+{var oriIndex=chatRoomList.selectedIndex;var oriChangeCall=chatRoomList.onchange;chatRoomList.onchange=null;chatRoomList.options.length=this.chatRoomNameList.length;for(var i=1;i<=this.chatRoomNameList.length;i++)
+{index=this.chatRoomNameList[i-1].index;chatRoomList.options[i-1]=new Option(this.chatRoomNameList[i-1].name+"( "+(this.chatRoomInfo[index]?this.chatRoomInfo[index]:0)+" )",this.chatRoomNameList[i-1].index);}
+chatRoomList.selectedIndex=oriIndex!=-1?oriIndex:0;this.Online=this.chatRoomInfo[chatRoomList.value]?this.chatRoomInfo[chatRoomList.value]:0;chatRoomList.onchange=oriChangeCall;}
+this.Online=this.chatRoomInfo[this.currentChatRoom];if(this.status!=undefined&&typeof(this.Online)!="undefined")this.status.innerHTML="在线 "+this.Online+" 人";};chatRoomClass.prototype.switchToIndex=function(index)
+{var i;if(!ChatGetSettings("bilibar_autogoarea"))return false;for(i=0;i<this.chatRoomNameList.length;i++)
+{if(this.chatRoomNameList[i].index==index)
+{this.chatRoomList.selectedIndex=i;this.selectChatRoom(this.chatRoomNameList[i].index);return true;}
+var si=this.chatRoomNameList[i].subindex;for(j=0;j<si.length;j++)
+{if(si[j]==index)
+{this.chatRoomList.selectedIndex=i;this.selectChatRoom(this.chatRoomNameList[i].index);return true;}}}
+return false;};chatRoomClass.prototype.selectChatRoom=function(chatRoomId)
+{if(this.JSMode)
+{if(this.currentChatRoom!=chatRoomId)
+{this.currentChatRoom=chatRoomId;this.initws();}
+var uid=__GetCookie('DedeUserID')!==undefined&&__GetCookie('DedeUserID')?__GetCookie('DedeUserID'):0;$("#submit_msg")[0].disabled=!this.checkWebSocket()||uid==0;var getOnlineInfoInterval=setInterval(function(){clearInterval(getOnlineInfoInterval);chatRoom.setReceiveMode(chatOpen||chatRoom.receiveBroadcastOnClose);},5000);return;}
+this.currentChatRoom=chatRoomId;if(this.controller==null)return false;uid=__GetCookie('DedeUserID')!==undefined&&__GetCookie('DedeUserID')?__GetCookie('DedeUserID'):0;pwd=(uid==0||typeof(document.getElementById('pwdhash'))=="undefined"?"":document.getElementById('pwdhash').innerHTML);$("#submit_msg")[0].disabled=!this.connected||uid==0;this.controller.setConnectParam(chatRoomId,uid,pwd);var getOnlineInfoInterval=setInterval(function(){clearInterval(getOnlineInfoInterval);chatRoom.setReceiveMode(chatOpen||chatRoom.receiveBroadcastOnClose);},5000);};chatRoomClass.prototype.parseArray=function(pkg_index,r,syslog)
+{if(pkg_index==0x05)
+{if(r=="")return;syslog.innerHTML="<p>"+r+"</p>"+syslog.innerHTML;chatRoom.sound2Play('bilibili-long');if(chatRoom.soundOn)chatRoom.sound2Play('bilibili-long');if(!miniBarOpen)
+{clearInterval(miniInterval);miniInterval=setInterval(mini_fresh,1000);}
+if(!broadcastOpen)
+{clearInterval(broadcastInterval);broadcastInterval=setInterval(fresh_syslog,1000);$('#newsysmsg').css("display","block");}}else if(pkg_index==0x07)
+{if(!chatOpen){fresh_chatlog();}
+if(this.recv_privmsg)
+{if(this.soundOn)this.sound2Play('bilibili-short');if(!chatOpen)fresh_chatlog_pm();if(!miniBarOpen)
+{clearInterval(miniInterval);miniInterval=setInterval(mini_fresh,1000);}
+if(!chatRoom.checkSession(r[0]))chatRoom.createNewSession(r[0],r[2]);this.chatlog(r[0],r[4],"(From [<a class=\""+r[1]+"\" onclick=\"chatRoom.changeSend('"+r[0]+"','"+r[2]+"')\">"+r[2]+'</a>]) '+r[3],r[5]);}}else if(pkg_index==0x04)
+{this.chatlog('',r[4],"<a class=\""+r[1]+"\" onmouseover=\"showChatProfileBox(this,'"+r[2]+"',"+r[4]+","+r[0]+")\" onmouseout=\"hideChatProfileBox(this,'"+r[2]+"')\">["+r[2]+']</a> '+r[3],r[5]);}};chatRoomClass.prototype.parseData=function(_nstr,syslog)
+{var arrayOfDats=new Array();try
+{arrayOfDats=eval('['+_nstr+']');}catch(err)
+{return false;}
+for(var i=0;i<arrayOfDats.length;i++)
+{this.parseArray(0x4,arrayOfDats[i],syslog);}};chatRoomClass.prototype.sound2Play=function(sound){return this.controller.playSound(sound);};chatRoomClass.prototype.setPrivateMsg=function(options)
+{this.recv_privmsg=options;ChatSaveSettings('bilibarPrivateMsg',options?"1":"0");};chatRoomClass.prototype.setPublicMsg=function(options)
+{this.receiveBroadcastOnClose=options;this.setReceiveMode(options);ChatSaveSettings('bilibarReceiveOnClose',options?"1":"0");console.log("set bilibarReceiveOnClose: "+ChatGetSettings('bilibarReceiveOnClose'));};chatRoomClass.prototype.setAutoHidden=function(options)
+{this.autoHiddenPlayer=options;ChatSaveSettings('bilibarAutoHiddenPlayer',options?"1":"0");};var postdisableInterval=null;chatRoomClass.prototype.postmsg=function(textObj)
+{if(typeof this.submitObject=="undefined")return false;this._tmp_textObj=textObj;var sendmsg=textObj.value;if(textObj.value=="")return false;clearInterval(postdisableInterval);postdisableInterval=setInterval(function(){clearInterval(postdisableInterval);chatRoom.submitObject.disabled=false;},2000);this.submitObject.disabled=true;cRoomID=this.chatRoomList!=undefined?this.chatRoomList.value:1;sendnick=this.sendToUser.value!="公共聊天"?this.sendToUser.value:"";ajaxOverDomain('/chat','chatroom='+(cRoomID)+'&to='+this.sendTo+'&nick='+escape(sendnick)+'&msg='+escape(sendmsg).replace(/\+/g,"%2B"));return false;};chatRoomClass.prototype.chatPostResCode=function(rescode)
+{textObj=this._tmp_textObj;var sendmsg=textObj.value;if(rescode==-3)
+{alert("对方不在线！");}else if(rescode<0){alert("聊天信息发送失败！");}else{if(this.sendToUser.value!=""&&this.sendToUser.value!="公共聊天")
+{if(!chatRoom.checkSession(rescode))chatRoom.createNewSession(rescode,this.sendToUser.value);this.chatlog(rescode,r[4],"(To <b class=\"normal\">"+this.sendToUser.value+"</b>): "+sendmsg);}
+textObj.value="";}
+clearInterval(postdisableInterval);this.submitObject.disabled=false;textObj.focus();};chatRoomClass.prototype.sendReport=function(chatid)
+{if(chatid!=0&&confirm('是否确认举报?恶意举报可能会被封号！'))
+{cRoomID=this.chatRoomList!=undefined?this.chatRoomList.value:1;ajaxOverDomain('/chatreport.do','chatroom='+(cRoomID)+'&chatid='+chatid);}
+return false;};chatRoomClass.prototype.reconnect=function()
+{if(this.JSMode)
+{this.chatlog('',0,"[信息] 正在重新连接 WebSocket");this.initws();}else if(this.controller!=null)
+{this.chatlog('',0,"[信息] 正在重新连接");this.controller.connect();}};chatRoomClass.prototype.createNewSession=function(sessid,name)
+{if($("#session_btn_"+sessid).length>0)return false;var ndiv=document.createElement("div");ndiv.className="chat_session_btn";ndiv.id="session_btn_"+sessid;ndiv.onclick=function(){chatRoom.selectSession(sessid);ChatOnResize();};ndiv.ondblclick=function(){chatRoom.removeSession(sessid);};var ntitle=document.createElement("div");ntitle.innerHTML=name;ndiv.appendChild(ntitle);this.SessionBtnContainer.appendChild(ndiv);if($("#chat_log"+sessid).length>0)return false;var nlogObj=document.createElement("div");nlogObj.id='chat_log'+sessid;nlogObj.className="chat_log";nlogObj.style.display="none";if(typeof localStorage!="undefined")
+{nlogObj.innerHTML=localStorage.getItem("__storage_chatlog"+sessid);}
+$(nlogObj).bind('mousedown',function(){$(chatRoom.chatBoxDOM).draggable("destroy");});$(nlogObj).bind('mouseup',function(){$(chatRoom.chatBoxDOM).draggable();});this.chatBoxDOM.insertBefore(nlogObj,this.chatBoxDOM.firstChild);this.selectSession(sessid);};chatRoomClass.prototype.removeSession=function(sessid)
+{if(sessid=='')return false;$("#session_btn_"+sessid).remove();$("#chat_log"+sessid).remove();this.selectSession('');return true;};chatRoomClass.prototype.flushSession=function(sessid)
+{clearInterval(this.SessionFlushInterval[sessid]);if($("#chat_log"+sessid).css("display")!="none")return false;this.SessionFlushInterval[sessid]=setInterval(function(){ndiv=$("#session_btn_"+sessid);if(ndiv.attr("flushstate")==0)
+{ndiv.css("color","#e5a525");ndiv.attr("flushstate",1);}else
+{ndiv.css("color","#ffffff");ndiv.attr("flushstate",0);}},500);};chatRoomClass.prototype.selectSession=function(sessid)
+{clearInterval(this.SessionFlushInterval[sessid]);$(".chat_session_btn").css("backgroundColor","");$(".chat_session_btn").css("background","");$(".chat_session_btn").css("color","");$(".chat_log").css("display","none");$("#chat_log"+sessid).css("display","");ndiv=$("#session_btn_"+sessid);ndiv.css("backgroundColor","#eeeeee");ndiv.css("background","-moz-linear-gradient(45% 0% 0deg, #CFCFCF,#eeeeee)");ndiv.css("background","-webkit-gradient(linear,45% 0%, 0% 0%, from(#eeeeee), to(#CFCFCF))");ndiv.css("color","#000000");this.chatLogDOM=$("#chat_log"+sessid)[0];};chatRoomClass.prototype.checkSession=function(sessid)
+{return $("#chat_log"+sessid).length>0;};function chatRoomResponse(){};chatRoomResponse.prototype.online=function(dat)
+{chatRoom.chatRoomInfo=[];for(var i=0;i<dat.length;i++)
+{chatRoom.chatRoomInfo[dat[i].c]=dat[i].n;}
+chatRoom.buildChatRoomList();};chatRoomResponse.prototype.p=function(index,dat)
+{if(index!=0x07&&index!=0x04&&index!=0x05)return;chatRoom.parseArray(index,dat,document.getElementById('sys_log'));};var ch=new chatRoomResponse();window.ch=ch;var broadcastInterval=null;var broadcastOpen=false;var chatInterval=null;var chatOpen=false;var miniBarOpen=true;var miniInterval=null;var resetConnection=false;var settingOpen=false;var sav_Data="";function BiliBarClass(){}
+BiliBarClass.prototype={fullscreen:false,savWidth:0,savHeight:0,ChatLogLoaded:false};BiliBarClass.prototype.setFullScreen=function(isfullscreen)
+{this.fullscreen=isfullscreen;if(!isfullscreen)
+{$(chatRoom.chatBoxDOM).height(this.savHeight);$(chatRoom.chatBoxDOM).width(this.savWidth);$(chatRoom.chatLogDOM).width(this.savWidth-6);$("#post_msg").width("");$(chatRoom.chatLogDOM).height(this.savHeight-30);}
+chatboxdw();};var BiliBar=new BiliBarClass();function substr_count(string,substring,start,length)
+{var c=0;if(start){string=string.substr(start);}
+if(length){string=string.substr(0,length);}
+for(var i=0;i<string.length;i++)
+{if(substring==string.substr(i,substring.length))
+c++;}
+return c;};function initChatRoomConnection()
+{chatRoom.setPublicMsg($("#chat_recv_broadcast").attr("checked"));chatRoom.setPrivateMsg($("#chat_recv_privmsg").attr("checked"));chatRoom.soundOn=$("#chat_soundon").attr("checked");chatRoom.autoHiddenPlayer=$("#chat_auto_hiddenplayer").attr("checked");var chatRoomList=chatRoom.chatRoomList;resetConnection=false;};var _parser_Index=0;var _parser_Length=0;var _parser_BufferLength=0;function getPacketLength(index)
+{switch(index)
+{case 0x00:return 0;case 0x01:return 6;case 0x02:case 0x03:case 0x04:case 0x05:case 0x06:case 0x07:return 0;case 0x08:return 4;case 0x10:return 3;case 0x11:return 2;default:return-1;}}
+function packetParser(mySocket,len)
+{if(_parser_BufferLength>2)
+{if(_parser_BufferLength>4096)
+{mySocket.readUTFBytes(_parser_BufferLength);_parser_Index=_parser_Length=_parser_BufferLength=0;return;}
+if(_parser_Index==0)
+{_parser_Index=mySocket.readShort();_parser_BufferLength-=2;}
+if(_parser_Length==0)
+{_parser_Length=getPacketLength(_parser_Index);if(_parser_Length==-1)
+{console.log("Alert: Received Packet format error!\n Packet index: "+_parser_Index);console.log(mySocket.readUTFBytes(_parser_BufferLength));_parser_Index=_parser_Length=_parser_BufferLength=0;return;}
+if(_parser_Length==0)
+{if(_parser_BufferLength<2)return;_parser_Length=mySocket.readShort()-2;_parser_BufferLength-=2;}
+_parser_Length-=2;}
+if(_parser_Length<=_parser_BufferLength)
+{switch(_parser_Index)
+{case 0x03:chatRoom.chatRoomInfo=[];var num=_parser_Length/8;for(var i=0;i<num;i++)
+{chatRoom.chatRoomInfo[mySocket.readInt()]=mySocket.readInt();}
+chatRoom.buildChatRoomList();break;case 0x04:case 0x05:case 0x07:data=mySocket.readUTFBytes(_parser_Length);console.log(data);chatRoom.parseArray(_parser_Index,eval(data),document.getElementById('sys_log'));break;case 0x10:errno=mySocket.readByte();switch(errno)
+{case 1:chatRoom.chatLog('',0,"系统封包错误! 正在重新连接...");chatRoom.reconnect();break;case 2:alert("连接版本过旧，请使用Ctrl+F5刷新页面！");break;case 3:chatRoom.chatLog('',0,"用户数据错误! 己从服务器离线");mySocket.close();break;case 4:chatRoom.chatLog('',0,"未知错误！正在重新连接...");chatRoom.reconnect();break;}
+break;case 0x11:console.log("PACKET_UPGRADE Received");resetConnection=true;chatRoom.reconnect();break;case 0x01:case 0x02:case 0x06:default:data=mySocket.readUTFBytes(_parser_Length);break;}
+_parser_BufferLength-=_parser_Length;_parser_Index=0;_parser_Length=0;if(_parser_BufferLength>0)
+{return packetParser(mySocket,_parser_BufferLength);}}}}
+function fresh_syslog()
+{document.getElementById("sysicobtn").className=(document.getElementById("sysicobtn").className=="btn"?"btn fresh":"btn");};function fresh_chatlog()
+{var res=document.getElementById("chaticobtn").className=="btn";document.getElementById("chaticobtn").className=(document.getElementById("chaticobtn").className!="btn fresh"?"btn on":"btn fresh");return res;};function fresh_chatlog_pm()
+{document.getElementById("chaticobtn").className="btn fresh";};function mini_fresh()
+{document.getElementById("minibottom-close").className=(document.getElementById("minibottom-close").className!="fresh_mini_close"?"fresh_mini_close":"normal_mini_close");};function showchatbox()
+{if(!chatOpen)
+{if(broadcastOpen)showsysbox();if(settingOpen)showsettingbox();chatOpen=true;$(chatRoom.chatBoxDOM).fadeIn(500);document.getElementById("chaticobtn").className="btn on";chatboxdw();chdom=chatRoom.chatLogDOM;if(chatRoom.autoHiddenPlayer)
+{embObj=$('embed');for(i=0;i<embObj.length;i++)
+{if(embObj[i].src.indexOf("play.swf")>-1)
+{embObj[i].style.width=543+"px";}}
+embObj=$('iframe');for(i=0;i<embObj.length;i++)
+{if(embObj[i].src.indexOf("secure.bilibili.tv/secure,")>-1)
+{embObj[i].style.width=543+"px";}}}
+if(typeof chatRoom!="undefined")
+{chatRoom.setReceiveMode(true);}
+if((!BiliBar.ChatLogLoaded&&chdom.childNodes.length<10)||(!chatRoom.receiveBroadcastOnClose))
+{BiliBar.ChatLogLoaded=true;var loadChatLog=function(data){var LoadChatLogInteval=setInterval(function(){if(typeof chatRoom=="undefined")return;clearInterval(LoadChatLogInteval);chatRoom.parseData(data,document.getElementById('sys_log'));},1000);};ajaxCallback('/chatlog.do','',loadChatLog);}}
+else
+{if(chatRoom.autoHiddenPlayer)
+{embObj=$('embed');for(i=0;i<embObj.length;i++)
+{if(embObj[i].src.indexOf("play.swf")>-1)
+{embObj[i].style.width=950+"px";}}
+embObj=$('iframe');for(i=0;i<embObj.length;i++)
+{if(embObj[i].src.indexOf("secure.bilibili.tv/secure,")>-1)
+{embObj[i].style.width=950+"px";}}}
+chatOpen=false;$(chatRoom.chatBoxDOM).fadeOut(500);document.getElementById("chaticobtn").className="btn";if(typeof chatRoom!="undefined")
+{chatRoom.setReceiveMode(chatRoom.receiveBroadcastOnClose);}}};function showsysbox()
+{$('#newsysmsg').css("display","none");if(!broadcastOpen)
+{if(chatOpen)showchatbox();if(settingOpen)showsettingbox();clearInterval(broadcastInterval);ChatSaveSettings('bilibar_systemlog',$("#syslog_ptime").html());broadcastOpen=true;$("#minibottom-sysbox").fadeIn(500);document.getElementById("sysicobtn").className="btn on";chatboxdw();}
+else
+{broadcastOpen=false;$("#minibottom-sysbox").fadeOut(500);document.getElementById("sysicobtn").className="btn";}};function showsettingbox()
+{if(!settingOpen)
+{if(chatOpen)showchatbox();if(broadcastOpen)showsysbox();settingOpen=true;document.getElementById("minibottom-setting").className="btn on";$("#minibottom-settingbox").fadeIn(500);chatboxdw();}else
+{settingOpen=false;document.getElementById("minibottom-setting").className="btn";$("#minibottom-settingbox").fadeOut(500);}};var shutdownInt=null;function showminibar()
+{if(chatOpen)showchatbox();if(broadcastOpen)showsysbox();if(settingOpen)showsettingbox();if(miniBarOpen)
+{miniBarOpen=false;$("#minibottom").fadeOut(500);$("#minibottom-close").fadeIn(500);}else
+{miniBarOpen=true;clearInterval(miniInterval);document.getElementById("minibottom-close").className="normal_mini_close";$("#minibottom").fadeIn(500);$("#minibottom-close").fadeOut(500);}
+ChatSaveSettings("bilibar_state",miniBarOpen?"1":"0");};function ChatOnResize()
+{if(typeof(chatRoom.chatLogDOM)=="undefined")return;obj=chatRoom.chatBoxDOM;$(chatRoom.chatLogDOM).width(obj.offsetWidth-46);$(chatRoom.chatLogDOM).height(obj.offsetHeight-30);$("#post_msg").width(obj.offsetWidth-380);chatRoom.chatLogDOM.scrollTop=chatRoom.chatLogDOM.scrollHeight-chatRoom.chatLogDOM.offsetHeight;};function chatboxdw(){chatRoom.chatBoxDOM.style.position="fixed";chatRoom.chatBoxDOM.style.top="";chatRoom.chatBoxDOM.style.bottom="25px";if(document.getElementById("minibottom").offsetLeft+document.getElementById("chaticobtn").offsetLeft+chatRoom.chatBoxDOM.offsetWidth<document.body.clientWidth)
+{chatRoom.chatBoxDOM.style.left=(document.getElementById("minibottom").offsetLeft+document.getElementById("chaticobtn").offsetLeft)+"px";}else
+{chatRoom.chatBoxDOM.style.left=(document.body.clientWidth-chatRoom.chatBoxDOM.offsetWidth)+"px";}
+document.getElementById("minibottom-sysbox").style.left=(document.getElementById("minibottom").offsetLeft+document.getElementById("sysicobtn").offsetLeft+document.getElementById("sysicobtn").offsetWidth-document.getElementById("minibottom-sysbox").offsetWidth)+"px";document.getElementById("minibottom-settingbox").style.left=(document.getElementById("minibottom").offsetLeft+document.getElementById("minibottom-setting").offsetLeft+document.getElementById("minibottom-setting").offsetWidth-document.getElementById("minibottom-settingbox").offsetWidth)+"px";if(BiliBar.fullscreen)
+{var ofheight=$(window).height()-25;var ofwidth=$(window).width();chatRoom.chatBoxDOM.style.left="0px";chatRoom.chatBoxDOM.style.height=ofheight+"px";chatRoom.chatBoxDOM.style.width=ofwidth+"px";$(chatRoom.chatLogDOM).width(ofwidth-6);$(chatRoom.chatLogDOM).height(ofheight-30);}else
+{BiliBar.savWidth=$(chatRoom.chatBoxDOM).width();BiliBar.savHeight=$(chatRoom.chatBoxDOM).height();}
+ChatOnResize();};function buildIcon(right,icon)
+{return'<ul id="icons" class="ui-widget ui-helper-clearfix" style="width:19px;float:right;margin-right:'+right+'px;margin-top:2px;"> '+'<li class="ui-state-default ui-corner-all" onmouseover="$(this).addClass(\'ui-state-hover\')" onmouseout="$(this).removeClass(\'ui-state-hover\')" style="cursor:pointer;"><span class="ui-icon '+icon+'"></span></li> '+'</ul> ';}
+function loadbar()
+{if($.browser.msie&&$.browser.version=="6.0")
+{$("#minibottom").hide();$("#minibottom-close").hide();$("#minibottom-sysbox").hide();$("#chatbox").hide();return;}
+chatRoom=new chatRoomClass();chatRoom.chatBoxDOM=$("#chatbox")[0];chatRoom.chatRoomList=$('#chatRoomId')[0];chatRoom.status=$("#chat_status")[0];chatRoom.sendToUser=$("#chat_touser")[0];chatRoom.submitObject=$("#submit_msg")[0];chatRoom.SessionBtnContainer=$("#session_btn_container")[0];chatRoom.onconnect=initChatRoomConnection;chatRoom.buildChatRoomList();chatRoom.createNewSession('','全站');$("#chat_status").click(function(){chatRoom.getChatRoom();});$("#chat_status").parent().append(buildIcon(10,'ui-icon-extlink')+buildIcon(3,'ui-icon-refresh')+buildIcon(3,'ui-icon-document-b'));$(".ui-icon-extlink").click(function(){BiliBar.setFullScreen(!BiliBar.fullscreen);});$(".ui-icon-refresh").click(function(){chatRoom.reconnect();});$(".ui-icon-refresh").attr("title","重新连接");$(".ui-icon-document-b").click(function(){$(chatRoom.chatLogDOM).empty()});$(".ui-icon-document-b").attr("title","清空");$('<div id="newsysmsg"><span></span></div>').appendTo('#minibottom');$('#newsysmsg').css("display","none");setting_div=document.createElement('div');setting_div.id="minibottom-settingbox";setting_div.style.display="none";setting_div.innerHTML="<h2>设置</h2><input type=\"checkbox\" id=\"chat_recv_broadcast\" onclick=\"chatRoom.setPublicMsg(this.checked)\" /><label for=\"chat_recv_broadcast\">关闭聊天室时接收群聊信息</label><br /><input type=\"checkbox\" id=\"chat_recv_privmsg\" onclick=\"chatRoom.setPrivateMsg(this.checked)\" checked=\"checked\" /><label for=\"chat_recv_privmsg\">接收私聊信息</label><br /><input type=\"checkbox\" id=\"chat_auto_hiddenplayer\" onclick=\"chatRoom.setAutoHidden(this.checked)\" checked=\"checked\" /><label for=\"chat_auto_hiddenplayer\">隐藏播放器弹幕列表</label><br />"+"<input type=\"checkbox\" id=\"chat_auto_goarea\" onclick=\"ChatSaveSettings('bilibar_autogoarea',this.checked)\" /><label for=\"chat_auto_goarea\" title=\"选中了后将会自动进入分区聊天室\">自动进入分区聊天室</label><br />"+"<input type=\"checkbox\" id=\"chat_soundon\" onclick=\"chatRoom.soundOn=this.checked;ChatSaveSettings('bilibarSoundOn',this.checked)\" /><label for=\"chat_soundon\" title=\"收到系统消息或私聊信息时播放提示音\">播放提示音</label><br />"+"显示消息数: [<span id=\"bilibar_displayCount\"></span>]<br /><div style=\"padding:10px;\"><div id=\"bilibar_slider\"></div></div>";setting_a=document.createElement('a');setting_a.id="minibottom-setting";setting_a.className="btn";setting_a.style.right="88px";setting_a.style.width="31px";setting_a.onclick=showsettingbox;setting_b=document.createElement('b');setting_b.id="minibottom-setting";setting_a.appendChild(setting_b);document.body.appendChild(setting_div);var cur_display_count=ChatGetSettings("bilibar_display")?ChatGetSettings("bilibar_display"):100;chatRoom.displayCount=cur_display_count;$('#bilibar_displayCount')[0].innerHTML=cur_display_count;$(function(){$("#bilibar_slider").slider({min:1,max:1000,animate:true,value:cur_display_count,slide:function(event,ui){$('#bilibar_displayCount')[0].innerHTML=ui.value;},change:function(event,ui){ChatSaveSettings("bilibar_display",ui.value);chatRoom.displayCount=ui.value;while(chatRoom.chatLogDOM.childNodes.length>chatRoom.displayCount){chatRoom.chatLogDOM.removeChild(chatRoom.chatLogDOM.firstChild);};}});});btnObj=$("#sysicobtn")[0];btnObj.parentNode.appendChild(setting_a);$(".minilogo").attr("target","_blank");$(".minilogo").attr("href","https://web.archive.org/web/20111016004847/http://bilibili.tv/member/");$("#chat_recv_broadcast").attr("checked",ChatGetSettings('bilibarReceiveOnClose')=="1"?true:false);$("#chat_recv_privmsg").attr("checked",ChatGetSettings('bilibarPrivateMsg')=="0"?false:true);$("#chat_auto_hiddenplayer").attr("checked",ChatGetSettings('bilibarAutoHiddenPlayer')=="0"?false:true);$("#chat_auto_goarea").attr("checked",ChatGetSettings("bilibar_autogoarea")&&ChatGetSettings("bilibar_autogoarea")!="false"?true:false);$("#chat_soundon").attr("checked",ChatGetSettings("bilibarSoundOn")=="0"?false:true);$(window).resize(chatboxdw);$(chatRoom.chatBoxDOM).draggable();$(chatRoom.chatBoxDOM).resize(ChatOnResize);$(chatRoom.chatBoxDOM).bind("resizestop",chatboxdw);$(chatRoom.chatBoxDOM).resizable();$("#post_msg").attr("autocomplete","off");chatRoom.setPublicMsg($("#chat_recv_broadcast").attr("checked"));chatRoom.setPrivateMsg($("#chat_recv_privmsg").attr("checked"));chatRoom.soundOn=$("#chat_soundon").attr("checked");chatRoom.autoHiddenPlayer=$("#chat_auto_hiddenplayer").attr("checked");if("WebSocket"in window&&(!(m=navigator.userAgent.match(/Chrome\/([0-9\.]+)/))||m[1]>='6.0.414.0'||m[1]>='10.0.0.0'))
+{var chatRoomList=$('#chatRoom')[0];chatRoom.selectChatRoom(chatRoomList!=undefined&&chatRoomList.selectedIndex!=-1?chatRoomList.value:1);chatRoom.initws();}
+chatboxdw();ajaxCallback_NORAND('/syslog.html','',function(data){document.getElementById('sys_log').innerHTML=data;if($("#syslog_ptime").html()&&ChatGetSettings('bilibar_systemlog')!=$("#syslog_ptime").html()){clearInterval(broadcastInterval);broadcastInterval=setInterval(fresh_syslog,1000);}});scrobj=document.createElement('script');scrobj.language="JavaScript";scrobj.type="text/javascript";scrobj.src="https://web.archive.org/web/20111016004847/http://member.bilibili.tv/sidebar";document.body.appendChild(scrobj);if(__GetCookie("DedeUserID")){}else
+{document.getElementById("chaticobtn").style.display="none";}
+if(ChatGetSettings("bilibar_state")=="0")
+{showminibar();}
+swfobject.embedSWF("/bilibar/bilibar.swf","my_socket",'0','0','9.0.0','expressInstall.swf',{},{'menu':'false',allowScriptAccess:"always"},{allowScriptAccess:"always"});setInterval(function(){chatRoom.setReceiveMode(chatOpen||chatRoom.receiveBroadcastOnClose);},60000);setInterval(function(){if(chatOpen)chatRoom.getChatRoom();},30000);};function sideBar_Done(data){document.getElementById('minibottom-info').innerHTML=data;if(data.indexOf('login.php')==-1){document.getElementById('minibottom-msg').style.display='';}if(document.getElementById('isnewmsg')&&document.getElementById('isnewmsg').innerHTML=="TRUE")document.getElementById('msg').className="new";}
+function showGlobalTips(msg)
+{tips_str="<div class=\"ui-widget\" id=\"announce_tips\" style=\"margin:0px;\">"+" <div class=\"ui-state-highlight ui-corner-all\" style=\"padding: 0 .7em;\"> "+"   <ul id=\"icons\" class=\"ui-widget ui-helper-clearfix\" style=\"width:19px;float:right\">"+"    <li class=\"ui-state-default ui-corner-all\" style=\"cursor:pointer;\" onclick=\"$('#announce_tips').toggle( 'fold', {}, 500 );\"><span class=\"ui-icon ui-icon-closethick\"></span></li> "+"   </ul>"+"  <p id=\"announce_tips_msg\"><span class=\"ui-icon ui-icon-info\" style=\"float: left; margin-right: .3em;margin-top:.1em;\"></span>"+msg+"</p>"+" </div>"+"</div>";fc=$($(".main")[0].firstChild);fc.before(tips_str);};function showGlobalAlert(msg)
+{tips_str="<div class=\"ui-widget\" id=\"announce_alerts\" style=\"margin: 0px; position: fixed; top: 0px; width: 980px; z-index: 100;\">"+" <div class=\"ui-state-error ui-corner-all\" style=\"padding: 0 .7em;\"> "+"  <p><span class=\"ui-icon ui-icon-alert\" style=\"float: left; margin-right: .3em;margin-top:.1em;\"></span>"+msg+"</p>"+" </div>"+"</div>";fc=$($(".main")[0].firstChild);fc.before(tips_str);};function CallPlayerAction(code)
+{console.log("CallPlayerAction: "+code);switch(code)
+{case 1:if($("#review_comments_tips").length==0)
+{$("<div class=\"ui-widget\" style=\"margin:0px;\"><div class=\"ui-state-highlight ui-corner-all\" style=\"padding: 0 .7em;\"> "+"<span class=\"ui-icon ui-icon-info\" style=\"float: left; margin-right: .3em;margin-top:.1em;\"></span> <span id=\"review_comments_tips\" tag=\"0\"></span></div></div>").prependTo("#tgpl_box");}
+num=parseInt($("#review_comments_tips").attr("tag"))+1;$("#review_comments_tips").attr("tag",num);$("#review_comments_tips").html("有 <strong>"+num+"</strong> 条新的评论信息，<a href=\"javascript:AjaxPage(1)\" style=\"color:#666699\">刷新</a>看看。");break;}}
+var hideInterval=null;var last_menuObj=null;var last_menuObjName=null;function showChatProfileBox(obj,name,dmid,mid)
+{if(last_menuObj!=null&&obj!=last_menuObj)
+{last_menuObj.innerHTML="["+last_menuObjName+"]";}
+last_menuObj=obj;last_menuObjName=name;obj.style.position="relative";objHeight=obj.offsetHeight;clearInterval(hideInterval);if(obj.innerHTML.indexOf("<div")>0)return;if(!mid)return;mdiv=document.createElement("div");mdiv.className="bilibar_chatProfileBox";mdiv.style.left=(obj.offsetWidth)+"px";chdom=chatRoom.chatLogDOM;mdiv.innerHTML="<span class=\"name\">"+name+"</span><br /><img src=\"/face/"+mid+"\" style=\"width:73px;height:73px\" /><br /><br /><a href=\"#\" onclick=\"return chatRoom.changeSend('"+mid+"','"+name+"')\">私聊</a> <a href=\"/member/pm.php?dopost=send&mid="+mid+"\" target=\"_blank\">发短消息</a> <a href=\"#\" onclick=\"return chatRoom.sendReport("+dmid+")\">举报此信息</a><br /><a href=\"/member/index.php?action=newfriend&mid="+mid+"\" target=\"_blank\">加为好友</a> <a href=\"/member/index.php?mid="+mid+"\" target=\"_blank\">进入空间</a>";obj.appendChild(mdiv);if(obj.offsetTop-chdom.scrollTop+mdiv.offsetHeight>chdom.offsetHeight)
+{mdiv.style.top="-"+(mdiv.offsetHeight-objHeight)+"px";}}
+function hideChatProfileBox(obj,name)
+{clearInterval(hideInterval);hideInterval=setInterval(function(){obj.innerHTML="["+name+"]";},100);}
+function _debugPlayer(msg)
+{console.log("Player:"+msg);}
+function _updatePlayer(QueryURL)
+{console.log("start update player: "+QueryURL);var updPlayerHTTP;if(window.ActiveXObject){try{updPlayerHTTP=new ActiveXObject("Msxml2.XMLHTTP");}catch(e){}
+if(updPlayerHTTP==null)try{updPlayerHTTP=new ActiveXObject("Microsoft.XMLHTTP");}catch(e){}}
+else{updPlayerHTTP=new XMLHttpRequest();}
+updPlayerHTTP.open("GET",QueryURL+"/play.swf",false);updPlayerHTTP.setRequestHeader("If-Modified-Since","Thu, 01 Jan 1970 07:01:40 +0700");updPlayerHTTP.send(null);console.log("player updated");}
+function cb_chatlog(sessid,chatid,msg,postdate){return chatRoom.chatlog(sessid,chatid,msg,postdate);}
+function cb_initOnlineInfo(list){chatRoom.chatRoomInfo=list;chatRoom.buildChatRoomList();}
+function cb_packet(index,data){chatRoom.parseArray(index,data,document.getElementById('sys_log'));}
+function cb_onconnect(){chatRoom.JSMode=false;chatRoom.connected=true;$("#submit_msg")[0].disabled=false;if(chatRoom.onconnect!=null)chatRoom.onconnect();}
+function cb_initok()
+{var tmrInt=setInterval(function(){clearInterval(tmrInt);chatRoom.controller=$("#my_socket")[0];var chatRoomList=$('#chatRoom')[0];if(!chatRoom.JSMode)
+{chatRoom.selectChatRoom(chatRoomList!=undefined&&chatRoomList.selectedIndex!=-1?chatRoomList.value:1);chatRoom.controller.connect();}},100);}
+$(function(){if($.browser.msie&&$.browser.version=="6.0")
+{$("#minibottom").hide();$("#minibottom-close").hide();$("#minibottom-sysbox").hide();$("#chatbox").hide();return;}
+if(typeof($)!="undefined"&&$("#search-keyword").length>0)
+{$("#search-keyword").attr("autocomplete","off");$(function()
+{$("#search-keyword").autocomplete({source:function(request,response){$.getJSON("/suggest?jsoncallback=?",{term:request.term.replace(/　/g,""),rnd:Math.random()},response);},search:function(){var term=this.value;if(term.charCodeAt(0)<255&&term.length<2||term.length>10){return false;}},focus:function(){return false;},select:function(event,ui){this.value=ui.item.value;$("#searchform").submit();return false;}}).data("autocomplete")._renderItem=function(ul,item){return $("<li></li>").data("item.autocomplete",item).append("<a style=\"text-align:left\">"+item.value+"<em style=\"float:right;font-size:10px;\""+(item.match?" title=\"(Match Token: "+item.match+")\"":"")+">"+(item.desc?item.desc:item.ref+"个")+"</em></a>").appendTo(ul);};});}});
+
+}
+/*
+     FILE ARCHIVED ON 00:48:47 Oct 16, 2011 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 14:34:30 Jan 01, 2024.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 316.252
+  exclusion.robots: 0.072
+  exclusion.robots.policy: 0.062
+  cdx.remote: 0.062
+  esindex: 0.011
+  LoadShardBlock: 267.847 (3)
+  PetaboxLoader3.datanode: 167.732 (4)
+  PetaboxLoader3.resolve: 209.778 (3)
+  load_resource: 167.947
+*/

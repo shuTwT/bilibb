@@ -12,10 +12,12 @@ const biliRouter =new Router<DefaultState, Context>({prefix:"/bili"})
 
 biliRouter.get('/',async(ctx,next)=>{
     const template='bili/bili'
-    const App=defineAsyncComponent(()=>import('../../../../template/bili/App.vue'))
-    const app=createSSRApp(App)
+    //const App=defineAsyncComponent(()=>import('../../../../template/bili/App.vue'))
+    //const app=createSSRApp(App)
     
-    const html = await renderToString(app)
+    //const html = await renderToString(app)
+    const html=''
+    
     console.log(html)
     ctx.body=ejs.render(getTemplate(template,'ejs'),{
         html

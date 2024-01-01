@@ -9,11 +9,6 @@
     <div id="app"><%-html%></div>
     <script type="module">
         import {createSSRApp} from "https://cdn.bootcdn.net/ajax/libs/vue/3.3.4/vue.esm-browser.js"
-        const app=createSSRApp({
-            data:()=>({count:1}),
-            template:`<button @click="count++">{{count}}</button>`
-        })
-        app.mount('#app')
     </script>
 </body>
 </html>
