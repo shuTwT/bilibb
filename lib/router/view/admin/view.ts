@@ -3,14 +3,18 @@ import prisma from "../../../utils/prisma.js";
 import ejs from "ejs";
 import Router from "koa-router";
 import { str2num, parseQuery, getTemplate } from "../../api/utils.js";
+import { systemRouter } from "./system/system.js";
+import { liveRouter } from "./live/live.js";
 
 const viewRouter = new Router<DefaultState, Context>({
     prefix:"/view"
 });
 
+viewRouter.use(systemRouter.routes())
+viewRouter.use(liveRouter.routes())
+
 viewRouter.get('/analysis',async(ctx,next)=>{
-    const template='admin/analysis'
-    ctx.body =await getTemplate(template);
+    ctx.body =await getTemplate('admin/analysis');
 })
 
 viewRouter.get("/profile",async(ctx,next)=>{
