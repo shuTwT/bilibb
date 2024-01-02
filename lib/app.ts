@@ -33,6 +33,10 @@ if (allowTCP) TCPServer();
 const app = new Koa<Koa.DefaultState,Koa.Context>();
 
 app.keys = ["signedKey"];
+app.use(async(ctx,next)=>{
+    ctx.state.adminPath='/'
+    await next()
+})
 app.use(bodyParser());
 app.use(koaLogger());
 app.use(session(app));
