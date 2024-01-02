@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken"
 import ejs from "ejs";
 import { str2num, parseQuery, getTemplate } from "../router/api/utils.js";
 
-const template=ejs.compile(getTemplate('admin/exception/404'))
+
 export default function(whiteList:string[]=[],callback?:()=>void){
     return async function(ctx:Context,next:Next){
         
@@ -18,7 +18,7 @@ export default function(whiteList:string[]=[],callback?:()=>void){
         
         if(!token){
             if(ctx.method=='GET'){
-                ctx.body=template()
+                ctx.body=getTemplate('admin/exception/404')
                 return
             }else {
                 ctx.throw(401,"请先登录")
@@ -29,7 +29,7 @@ export default function(whiteList:string[]=[],callback?:()=>void){
         const decode=jwt.verify(token,'shhhh')
         if(!decode){
             if(ctx.method=='GET'){
-                ctx.body=template()
+                ctx.body=getTemplate('admin/exception/404')
                 return
             }else {
                 ctx.throw(401,"登录过期")
