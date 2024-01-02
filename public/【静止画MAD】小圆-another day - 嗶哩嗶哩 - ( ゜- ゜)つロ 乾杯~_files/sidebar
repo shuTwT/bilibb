@@ -1,1 +1,0 @@
-sideBar_Done('您好! 请先 <a href="https://web.archive.org/web/20120202015607/https://secure.bilibili.tv/login.php">登陆</a> 或 <a href="https://web.archive.org/web/20120202015607/http://www.bilibili.tv/member/index_do.php?fmdo=user&dopost=regnew">注册帐号</a>');$('#sidebar_tips').click(function(){alert($(this).attr('title'));});
