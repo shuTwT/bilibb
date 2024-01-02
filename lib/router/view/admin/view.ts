@@ -10,12 +10,12 @@ const viewRouter = new Router<DefaultState, Context>({
 
 viewRouter.get('/analysis',async(ctx,next)=>{
     const template='admin/analysis'
-    ctx.body = ejs.render(getTemplate(template, "ejs"));
+    ctx.body =await getTemplate(template);
 })
 
 viewRouter.get("/profile",async(ctx,next)=>{
     const template='admin/profile'
-    ctx.body=ejs.render(getTemplate(template,'ejs'))
+    ctx.body=await getTemplate(template)
 })
 
 
@@ -30,20 +30,20 @@ viewRouter.get("/room/my",async (ctx,next)=>{
     if(option){
         roomId=parseInt(option.optionValue)
     }
-    ctx.body = ejs.render(getTemplate(template, "ejs"), {
+    ctx.body = await getTemplate(template, {
         roomId
     });
 })
 viewRouter.get('/danmuji',async (ctx,next)=>{
     let template = 'danmuji'
-    ctx.body = ejs.render(getTemplate(template,'ejs'))
+    ctx.body =await getTemplate(template)
 })
 
 viewRouter.get("/danmu/list/:roomId", async (ctx, next) => {
     let template = "user-list";
     const roomId=ctx.params['roomId']
     
-    ctx.body = ejs.render(getTemplate(template, "ejs"), {
+    ctx.body = await getTemplate(template, {
         roomId
     });
 });
@@ -71,7 +71,7 @@ viewRouter.get('/user/info/:uid/:roomId', async (ctx, next) => {
         }
     })
     if(!user) return
-    ctx.body = ejs.render(getTemplate(template, "ejs"), {
+    ctx.body =await getTemplate(template, {
         uid,
         roomId,
         user
@@ -106,7 +106,7 @@ viewRouter.get('/analysis',async(ctx,next)=>{
                 }
             }
         })
-        ctx.body=ejs.render(getTemplate(template, "ejs"),{room});
+        ctx.body=await getTemplate(template,{room});
         return
     }
 

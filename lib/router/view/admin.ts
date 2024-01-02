@@ -16,7 +16,7 @@ adminRouter.use(viewRouter.routes())
 
 adminRouter.get("/",async (ctx,next)=>{
     const template='admin'
-    ctx.body=ejs.render(getTemplate(template,'ejs'))
+    ctx.body=await getTemplate(template)
 })
 
 

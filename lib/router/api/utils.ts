@@ -1,11 +1,19 @@
 import { Context } from "koa"
 import fs from "node:fs"
 import path from "node:path"
+import ejs from "ejs";
+import type {Options,Data} from "ejs"
 import { ParsedUrlQuery } from "node:querystring"
 
-export function getTemplate(name: string, ext: string = 'html') {
-    const buffer = fs.readFileSync(path.resolve(process.cwd(), 'template', `${name}.${ext}`))
-    return buffer.toString()
+export async function getTemplate(name: string,data?:Data,options?:Options,ext: string = 'html') {
+    if(data&&options){
+        return await ejs.renderFile(path.resolve(process.cwd(),'template',`${name}.${ext}`),data,options)
+    }else if(data){
+        return await ejs.renderFile(path.resolve(process.cwd(),'template',`${name}.${ext}`),data)
+    }else{
+        return await ejs.renderFile(path.resolve(process.cwd(),'template',`${name}.${ext}`))
+    }
+    
 }
 
 export function parseQuery(query: ParsedUrlQuery, key: string): string |undefined{

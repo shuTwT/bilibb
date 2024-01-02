@@ -11,7 +11,7 @@ viewRouter.use(biliRouter.routes())
 
 viewRouter.get("/login",async (ctx,next)=>{
     const template='login'
-    ctx.body=ejs.render(getTemplate(template,'ejs'))
+    ctx.body=await getTemplate(template)
 })
 
 

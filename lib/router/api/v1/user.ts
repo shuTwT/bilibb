@@ -112,7 +112,7 @@ userRouter.get('/info/:uid', async (ctx, next) => {
         return
     }
 
-    ctx.body = ejs.render(getTemplate(template, 'ejs'), {
+    ctx.body = await getTemplate(template, {
         user: user,
     })
 })
@@ -179,7 +179,7 @@ userRouter.get('/info/:uid/:roomId', async (ctx, next) => {
     if (!user) {
         return
     }
-    ctx.body = ejs.render(getTemplate(template, 'ejs'), {
+    ctx.body = await getTemplate(template, {
         user: user,
     })
 })

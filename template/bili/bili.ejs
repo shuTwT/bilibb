@@ -4,11 +4,1323 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>仿b站</title>
+    <link rel="stylesheet" href="/bili.css">
 </head>
 <body>
-    <div id="app"><%-html%></div>
+    <div id="app">
+        <div class="logobg png_bg">
+            <div class="p-bg png_bg">
+              <div class="main">
+                <div class="sellm">
+                  <a href="http://www.bilibili.tv/announcement/" target="_blank" style="
+                      position: absolute;
+                      left: 0px;
+                      top: 0px;
+                      display: block;
+                      width: 46px;
+                      height: 16px;
+                    "></a>
+                  <div id="sellm">
+                    <template v-for="(item,index) in notice" :key="index">
+                        <a v-bind:href="item.link"><span v-text="item.date"></span>{{item.title}}</a>
+                    </template>    
+                  </div>
+                </div>
+                <div id="index_online">
+                  当前在线:
+                  <b title="当前在线人数代表目前连接到服务器的独立IP总数">6742</b>
+                  <a href="http://www.bilibili.tv/online.html" title="正在观看人数代表目前同时在看视频的连接数(同1用户同时开2个视频算2个)">正在观看: <b>7590</b></a> <a style="color: #888" href="http://www.bilibili.tv/badlist.html">本日黑名单</a>
+                </div>
+                <div id="hd_bg">
+                  <div id="logo">
+                    <a href="javascript:void(0);" class="png_bg" style="cursor: pointer"><img data-src="./bilibili.tv_files/saved_resource"></img></a>
+                  </div>
+                  <div id="topgg"></div>
+                </div>
+                <div id="num">
+                  <div class="num_bg png_bg">
+                    <template v-for="(item,index) in navList" :key="index">
+                        <span class="num_r_bg" >
+                            <a v-bind:href="item.link" class="home">{{item.title}}</a>
+                        </span>
+                    </template>
+                  </div>
+                </div>
+                <a href="http://www.bilibili.tv/ranking" class="moh" title="排行榜"></a>
+                <div class="os_pu">
+                  <a href="http://www.bilibili.tv/newlist.html" target="_blank">新投稿</a>
+                  |
+                  <a href="http://www.bilibili.tv/history.html" target="_blank">历史观看</a>
+                </div>
+                <div class="Search png_bg">
+                  <form action="http://www.bilibili.tv/search" name="formsearch" id="searchform" target="_blank">
+                    <input name="keyword" type="text" style="border: none" class="search-keyword ui-autocomplete-input" value="" id="search-keyword" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
+                    <input name="orderby" type="hidden" value="">
+                    <button type="submit" name="formsubmit" class="search-submit png_bg"></button>
+                  </form>
+                </div>
+                <a class="minirss" href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/rss.html" target="_blank" title="RSS Feed"></a><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/random" target="_blank" title="随便找个视频看看?" class="lsb png_bg"></a>
+                <div class="z">
+                  <div class="z-left">
+                    <div class="hst idx" style="display: flex;flex-wrap: wrap;">
+                        <% rid22.archives.forEach(item=>{%>
+                            <div class="po">
+                                <a href="http://www.bilibili.com/video/<%=item.bvid%>/" target="_blank"><img src="<%=item.pic%>" style="
+                                      background: url('https://web.archive.org/web/20110831002306/http://static.loli.my/images/po-img-bg.png') -742px -26px
+                                        no-repeat;
+                                    ">
+                                  <div class="t">
+                                    <%=item.title%>
+                                  </div></a>
+                                <b class="s"><%=item.duration%></b> <b class="z">206 (+3685)</b>
+                                <div class="u"><b></b><%item.owner.name%></div>
+                                <div class="i">
+                                  <h5>190</h5>
+                                  <h6>3302</h6>
+                                </div>
+                              </div>
+                        <% })%>
+                    </div>
+                    <div id="indexgg1"></div>
+                    <div id="indexgg2"></div>
+                    <div class="D_C">
+                      <div class="nav">
+                        <ul>
+                          <li id="n_1" class="on">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/douga.html" target="_blank"></a><b id="online_1">1326</b>
+                          </li>
+                          <li id="n_2">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/bangumi.html" target="_blank"></a><b id="online_13">1806</b>
+                          </li>
+                          <li id="n_3">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/music.html" target="_blank"></a><b id="online_3">854</b>
+                          </li>
+                          <li id="n_4">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/game.html" target="_blank"></a><b id="online_4">1197</b>
+                          </li>
+                          <li id="n_5">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/ent.html" target="_blank"></a><b id="online_5">1770</b>
+                          </li>
+                          <li id="n_6">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/part.html" target="_blank"></a><b id="online_11">919</b>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="indexgg2"></div>
+                      <%- include("./tab0.ejs")%>
+                      <div class="tabs" style="display: none" id="jq_tabs_1">
+                        <div class="l_hot">
+                            <template v-for="item in 5" :key="item">
+                                <div class="po2" gk="19482" sc="61" pl="332" dm="9798" lm="" tg="08/30 09:42" txt="摇曳百合 少女之间的百合故事~orz 熟悉的小灯里又回来啦～ 更换高清~" pf="5145" yb="100">
+                                    <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137804/" target="_blank"><img _src="http://i0.loli.my/user/543/54326/131466853916f57892f0954902.jpg">
+                                      <div class="t">摇曳百合09【千夏】</div></a>
+                                    <b class="s">74:04</b> <b class="z">100 (+5145)</b>
+                                  </div>
+                            </template>
+                        </div>
+                        <div id="l_box">
+                          <div class="l_l">
+                            <template v-for="item in 9" :key="item">
+                                <div class="po" gk="11567" sc="10" pl="119" dm="5170" lm="" tg="08/30 09:13" txt="sina 娘口三三 你的外号越来越多了wwwww【封面P站id：id=20205420】" pf="2500" yb="5" id="jq_po_17">
+                                    <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137784/" target="_blank"><img _src="http://i0.loli.my/user/191/19177/13146668338f3633ab54856925.jpg" style="
+                                          background: url('https://web.archive.org/web/20110831002306/http://static.loli.my/images/po-img-bg.png') -72px -26px
+                                            no-repeat;
+                                        ">
+                                      <div class="t">夏目友人帐3 09【WOLF】</div></a>
+                                    <b class="s">24:14</b> <b class="z">5 (+2500)</b>
+                                    <div class="u"><b></b>施主您菊花松了</div>
+                                    <div class="i">
+                                      <h5>119</h5>
+                                      <h6>5170</h6>
+                                    </div>
+                                  </div>
+                            </template>
+                          </div>
+                          <div class="mtabs l_r">
+                            <h1 class="unselectTab">最新视频</h1>
+                            <h1 class="unselectTab">热门评论</h1>
+                            <div class="m_div selectContent" style="display: none">
+                              <ul class="new_list">
+                                <template v-for="item in 18" :key="item">
+                                    <li title="【日剧新番】IS性别不明07【人人】">
+                                        <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138271/" target="_blank">【日剧新番】IS性别不明07【人人】</a>
+                                      </li>
+                                </template>
+                                
+                              </ul>
+                            </div>
+                            <div class="m_div unselectContent" style="display: none">
+                              <ul class="new_list">
+                                <template v-for="item in 18" :key="item">
+                                    <li title="【4月】日常 22 【异域****】">
+                                        <span>494</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136978/" target="_blank">【4月】日常 22 【异域****】</a>
+                                      </li>
+                                </template>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="tabs" style="display: none" id="jq_tabs_2">
+                        <div class="l_hot">
+                            <template v-for="item in 5" :key="item">
+                                <div class="po2" gk="9447" sc="175" pl="170" dm="869" lm="" tg="08/29 12:11" txt="原创 新作, 金坷垃拯救幻想乡! PV做得有点渣了..." pf="3465" yb="55">
+                                    <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137381/" target="_blank"><img _src="http://i1.loli.my/user/71/7119/1314591105c65e8ba30915a21b.jpg">
+                                      <div class="t">【金坷垃】坷垃万华镜</div></a>
+                                    <b class="s">3:50</b> <b class="z">55 (+3465)</b>
+                                  </div>
+                            </template>
+                        </div>
+                        <div id="l_box">
+                          <div class="l_l">
+                            <template v-for="item in 9" :key="item">
+                                <div class="po" gk="51478" sc="710" pl="135" dm="4486" lm="" tg="08/07 00:42" txt="nico，新浪 在nico上的台湾的二胡帝他的两个视频清单 http://www.nicovideo.jp/mylist/5114122 http://www." pf="2700" yb="30" id="jq_po_26">
+                                    <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av125396/" target="_blank"><img _src="http://i1.loli.my/user/1356/135644/1312648935c354964a558e65bd.jpg" style="
+                                          background: url('https://web.archive.org/web/20110831002306/http://static.loli.my/images/po-img-bg.png') -232px -26px
+                                            no-repeat;
+                                        ">
+                                      <div class="t">
+                                        【二胡帝】各种神曲二胡版【已更新《某科学的超电磁炮》OP】
+                                      </div></a>
+                                    <b class="s">93:38</b> <b class="z">30 (+2700)</b>
+                                    <div class="u"><b></b>悠悠百树</div>
+                                    <div class="i">
+                                      <h5>135</h5>
+                                      <h6>4486</h6>
+                                    </div>
+                                  </div>
+                            </template>
+                          <div class="mtabs l_r">
+                            <h1 class="unselectTab">最新视频</h1>
+                            <h1 class="unselectTab">热门评论</h1>
+                            <div class="m_div selectContent" style="display: none">
+                              <ul class="new_list">
+                                <template v-for="item in 18" :key="item">
+                                    <li title="【初音ミク】Mine">
+                                        <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138253/" target="_blank">【初音ミク】Mine</a>
+                                      </li>
+                                </template>
+                              </ul>
+                            </div>
+                            <div class="m_div unselectContent" style="display: none">
+                              <ul class="new_list">
+                                <template v-for="item in 18">
+                                    <li title="【金坷垃】坷垃万华镜">
+                                        <span>170</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137381/" target="_blank">【金坷垃】坷垃万华镜</a>
+                                      </li>
+                                </template>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="tabs" style="display: none" id="jq_tabs_3">
+                        <div class="l_hot">
+                          <div class="po2" gk="7955" sc="29" pl="85" dm="3472" lm="" tg="08/27 10:57" txt="youku Part3在稍微有点“不愉快”中发布了，具体什么原因，大家可以看看视频的最后。万事开头难，加上总有一些以黑人为乐的人，不过我们会把这一切都当做是一种" pf="2215" yb="42">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136357/" target="_blank"><img _src="http://i2.loli.my/user/1360/136093/1314413862582fc240dd2674a7.jpg">
+                              <div class="t">
+                                【nico搬運協會】抖M的鬼畜游戏实况【まっくす】 part3
+                              </div></a>
+                            <b class="s">27:41</b> <b class="z">42 (+2215)</b>
+                          </div>
+                          <div class="po2" gk="12101" sc="55" pl="81" dm="3420" lm="" tg="08/24 23:14" txt="youku sm5700927 P3传送门 av136357 I wanna be the guy Part2，如果没有大家的支持与鼓励(当然还有批评XD)P2" pf="1870" yb="43">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135093/" target="_blank"><img _src="http://i1.loli.my/user/1360/136093/13142051302680715401375363.jpg">
+                              <div class="t">
+                                【nico搬運協會】抖M的鬼畜游戏实况【まっくす】 part2
+                              </div></a>
+                            <b class="s">24:32</b> <b class="z">43 (+1870)</b>
+                          </div>
+                          <div class="po2" gk="24917" sc="111" pl="111" dm="1676" lm="" tg="08/24 23:46" txt="SINA 我承认我听到他开始喊那个字的时候无耻的笑翻了。。。" pf="1680" yb="8">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135113/" target="_blank"><img _src="http://i1.loli.my/user/1966/196630/13142007739a1b020d1187c6b4.jpg">
+                              <div class="t">
+                                最后居然是这样高调的破了纪录！这就是基情啊兄弟！自备字幕若干
+                              </div></a>
+                            <b class="s">7:04</b> <b class="z">8 (+1680)</b>
+                          </div>
+                          <div class="po2" gk="21650" sc="43" pl="76" dm="246" lm="" tg="08/25 08:07" txt="原创 15秒系列第二弹~" pf="1645" yb="10">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135204/" target="_blank"><img _src="http://i1.loli.my/user/63/6399/1314230861359c3c2e42a22b80.jpg">
+                              <div class="t">【THD】15秒教你玩红三</div></a>
+                            <b class="s">0:36</b> <b class="z">10 (+1645)</b>
+                          </div>
+                          <div class="po2 i5" gk="13161" sc="111" pl="32" dm="2318" lm="" tg="08/24 20:14" txt="http://v.youku.com/v_show/id_XMjk3OTY3NDU2.html 【游戏杂谈】游戏中成长，一定要把孩子养成流氓" pf="1370" yb="7">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135012/" target="_blank"><img _src="http://i0.loli.my/user/828/82882/131418804127bd263e6be8ffcf.jpg">
+                              <div class="t">
+                                【游戏杂谈】游戏中成长，一定要把孩子养成流氓
+                              </div></a>
+                            <b class="s">17:55</b> <b class="z">7 (+1370)</b>
+                          </div>
+                        </div>
+                        <div id="l_box">
+                          <div class="l_l">
+                            <div class="po" gk="3217" sc="3" pl="91" dm="1502" lm="" tg="08/30 15:28" txt="XMjk5NjczNjg4 板砖的电脑不给力了。。。我把无聊的教程和冗长的读盘时间都给剪掉了。。。这游戏真是超好玩的" pf="345" yb="10" id="jq_po_35">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137939/" target="_blank"><img _src="http://i0.loli.my/user/268/26815/131468933314bf620a1b85450d.jpg" style="
+                                    background: url('https://web.archive.org/web/20110831002306/http://static.loli.my/images/po-img-bg.png') -72px -26px
+                                      no-repeat;
+                                  ">
+                                <div class="t">
+                                  板砖的杀出重围3人类革命超羞耻娱乐吐槽视频1,生化鬼父2~⑨,战锤40K战报
+                                </div></a>
+                              <b class="s">154:45</b> <b class="z">10 (+345)</b>
+                              <div class="u"><b></b>板砖</div>
+                              <div class="i">
+                                <h5>91</h5>
+                                <h6>1502</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="28725" sc="76" pl="120" dm="13472" lm="" tg="08/06 00:38" txt="妹痛RPG SABER字幕组出品 传说中的坑爹向RPG P.S:突然想起来这个坑了 于是填上吧=w=" pf="1860" yb="9" id="jq_po_36">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av124686/" target="_blank"><img _src="http://i1.loli.my/user/0/79/1312562293c9ac04c7bfc822ca.jpg" style="
+                                    background: url('https://web.archive.org/web/20110831002306/http://static.loli.my/images/po-img-bg.png') -72px -26px
+                                      no-repeat;
+                                  ">
+                                <div class="t">【妹痛RPG】幼女RPG 中文字幕</div></a>
+                              <b class="s">27:11</b> <b class="z">9 (+1860)</b>
+                              <div class="u"><b class="u25000"></b>saber酱</div>
+                              <div class="i">
+                                <h5>120</h5>
+                                <h6>13472</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="1598" sc="1" pl="8" dm="483" lm="" tg="08/29 22:13" txt="原创 优酷画质很一般........ 依然是好奇宝宝操作和讲解~UP在打酱油而已.......... 对这次录制觉得不错,合适菜鸟和UP -_-!!" pf="30" yb="0" id="jq_po_37">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137647/" target="_blank"><img _src="http://i0.loli.my/user/1431/143170/13146271855ce8701e67489642.gif">
+                                <div class="t">[基友实况]生化危机5 第二期</div></a>
+                              <b class="s">38:25</b> <b class="z"> +30</b>
+                              <div class="u"><b></b>希望在明天</div>
+                              <div class="i">
+                                <h5>8</h5>
+                                <h6>483</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="774" sc="1" pl="32" dm="245" lm="" tg="08/30 23:53" txt="原创 恩，因为最近玩这个比较多，那么就录这个吧，每周尽量解说完10个免费英雄，，新手向。" pf="255" yb="1" id="jq_po_38">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138195/" target="_blank"><img _src="http://i0.loli.my/user/216/21666/1314719588da35f1de87328623.jpg">
+                                <div class="t">
+                                  【英雄联盟】蘑菇汤的英雄联盟第一视角解说（披甲龙龟）
+                                </div></a>
+                              <b class="s">24:16</b> <b class="z">1 (+255)</b>
+                              <div class="u"><b></b>暴躁的蘑菇汤</div>
+                              <div class="i">
+                                <h5>32</h5>
+                                <h6>245</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="40" sc="0" pl="0" dm="23" lm="" tg="08/30 23:56" txt="御剑你好萌&amp;gt;.&amp;lt;~ http://blog.sina.com.cn/u/2034314230" pf="25" yb="0" id="jq_po_39">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138199/" target="_blank"><img _src="http://i1.loli.my/user/2019/201923/1314719803577593aad3c39c70.jpg">
+                                <div class="t">
+                                  【逆转裁判1】实况play【むーちゃん】part3
+                                </div></a>
+                              <b class="s">34:44</b> <b class="z"> +25</b>
+                              <div class="u"><b></b>DSM</div>
+                              <div class="i">
+                                <h5>0</h5>
+                                <h6>23</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="3347" sc="0" pl="18" dm="283" lm="" tg="06/04 01:24" txt="经典智力RPG地图之一 谁是智障6.0 无聊之余做了一个视频攻略 表示UP主都是自己研究出来的 P.S：没有S/L" pf="90" yb="1" id="jq_po_40">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av98806/" target="_blank"><img _src="http://i0.loli.my/user/0/79/1307121843f460ab999cbc168c.gif">
+                                <div class="t">【WAR3】这货一次都不死</div></a>
+                              <b class="s">11:46</b> <b class="z">1 (+90)</b>
+                              <div class="u"><b class="u25000"></b>saber酱</div>
+                              <div class="i">
+                                <h5>18</h5>
+                                <h6>283</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="268" sc="0" pl="3" dm="43" lm="" tg="08/30 12:38" txt="PLU英雄联盟原创 PLU原创英雄联盟视频 互动论坛: http://bbs.plu.cn LOL子站: http://lol.plu.cn 以后会接连上传更多" pf="50" yb="0" id="jq_po_41">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137870/" target="_blank"><img _src="http://i0.loli.my/user/2068/206804/1314679106bcabda26b5cdb31b.jpg">
+                                <div class="t">
+                                  PLU英雄联盟《速成宝典》金属大师 莫德凯撒
+                                </div></a>
+                              <b class="s">44:23</b> <b class="z"> +50</b>
+                              <div class="u"><b></b>PLU英雄联盟</div>
+                              <div class="i">
+                                <h5>3</h5>
+                                <h6>43</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="286469" sc="1985" pl="945" dm="40495" lm="" tg="07/07 10:46" txt="33a http://6.cn/watch/14753893.html 用IE去原地址看吧 完结 希望大家继续支持KFC其他作品以及4月KFC参与制作的动画 2" pf="2590" yb="166" id="jq_po_42">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av12826/" target="_blank"><img _src="http://i2.loli.my/userup/25788/12N4FM3-b60.jpg" style="
+                                    background: url('https://web.archive.org/web/20110831002306/http://static.loli.my/images/po-img-bg.png') -572px -26px
+                                      no-repeat;
+                                  ">
+                                <div class="t">【完结】steins;gate 中文影像版</div></a>
+                              <b class="s">333:56</b> <b class="z">166 (+2590)</b>
+                              <div class="u"><b></b>黎亦乔</div>
+                              <div class="i">
+                                <h5>945</h5>
+                                <h6>40495</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="18758" sc="24" pl="22" dm="1368" lm="" tg="01/27 23:04" txt="不会分P啊晕" pf="115" yb="0" id="jq_po_43">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av53597/" target="_blank"><img _src="http://i2.loli.my/userup/90748/1296140C0-4207.jpg">
+                                <div class="t">[老物]喷神James-恶魔城系列</div></a>
+                              <b class="s">22:57</b> <b class="z"> +115</b>
+                              <div class="u"><b></b>芙兰と⑨</div>
+                              <div class="i">
+                                <h5>22</h5>
+                                <h6>1368</h6>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="mtabs l_r">
+                            <h1 class="unselectTab">最新视频</h1>
+                            <h1 class="unselectTab">热门评论</h1>
+                            <div class="m_div selectContent" style="display: none">
+                              <ul class="new_list">
+                                <li title="Dirt3痛车泉此方大雪挪威">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138245/" target="_blank">Dirt3痛车泉此方大雪挪威</a>
+                                </li>
+                                <li title="【mhp3】MHC上海區初賽現場視頻，龍鱗，波天">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138244/" target="_blank">【mhp3】MHC上海區初賽現場視頻，龍鱗，波天</a>
+                                </li>
+                                <li title="【这真的不是搞笑视频】职业玩家教你在幻想大陆打飞机">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138231/" target="_blank">【这真的不是搞笑视频】职业玩家教你在幻想大陆打飞机</a>
+                                </li>
+                                <li title="安卓OSU 超长版 手残之做 流星群人参玩家">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138230/" target="_blank">安卓OSU 超长版 手残之做 流星群人参玩家</a>
+                                </li>
+                                <li title="【重口味第一视角】一个不学影压的SF 疯狂杀戮超神的故事">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138220/" target="_blank">【重口味第一视角】一个不学影压的SF
+                                    疯狂杀戮超神的故事</a>
+                                </li>
+                                <li title="【后主の实况PLAY】口袋妖怪白-part8 基情play">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138217/" target="_blank">【后主の实况PLAY】口袋妖怪白-part8 基情play</a>
+                                </li>
+                                <li title="[多情痴汉无情剑]巫师2娱乐实况by大民2">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138207/" target="_blank">[多情痴汉无情剑]巫师2娱乐实况by大民2</a>
+                                </li>
+                                <li title="【逆转裁判1】实况play【むーちゃん】part3">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138199/" target="_blank">【逆转裁判1】实况play【むーちゃん】part3</a>
+                                </li>
+                                <li title="【英雄联盟】蘑菇汤的英雄联盟第一视角解说（披甲龙龟）">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138195/" target="_blank">【英雄联盟】蘑菇汤的英雄联盟第一视角解说（披甲龙龟）</a>
+                                </li>
+                                <li title="【PS3】アイマスG4U! プレイ動画">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138184/" target="_blank">【PS3】アイマスG4U! プレイ動画</a>
+                                </li>
+                                <li title="PS3手柄来操作太鼓达人《初音未来的激唱》鬼难度">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138175/" target="_blank">PS3手柄来操作太鼓达人《初音未来的激唱》鬼难度</a>
+                                </li>
+                                <li title="游戏王 螃蟹的卡组vs烧血向">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138158/" target="_blank">游戏王 螃蟹的卡组vs烧血向</a>
+                                </li>
+                                <li title="《零 ～紅い蝶～》KIRIN解说攻略视频">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138155/" target="_blank">《零 ～紅い蝶～》KIRIN解说攻略视频</a>
+                                </li>
+                                <li title="游戏王 命运女郎vsTG 国内玩家的决斗">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138154/" target="_blank">游戏王 命运女郎vsTG 国内玩家的决斗</a>
+                                </li>
+                                <li title="GSL8月S级8强TOP vs Genius">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138152/" target="_blank">GSL8月S级8强TOP vs Genius</a>
+                                </li>
+                                <li title="GSL8月S级8强Keen vs Optimus">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138128/" target="_blank">GSL8月S级8强Keen vs Optimus</a>
+                                </li>
+                                <li title="【SD敢达】将我女体化吧VEDA！——炽天使合辑">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138125/" target="_blank">【SD敢达】将我女体化吧VEDA！——炽天使合辑</a>
+                                </li>
+                                <li title="欧罗巴作战演示">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138119/" target="_blank">欧罗巴作战演示</a>
+                                </li>
+                                <li title="【恶魔之斗】xiaoy解说Zcup决赛 remind vs sonik">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138110/" target="_blank">【恶魔之斗】xiaoy解说Zcup决赛 remind vs sonik</a>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="m_div unselectContent" style="display: none">
+                              <ul class="new_list">
+                                <li title="12dora的魔法湿之路01">
+                                  <span>151</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137470/" target="_blank">12dora的魔法湿之路01</a>
+                                </li>
+                                <li title="最后居然是这样高调的破了纪录！这就是基情啊兄弟！自备字幕若干">
+                                  <span>111</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135113/" target="_blank">最后居然是这样高调的破了纪录！这就是基情啊兄弟！自备字幕若干</a>
+                                </li>
+                                <li title="口袋妖怪中的恐怖世界观解析（全部字幕补完）">
+                                  <span>111</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av134895/" target="_blank">口袋妖怪中的恐怖世界观解析（全部字幕补完）</a>
+                                </li>
+                                <li title="板砖和麻美学姐的兴奋大冒险，生化鬼父2娱乐吐槽八,大腿战报69~72，">
+                                  <span>93</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135781/" target="_blank">板砖和麻美学姐的兴奋大冒险，生化鬼父2娱乐吐槽八,大腿战报69~72，</a>
+                                </li>
+                                <li title="板砖的杀出重围3人类革命超羞耻娱乐吐槽视频1,生化鬼父2~⑨,战锤40">
+                                  <span>91</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137939/" target="_blank">板砖的杀出重围3人类革命超羞耻娱乐吐槽视频1,生化鬼父2~⑨,战锤40</a>
+                                </li>
+                                <li title="【nico搬運協會】抖M的鬼畜游戏实况【まっくす】 part3">
+                                  <span>85</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136357/" target="_blank">【nico搬運協會】抖M的鬼畜游戏实况【まっくす】
+                                    part3</a>
+                                </li>
+                                <li title="[撒萌萌第一视角]oHhh！Fresh Meat">
+                                  <span>85</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136201/" target="_blank">[撒萌萌第一视角]oHhh！Fresh Meat</a>
+                                </li>
+                                <li title="[满楼水平]逆袭的DD 大兵电魂参上">
+                                  <span>84</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137706/" target="_blank">[满楼水平]逆袭的DD 大兵电魂参上</a>
+                                </li>
+                                <li title="【nico搬運協會】抖M的鬼畜游戏实况【まっくす】 part2">
+                                  <span>81</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135093/" target="_blank">【nico搬運協會】抖M的鬼畜游戏实况【まっくす】
+                                    part2</a>
+                                </li>
+                                <li title="OZ大乱斗娱乐解说第二季15">
+                                  <span>79</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136199/" target="_blank">OZ大乱斗娱乐解说第二季15</a>
+                                </li>
+                                <li title="【THD】15秒教你玩红三">
+                                  <span>76</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135204/" target="_blank">【THD】15秒教你玩红三</a>
+                                </li>
+                                <li title="【喷神james】任天堂世界锦标赛">
+                                  <span>71</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136806/" target="_blank">【喷神james】任天堂世界锦标赛</a>
+                                </li>
+                                <li title="MHP3(C80)鬼月 もんはんのえろほん11？(伪)">
+                                  <span>67</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av134778/" target="_blank">MHP3(C80)鬼月 もんはんのえろほん11？(伪)</a>
+                                </li>
+                                <li title="【THD】这是新手的第一视角!">
+                                  <span>65</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137435/" target="_blank">【THD】这是新手的第一视角!</a>
+                                </li>
+                                <li title="【完结】路痴妹子的寂静岭5实况part12">
+                                  <span>51</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135538/" target="_blank">【完结】路痴妹子的寂静岭5实况part12</a>
+                                </li>
+                                <li title="【史上最坑爹的游戏续作】囧的呼唤106期">
+                                  <span>50</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136466/" target="_blank">【史上最坑爹的游戏续作】囧的呼唤106期</a>
+                                </li>
+                                <li title="【osu】Touhou Extra Boss Rush！！">
+                                  <span>47</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135302/" target="_blank">【osu】Touhou Extra Boss Rush！！</a>
+                                </li>
+                                <li title="【THD】15秒教你玩妖梦">
+                                  <span>46</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135015/" target="_blank">【THD】15秒教你玩妖梦</a>
+                                </li>
+                                <li title="轨迹系列女性乳量排行 问天下谁与争峰！">
+                                  <span>40</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137043/" target="_blank">轨迹系列女性乳量排行 问天下谁与争峰！</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="tabs" style="display: none" id="jq_tabs_4">
+                        <div class="l_hot">
+                          <div class="po2" gk="28342" sc="173" pl="278" dm="3040" lm="" tg="08/26 11:49" txt="土豆 致身体缺陷者 流泪的记者走前走后的不同话语--蓝志什么脱口秀85 UP主表示蓝志这期是为身体缺陷者写的 最后那段话 我想每个曾经因为身体原因而被取笑的人 " pf="4650" yb="53">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135789/" target="_blank"><img _src="http://i0.loli.my/user/1541/154107/13143305464e0c9dc796cb21d5.jpg">
+                              <div class="t">
+                                蓝志85期 UP主表示眼睛进砖头了。。。。
+                              </div></a>
+                            <b class="s">9:10</b> <b class="z">53 (+4650)</b>
+                          </div>
+                          <div class="po2" gk="16191" sc="95" pl="111" dm="2142" lm="" tg="08/26 18:30" txt="原创 每次遇到“简介”的时候都不知道该写点什么……嘛，就这样吧，今后剩下的几话也请大家多多支持…… 我的微博：http://weibo.com/bringyou" pf="3120" yb="36">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135987/" target="_blank"><img _src="http://i0.loli.my/user/1124/112428/13143546024fc4a1a343183d61.jpg">
+                              <div class="t">
+                                【讲述元首自己的故事】元首的日常 第八话
+                              </div></a>
+                            <b class="s">14:54</b> <b class="z">36 (+3120)</b>
+                          </div>
+                          <div class="po2" gk="14165" sc="89" pl="67" dm="552" lm="" tg="08/26 17:26" txt="原创 动态视力考试，也适合暂停党考试" pf="1885" yb="10">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135942/" target="_blank"><img _src="http://i0.loli.my/user/1224/122459/1314351049b7b1eb79a4ec6ba8.jpg">
+                              <div class="t">
+                                里面有奇怪的福利我会告诉你么【动态视力】
+                              </div></a>
+                            <b class="s">2:25</b> <b class="z">10 (+1885)</b>
+                          </div>
+                          <div class="po2" gk="16574" sc="210" pl="86" dm="663" lm="" tg="08/28 08:54" txt="@Evan_LC19 转自viva2025的新浪播客 有人给Carlin老爷子这段讲环保的视频做了字幕了“救救地球？救你妹啊！”" pf="1595" yb="5">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136846/" target="_blank"><img _src="http://i1.loli.my/user/370/37017/1314492898514a1d471f10ea90.jpg">
+                              <div class="t">
+                                以前的喷子都弱爆了“救救地球？救你妹啊！”
+                              </div></a>
+                            <b class="s">8:14</b> <b class="z">5 (+1595)</b>
+                          </div>
+                          <div class="po2 i5" gk="10998" sc="46" pl="55" dm="635" lm="" tg="08/25 01:14" txt="原创 先生の误指导 跟风向 音频协助——薛定谔的羊驼 视频指导——高興帝" pf="1140" yb="19">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135141/" target="_blank"><img _src="http://i2.loli.my/user/609/60902/13142060679addb1c5cb5d6e3d.jpg">
+                              <div class="t">【毫无鬼畜】Rainbow Soka【创价】</div></a>
+                            <b class="s">1:49</b> <b class="z">19 (+1140)</b>
+                          </div>
+                        </div>
+                        <div id="l_box">
+                          <div class="l_l">
+                            <div class="po" gk="79" sc="0" pl="2" dm="3" lm="" tg="08/30 20:17" txt="【自压】 咱习惯把恐怖电影叫鬼片。2M以上网速无压力，缓冲慢、无法看的请用代理服务器。【剧透什么的请自重，毕竟现在不开放注册了】PS.封面什么的眼熟吗？" pf="0" yb="0" id="jq_po_44">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138079/" target="_blank"><img _src="http://i0.loli.my/user/704/70432/131470666675932127779faae4.gif">
+                                <div class="t">
+                                  【高清】【鬼片】惊声尖叫4【2011】[惊悚][恐怖]
+                                </div></a>
+                              <b class="s">57:12</b>
+                              <div class="u"><b></b>bilibili伯</div>
+                              <div class="i">
+                                <h5>2</h5>
+                                <h6>3</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="59" sc="0" pl="0" dm="0" lm="" tg="08/30 17:56" txt="【自压】 咱习惯把恐怖电影叫鬼片。2M以上网速无压力，缓冲慢、无法看的请用代理服务器。【剧透什么的请自重，毕竟现在不开放注册了】" pf="0" yb="0" id="jq_po_45">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138007/" target="_blank"><img _src="http://i0.loli.my/user/704/70432/1314698162a658f7138694f079.jpg">
+                                <div class="t">
+                                  【高清】【鬼片】潜伏【2011】[恐怖][惊悚]
+                                </div></a>
+                              <b class="s">102:51</b>
+                              <div class="u"><b></b>bilibili伯</div>
+                              <div class="i">
+                                <h5>0</h5>
+                                <h6>0</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="82" sc="0" pl="3" dm="7" lm="" tg="08/30 21:01" txt="原创 Dancer：綾魂汰，伊达薯；提意见欢迎，拍砖欢迎，但请别喷得太狠，一个视频出来不容易，做个正常观众，让舞蹈区更和谐，请多指教" pf="40" yb="0" id="jq_po_46">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138112/" target="_blank"><img _src="http://i0.loli.my/user/325/32584/13147092687b18aa4611c3949d.jpg">
+                                <div class="t">
+                                  【百鬼Project】Only my railgunを踊ってみた
+                                </div></a>
+                              <b class="s">4:25</b> <b class="z"> +40</b>
+                              <div class="u"><b></b>Kiseri</div>
+                              <div class="i">
+                                <h5>3</h5>
+                                <h6>7</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="4821" sc="26" pl="38" dm="1397" lm="" tg="08/30 04:30" txt="【自压】 2M以上网速无压力，缓冲慢、无法看的请用代理服务器。【剧透者申请封号】 /雷神奇侠(港) / 雷神索尔(台) / 雷神托尔 / 雷神归来 / 雷神之锤" pf="220" yb="1" id="jq_po_47">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137750/" target="_blank"><img _src="http://i1.loli.my/user/704/70432/13146498351046cd1866bbbcdf.jpg">
+                                <div class="t">
+                                  【高清】雷神【2011】[科幻][神话]
+                                </div></a>
+                              <b class="s">117:27</b> <b class="z">1 (+220)</b>
+                              <div class="u"><b></b>bilibili伯</div>
+                              <div class="i">
+                                <h5>38</h5>
+                                <h6>1397</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="134" sc="0" pl="2" dm="19" lm="" tg="08/31 00:53" txt="快开学了...其实视频是赶出来的 其实UP主是没作业的魂淡...但是UP主很讨厌开学，因为开学就不能随意睡觉不能随时想吃就吃，还要听一堆玩CF的优越党的教化.." pf="5" yb="0" id="jq_po_48">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138229/" target="_blank"><img _src="http://i1.loli.my/user/635/63539/1314723218751eb3b3fd24908c.jpg">
+                                <div class="t">元首对那么快就开学了很生气</div></a>
+                              <b class="s">4:14</b> <b class="z"> +5</b>
+                              <div class="u"><b></b>@乌龟吃鳖</div>
+                              <div class="i">
+                                <h5>2</h5>
+                                <h6>19</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="3333" sc="1" pl="7" dm="169" lm="" tg="07/23 14:14" txt="v.sina.com.cn 人类已经无法阻止变形金刚啦~ 第一次上传新浪，不知道画质怎样啊！~ （'ω’）" pf="15" yb="0" id="jq_po_49">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av118959/" target="_blank"><img _src="http://i1.loli.my/user/1437/143724/1311401653157a773f20984782.png">
+                                <div class="t">
+                                  【无福利】人类已经无法阻止变形金刚啦~3P？
+                                </div></a>
+                              <b class="s">1:29</b> <b class="z"> +15</b>
+                              <div class="u"><b></b>Xniko</div>
+                              <div class="i">
+                                <h5>7</h5>
+                                <h6>169</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="5773" sc="31" pl="25" dm="277" lm="" tg="08/30 14:25" txt="youtube 飒爽 “(&amp;lt;ゝω·)☆ ~" pf="320" yb="2" id="jq_po_50">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137918/" target="_blank"><img _src="http://i1.loli.my/user/885/88590/1314685504d9476987857bb5e3.jpg">
+                                <div class="t">印度~坐火车的姿势</div></a>
+                              <b class="s">1:56</b> <b class="z">2 (+320)</b>
+                              <div class="u"><b></b>真红・和泉</div>
+                              <div class="i">
+                                <h5>25</h5>
+                                <h6>277</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="6527" sc="11" pl="21" dm="57" lm="" tg="08/29 23:07" txt="土豆 这就是天朝熟练工人的战斗力 已经不是人类了" pf="250" yb="0" id="jq_po_51">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137676/" target="_blank"><img _src="http://i1.loli.my/user/770/77019/131463285702491a6aa97964a8.jpg">
+                                <div class="t">
+                                  天啊我看到了什么，外星人都颤抖了
+                                </div></a>
+                              <b class="s">1:00</b> <b class="z"> +250</b>
+                              <div class="u"><b></b>生肉骑士</div>
+                              <div class="i">
+                                <h5>21</h5>
+                                <h6>57</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="75478" sc="283" pl="422" dm="4198" lm="" tg="08/22 22:40" txt="土豆 大叔好萌" pf="4980" yb="19" id="jq_po_52">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av134014/" target="_blank"><img _src="http://i2.loli.my/user/412/41252/13140240109be7bf56ed79029c.gif" style="
+                                    background: url('https://web.archive.org/web/20110831002306/http://static.loli.my/images/po-img-bg.png') -72px -26px
+                                      no-repeat;
+                                  ">
+                                <div class="t">这才不是福利【清晰版】</div></a>
+                              <b class="s">1:24</b> <b class="z">19 (+4980)</b>
+                              <div class="u"><b></b>SD203651</div>
+                              <div class="i">
+                                <h5>422</h5>
+                                <h6>4198</h6>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="mtabs l_r">
+                            <h1 class="unselectTab">最新视频</h1>
+                            <h1 class="unselectTab">热门评论</h1>
+                            <div class="m_div selectContent" style="display: none">
+                              <ul class="new_list">
+                                <li title="れいちぇる - ZIGG-ZAGG">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138256/" target="_blank">れいちぇる - ZIGG-ZAGG</a>
+                                </li>
+                                <li title="【萌姐】KNP系ハイジ/Heidi - Yellow + 五月病/おち">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138255/" target="_blank">【萌姐】KNP系ハイジ/Heidi - Yellow +
+                                    五月病/おち</a>
+                                </li>
+                                <li title="ただのん,TAKUMA,ロンロン - スネ夫が自慢話をするときのダンス">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138254/" target="_blank">ただのん,TAKUMA,ロンロン -
+                                    スネ夫が自慢話をするときのダンス</a>
+                                </li>
+                                <li title="元首对那么快就开学了很生气">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138229/" target="_blank">元首对那么快就开学了很生气</a>
+                                </li>
+                                <li title="【紀錄片】海洋">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138225/" target="_blank">【紀錄片】海洋</a>
+                                </li>
+                                <li title="这盒饭究竟是有多难吃才能找到这样的演员">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138219/" target="_blank">这盒饭究竟是有多难吃才能找到这样的演员</a>
+                                </li>
+                                <li title="Yo te amo，我爱你。">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138218/" target="_blank">Yo te amo，我爱你。</a>
+                                </li>
+                                <li title="精神可嘉">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138216/" target="_blank">精神可嘉</a>
+                                </li>
+                                <li title="兰戈（西部 变色龙 把妹记 ）">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138215/" target="_blank">兰戈（西部 变色龙 把妹记 ）</a>
+                                </li>
+                                <li title="【怀旧向渣画质】小蜜蜂历险记（小蜜蜂找妈妈 寻母记）">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138210/" target="_blank">【怀旧向渣画质】小蜜蜂历险记（小蜜蜂找妈妈
+                                    寻母记）</a>
+                                </li>
+                                <li title="【高清】裂缝（百合向）">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138204/" target="_blank">【高清】裂缝（百合向）</a>
+                                </li>
+                                <li title="料理東西軍 20110827 豆皮烏龍麵 VS 叉燒拉麵">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138203/" target="_blank">料理東西軍 20110827 豆皮烏龍麵 VS 叉燒拉麵</a>
+                                </li>
+                                <li title="【高清】疯狂约会美丽都（晚安 奶奶）">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138194/" target="_blank">【高清】疯狂约会美丽都（晚安 奶奶）</a>
+                                </li>
+                                <li title="【怀旧向】丛林赤子心 （狗爸与小美洲狮的故事 音乐非常经典）">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138189/" target="_blank">【怀旧向】丛林赤子心 （狗爸与小美洲狮的故事
+                                    音乐非常经典）</a>
+                                </li>
+                                <li title="郭德纲、于谦2010 悠然自德 谦手十年 北京专场【全高清】">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138183/" target="_blank">郭德纲、于谦2010 悠然自德 谦手十年
+                                    北京专场【全高清】</a>
+                                </li>
+                                <li title="我的脑袋里回响着无数的F**K">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138176/" target="_blank">我的脑袋里回响着无数的F**K</a>
+                                </li>
+                                <li title="纯享受用过山车～第二弹">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138162/" target="_blank">纯享受用过山车～第二弹</a>
+                                </li>
+                                <li title="声优果然都是怪物啊">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138160/" target="_blank">声优果然都是怪物啊</a>
+                                </li>
+                                <li title="东方直播室——我为书狂【论打脸的精神与艺术】">
+                                  <span>08-30</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138153/" target="_blank">东方直播室——我为书狂【论打脸的精神与艺术】</a>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="m_div unselectContent" style="display: none">
+                              <ul class="new_list">
+                                <li title="什么能让你笑4个小时？那个28分钟无敌了">
+                                  <span>415</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av134976/" target="_blank">什么能让你笑4个小时？那个28分钟无敌了</a>
+                                </li>
+                                <li title="圆神你肿么上非诚勿搞了?">
+                                  <span>284</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136753/" target="_blank">圆神你肿么上非诚勿搞了?</a>
+                                </li>
+                                <li title="蓝志85期 UP主表示眼睛进砖头了。。。。">
+                                  <span>278</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135789/" target="_blank">蓝志85期 UP主表示眼睛进砖头了。。。。</a>
+                                </li>
+                                <li title="【以前的5秒看完弱爆了】1秒看完魔法少女小圆">
+                                  <span>206</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135555/" target="_blank">【以前的5秒看完弱爆了】1秒看完魔法少女小圆</a>
+                                </li>
+                                <li title="日本芬达广告各种动漫主角乱入">
+                                  <span>177</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135080/" target="_blank">日本芬达广告各种动漫主角乱入</a>
+                                </li>
+                                <li title="全国宅舞部面基@魔都站">
+                                  <span>120</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136058/" target="_blank">全国宅舞部面基@魔都站</a>
+                                </li>
+                                <li title="【高清】加勒比海盗4【2011】[海盗][美人鱼]">
+                                  <span>115</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135568/" target="_blank">【高清】加勒比海盗4【2011】[海盗][美人鱼]</a>
+                                </li>
+                                <li title="【重口味】《甩葱歌》被老太太演绎的……真那啥！">
+                                  <span>112</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137342/" target="_blank">【重口味】《甩葱歌》被老太太演绎的……真那啥！</a>
+                                </li>
+                                <li title="【讲述元首自己的故事】元首的日常 第八话">
+                                  <span>111</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135987/" target="_blank">【讲述元首自己的故事】元首的日常 第八话</a>
+                                </li>
+                                <li title="以前的喷子都弱爆了“救救地球？救你妹啊！”">
+                                  <span>86</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136846/" target="_blank">以前的喷子都弱爆了“救救地球？救你妹啊！”</a>
+                                </li>
+                                <li title="里面有奇怪的福利我会告诉你么【动态视力】">
+                                  <span>67</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135942/" target="_blank">里面有奇怪的福利我会告诉你么【动态视力】</a>
+                                </li>
+                                <li title="【MIKU中文】Project 金坷垃 -听力考试（无福利）">
+                                  <span>57</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135623/" target="_blank">【MIKU中文】Project 金坷垃 -听力考试（无福利）</a>
+                                </li>
+                                <li title="【youtube明星补完计划】真汉子食肉黑暗料理 第一弹[17P]补完">
+                                  <span>57</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av134720/" target="_blank">【youtube明星补完计划】真汉子食肉黑暗料理
+                                    第一弹[17P]补完</a>
+                                </li>
+                                <li title="老湿第7部：《伤不起的天朝大片》">
+                                  <span>55</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136702/" target="_blank">老湿第7部：《伤不起的天朝大片》</a>
+                                </li>
+                                <li title="【毫无鬼畜】Rainbow Soka【创价】">
+                                  <span>55</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135141/" target="_blank">【毫无鬼畜】Rainbow Soka【创价】</a>
+                                </li>
+                                <li title="如果水树奈奈突然出现在你的面前，你会是什么反应？">
+                                  <span>51</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137708/" target="_blank">如果水树奈奈突然出现在你的面前，你会是什么反应？</a>
+                                </li>
+                                <li title="【3D恐怖动画】都市传说物语">
+                                  <span>51</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135959/" target="_blank">【3D恐怖动画】都市传说物语</a>
+                                </li>
+                                <li title="【东方收获祭】STAGE 1 绝对无视">
+                                  <span>47</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137019/" target="_blank">【东方收获祭】STAGE 1 绝对无视</a>
+                                </li>
+                                <li title="【励志】载着祝福飞翔">
+                                  <span>44</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135863/" target="_blank">【励志】载着祝福飞翔</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="tabs" style="display: none" id="jq_tabs_5">
+                        <div class="l_hot">
+                          <div class="po2" gk="3113" sc="108" pl="35" dm="828" lm="" tg="08/25 08:27" txt="本来想来b站再看第N遍秒五的，结果实在受不了b站原来那个youku片源的了，果断压了720P高清（1080在线倒是没啥太大意义） 视频高压变态参数，低码率高清，" pf="470" yb="7">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135209/" target="_blank"><img _src="http://i1.loli.my/user/143/14355/1314232066d64520060ac01fb5.jpg">
+                              <div class="t">
+                                【高清】秒速五厘米 全三话【澄空】
+                              </div></a>
+                            <b class="s">62:45</b> <b class="z">7 (+470)</b>
+                          </div>
+                          <div class="po2" gk="5255" sc="76" pl="18" dm="753" lm="" tg="08/25 10:33" txt="搬运 这个搬全集很难啊- -貌似很难找不过很好看 目前就找到这些" pf="275" yb="0">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135237/" target="_blank"><img _src="http://i1.loli.my/user/1932/193250/13142396124ac02f67687f7678.jpg">
+                              <div class="t">
+                                【合集搬运】【绝境求生手册】贝爷教你在各种险境求生
+                              </div></a>
+                            <b class="s">195:20</b> <b class="z"> +275</b>
+                          </div>
+                          <div class="po2" gk="3346" sc="75" pl="38" dm="147" lm="" tg="08/25 18:01" txt="自主压制 上映时间 2002年9月6日 制作公司 Production I.G 每月两话 共有26话 原作 士郎正宗 监督 神山健治 本片耗时三年完成 花费高达" pf="245" yb="35">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135433/" target="_blank"><img _src="http://i2.loli.my/user/363/36352/13142664961e70e9d96c335743.jpg">
+                              <div class="t">
+                                【攻壳第一季完结】BD转压720P【漫游攻壳同好会】
+                              </div></a>
+                            <b class="s">696:22</b> <b class="z">35 (+245)</b>
+                          </div>
+                          <div class="po2" gk="1606" sc="12" pl="19" dm="297" lm="" tg="08/29 15:02" txt="新浪 等我哪天回老家结婚了，我就去搬第二季" pf="105" yb="0">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137464/" target="_blank"><img _src="http://i0.loli.my/user/567/56755/13146013777c3935defcb1f9e2.jpg">
+                              <div class="t">
+                                【720p】德鲁亚加之塔·乌鲁克之盾(第一季)
+                              </div></a>
+                            <b class="s">324:22</b> <b class="z"> +105</b>
+                          </div>
+                          <div class="po2 i5" gk="3339" sc="29" pl="26" dm="204" lm="" tg="08/26 11:35" txt="【本片由“小艾叔叔”点播】 骨头社被半埋没的佳作，曾获选为2009年日本文部省文化厅媒体艺术祭动画部门第十三回推荐作品。看到有人发这个的合辑我挺高兴的，可惜那位" pf="100" yb="12">
+                            <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135779/" target="_blank"><img _src="http://i0.loli.my/user/494/49443/1314329701e635354d3febf457.jpg">
+                              <div class="t">亡念之扎姆德【BD转压480P】</div></a>
+                            <b class="s">24:18</b> <b class="z">12 (+100)</b>
+                          </div>
+                        </div>
+                        <div id="l_box">
+                          <div class="l_l">
+                            <div class="po" gk="156000" sc="568" pl="445" dm="48085" lm="" tg="08/21 23:56" txt="校园迷糊大王 校园类重量级旧番，讲述平凡人自己的校园生活（大误） PS：第三季制作公司只出了最后两话作为大结局 渣浪。。。我恨你！" pf="6285" yb="177" id="jq_po_53">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av21600/" target="_blank"><img _src="http://i0.loli.my/userup/14614/12R406202-2J7.jpg" style="
+                                    background: url('https://web.archive.org/web/20110831002306/http://static.loli.my/images/po-img-bg.png') -572px -26px
+                                      no-repeat;
+                                  ">
+                                <div class="t">
+                                  【改】校园迷糊大王 第1、2、3季+OVA全
+                                </div></a>
+                              <b class="s">1278:0</b> <b class="z">177 (+6285)</b>
+                              <div class="u"><b></b>天心</div>
+                              <div class="i">
+                                <h5>445</h5>
+                                <h6>48085</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="5250" sc="39" pl="14" dm="627" lm="" tg="07/12 09:52" txt="还用说么" pf="135" yb="1" id="jq_po_54">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av13260/" target="_blank"><img _src="http://i2.loli.my/userup/21547/12NY9555-2345.jpg">
+                                <div class="t">【人偶党的荣光】蔷薇少女：梦回</div></a>
+                              <b class="s">24:09</b> <b class="z">1 (+135)</b>
+                              <div class="u"><b></b>商汤灭夏</div>
+                              <div class="i">
+                                <h5>14</h5>
+                                <h6>627</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="1958" sc="1" pl="10" dm="198" lm="" tg="05/27 02:26" txt="【狮子王】第一部(上)+(中)+（下） |【狮子王】第一部av96359 |第二部av96366|第三部av96367【AMV】av96085" pf="50" yb="0" id="jq_po_55">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av96359/" target="_blank"><img _src="http://i1.loli.my/userup/55383/1306434392-RC.png">
+                                <div class="t">【狮子王】第一部</div></a>
+                              <b class="s">88:52</b> <b class="z"> +50</b>
+                              <div class="u"><b></b>AssAssiN影舞</div>
+                              <div class="i">
+                                <h5>10</h5>
+                                <h6>198</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="28123" sc="174" pl="149" dm="8892" lm="" tg="07/23 14:11" txt="【自压】 不需要简介了吧。（第一部）（第二段战了⑨次渣浪不过，换成QQ源）" pf="1695" yb="13" id="jq_po_56">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av118957/" target="_blank"><img _src="http://i2.loli.my/user/704/70432/1311401504e4fd2dcbfbc56c48.jpg" style="
+                                    background: url('https://web.archive.org/web/20110831002306/http://static.loli.my/images/po-img-bg.png') -72px -26px
+                                      no-repeat;
+                                  ">
+                                <div class="t">大逃杀【推荐】【高清】</div></a>
+                              <b class="s">101:46</b> <b class="z">13 (+1695)</b>
+                              <div class="u"><b></b>bilibili伯</div>
+                              <div class="i">
+                                <h5>149</h5>
+                                <h6>8892</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="1183501" sc="2291" pl="3051" dm="306204" lm="" tg="06/10 15:46" txt="-o-下限弹幕请及时举报 屏蔽ID后找屏蔽列表 复制被屏蔽人的ID代码 俺会永久加入黑名单 已修复时间轴错误几话" pf="10340" yb="332" id="jq_po_57">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av9379/" target="_blank"><img _src="http://i0.loli.my/userup/25788/12L156014-34E.gif" style="
+                                    background: url('https://web.archive.org/web/20110831002306/http://static.loli.my/images/po-img-bg.png') -742px -26px
+                                      no-repeat;
+                                  ">
+                                <div class="t">【银魂】TV版全集 1-201话</div></a>
+                              <b class="s">4960:2</b> <b class="z">332 (+10340)</b>
+                              <div class="u"><b></b>黎亦乔</div>
+                              <div class="i">
+                                <h5>3051</h5>
+                                <h6>306204</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="15540" sc="61" pl="38" dm="4850" lm="" tg="03/01 19:56" txt="美国动画 飞出个未来 第一季 为国民动画 辛普森一家 制作团队锁创作" pf="190" yb="0" id="jq_po_58">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av3536/" target="_blank"><img _src="http://i1.loli.my/userup/8917/12C4445I-6095.jpg">
+                                <div class="t">
+                                  【美国动画】吐槽神片 飞出个未来 （第一季13集全）
+                                </div></a>
+                              <b class="s">21:34</b> <b class="z"> +190</b>
+                              <div class="u"><b></b>人妻</div>
+                              <div class="i">
+                                <h5>38</h5>
+                                <h6>4850</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="7661" sc="76" pl="35" dm="1974" lm="" tg="02/24 18:15" txt=" 额。。。其实就是发现B站只有个360P的杏篇。智代篇没看到，所以就整理了下这两部。智代篇是第一季的24话。杏篇是第二季的25话。" pf="165" yb="11" id="jq_po_59">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av64999/" target="_blank"><img _src="http://i0.loli.my/user/410/41012/12b542559-9230.jpg" style="
+                                    background: url('https://web.archive.org/web/20110831002306/http://static.loli.my/images/po-img-bg.png') -72px -26px
+                                      no-repeat;
+                                  ">
+                                <div class="t">Clannad OVA 智代篇,杏篇</div></a>
+                              <b class="s">47:48</b> <b class="z">11 (+165)</b>
+                              <div class="u"><b></b>小猫咪</div>
+                              <div class="i">
+                                <h5>35</h5>
+                                <h6>1974</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="31269" sc="68" pl="19" dm="3607" lm="" tg="07/27 10:46" txt="来自小浪浪。 借口参观大型强子对撞机，把谢耳朵带到瑞士的冰山上冰起来，然后拿去送给琪露诺，结果会怎样？" pf="495" yb="3" id="jq_po_60">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av120598/" target="_blank"><img _src="http://i1.loli.my/user/329/32988/131173476830639e9ea48f309d.gif">
+                                <div class="t">【合集】生活大爆炸 第三季</div></a>
+                              <b class="s">21:14</b> <b class="z">3 (+495)</b>
+                              <div class="u"><b></b>欢迎你扑街</div>
+                              <div class="i">
+                                <h5>19</h5>
+                                <h6>3607</h6>
+                              </div>
+                            </div>
+                            <div class="po" gk="69677" sc="241" pl="138" dm="17011" lm="" tg="09/26 13:46" txt="45话修复。QQ视频改版所以问题层出不穷，如果我发过的任何合辑有问题都请PM我或留言，谢谢。" pf="5615" yb="16" id="jq_po_61">
+                              <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av27842/" target="_blank"><img _src="http://i0.loli.my/userup/49443/12U494011-15C.png" style="
+                                    background: url('https://web.archive.org/web/20110831002306/http://static.loli.my/images/po-img-bg.png') -72px -26px
+                                      no-repeat;
+                                  ">
+                                <div class="t">钢之炼金术师FA【漫游】</div></a>
+                              <b class="s">24:29</b> <b class="z">16 (+5615)</b>
+                              <div class="u"><b></b>旧番搬运char</div>
+                              <div class="i">
+                                <h5>138</h5>
+                                <h6>17011</h6>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="mtabs l_r">
+                            <h1 class="unselectTab">最新视频</h1>
+                            <h1 class="unselectTab">热门评论</h1>
+                            <div class="m_div selectContent" style="display: none">
+                              <ul class="new_list">
+                                <li title="铳墓 GUNGRAVE 全集">
+                                  <span>08-31</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av138212/" target="_blank">铳墓 GUNGRAVE 全集</a>
+                                </li>
+                                <li title="【720p】德鲁亚加之塔·乌鲁克之盾(第一季)">
+                                  <span>08-29</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137464/" target="_blank">【720p】德鲁亚加之塔·乌鲁克之盾(第一季)</a>
+                                </li>
+                                <li title="『despair/hope』无字1-5">
+                                  <span>08-29</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137446/" target="_blank">『despair/hope』无字1-5</a>
+                                </li>
+                                <li title="【经典美剧】HEROES第三季">
+                                  <span>08-29</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137339/" target="_blank">【经典美剧】HEROES第三季</a>
+                                </li>
+                                <li title="【经典喜剧】老友记第八季">
+                                  <span>08-29</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137336/" target="_blank">【经典喜剧】老友记第八季</a>
+                                </li>
+                                <li title="【经典美剧】反恐24小时第五季">
+                                  <span>08-29</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137324/" target="_blank">【经典美剧】反恐24小时第五季</a>
+                                </li>
+                                <li title="假面骑士空我">
+                                  <span>08-29</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137234/" target="_blank">假面骑士空我</a>
+                                </li>
+                                <li title="【老物】跳跃大搜查线">
+                                  <span>08-27</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136596/" target="_blank">【老物】跳跃大搜查线</a>
+                                </li>
+                                <li title="【拯救80后的热血记忆】足球小将94版 （1-14）">
+                                  <span>08-27</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136534/" target="_blank">【拯救80后的热血记忆】足球小将94版 （1-14）</a>
+                                </li>
+                                <li title="人鱼的旋律II">
+                                  <span>08-27</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136281/" target="_blank">人鱼的旋律II</a>
+                                </li>
+                                <li title="人鱼的旋律I 【后半】">
+                                  <span>08-27</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136279/" target="_blank">人鱼的旋律I 【后半】</a>
+                                </li>
+                                <li title="人鱼的旋律I 【前半】">
+                                  <span>08-27</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136275/" target="_blank">人鱼的旋律I 【前半】</a>
+                                </li>
+                                <li title="多啦a梦——30个留在心中的故事">
+                                  <span>08-26</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136027/" target="_blank">多啦a梦——30个留在心中的故事</a>
+                                </li>
+                                <li title="【怀旧向】多啦a梦老剧场版">
+                                  <span>08-26</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135939/" target="_blank">【怀旧向】多啦a梦老剧场版</a>
+                                </li>
+                                <li title="吸血姬美夕">
+                                  <span>08-26</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135861/" target="_blank">吸血姬美夕</a>
+                                </li>
+                                <li title="SPIRAL~推理之绊">
+                                  <span>08-26</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135858/" target="_blank">SPIRAL~推理之绊</a>
+                                </li>
+                                <li title="我和僵尸有个约会第三部合集">
+                                  <span>08-26</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135784/" target="_blank">我和僵尸有个约会第三部合集</a>
+                                </li>
+                                <li title="亡念之扎姆德【BD转压480P】">
+                                  <span>08-26</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135779/" target="_blank">亡念之扎姆德【BD转压480P】</a>
+                                </li>
+                                <li title="吐槽片《海派甜心》">
+                                  <span>08-26</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135739/" target="_blank">吐槽片《海派甜心》</a>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="m_div unselectContent" style="display: none">
+                              <ul class="new_list">
+                                <li title="【攻壳第一季完结】BD转压720P【漫游攻壳同好会】">
+                                  <span>38</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135433/" target="_blank">【攻壳第一季完结】BD转压720P【漫游攻壳同好会】</a>
+                                </li>
+                                <li title="【高清】秒速五厘米 全三话【澄空】">
+                                  <span>35</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135209/" target="_blank">【高清】秒速五厘米 全三话【澄空】</a>
+                                </li>
+                                <li title="[80年代的回忆][growing pains]成长的烦恼第一季[英文">
+                                  <span>33</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135312/" target="_blank">[80年代的回忆][growing
+                                    pains]成长的烦恼第一季[英文</a>
+                                </li>
+                                <li title="亡念之扎姆德【BD转压480P】">
+                                  <span>26</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135779/" target="_blank">亡念之扎姆德【BD转压480P】</a>
+                                </li>
+                                <li title="【720p】德鲁亚加之塔·乌鲁克之盾(第一季)">
+                                  <span>19</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137464/" target="_blank">【720p】德鲁亚加之塔·乌鲁克之盾(第一季)</a>
+                                </li>
+                                <li title="【合集搬运】【绝境求生手册】贝爷教你在各种险境求生">
+                                  <span>18</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135237/" target="_blank">【合集搬运】【绝境求生手册】贝爷教你在各种险境求生</a>
+                                </li>
+                                <li title="吸血姬美夕">
+                                  <span>17</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135861/" target="_blank">吸血姬美夕</a>
+                                </li>
+                                <li title="【拯救80后的热血记忆】足球小将94版 （1-14）">
+                                  <span>16</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136534/" target="_blank">【拯救80后的热血记忆】足球小将94版 （1-14）</a>
+                                </li>
+                                <li title="多啦a梦——30个留在心中的故事">
+                                  <span>13</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136027/" target="_blank">多啦a梦——30个留在心中的故事</a>
+                                </li>
+                                <li title="假面骑士空我">
+                                  <span>11</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137234/" target="_blank">假面骑士空我</a>
+                                </li>
+                                <li title="【老物】跳跃大搜查线">
+                                  <span>9</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av136596/" target="_blank">【老物】跳跃大搜查线</a>
+                                </li>
+                                <li title="【怀旧向】多啦a梦老剧场版">
+                                  <span>7</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135939/" target="_blank">【怀旧向】多啦a梦老剧场版</a>
+                                </li>
+                                <li title="乌龙闯情关">
+                                  <span>7</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135627/" target="_blank">乌龙闯情关</a>
+                                </li>
+                                <li title="SPIRAL~推理之绊">
+                                  <span>6</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135858/" target="_blank">SPIRAL~推理之绊</a>
+                                </li>
+                                <li title="新哆啦A梦2009">
+                                  <span>5</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135581/" target="_blank">新哆啦A梦2009</a>
+                                </li>
+                                <li title="我和僵尸有个约会第三部合集">
+                                  <span>4</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av135784/" target="_blank">我和僵尸有个约会第三部合集</a>
+                                </li>
+                                <li title="【不死传说】鲁邦三世 第三季">
+                                  <span>4</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av134930/" target="_blank">【不死传说】鲁邦三世 第三季</a>
+                                </li>
+                                <li title="【经典美剧】HEROES第三季">
+                                  <span>3</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137339/" target="_blank">【经典美剧】HEROES第三季</a>
+                                </li>
+                                <li title="【经典美剧】反恐24小时第五季">
+                                  <span>3</span><a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av137324/" target="_blank">【经典美剧】反恐24小时第五季</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <noscript><h2>
+                          抱歉，您的浏览器沒有启用JavaScript支持，将无法看见此列表，请使用网站顶部导航选择视频！
+                        </h2></noscript>
+                    </div>
+                    <div id="indexgg3">
+                      
+                    </div>
+                    <div id="indexgg4">
+                      <img src="./bilibili.tv_files/zhannei-ad-2011-5-2.gif" border="0" usemap="#Map"><map name="Map" id="Map"><area shape="rect" coords="3,6,220,56" href="https://web.archive.org/web/20110831002306/http://9ch.co" target="_blank"><area shape="rect" coords="235,5,370,57" href="https://web.archive.org/web/20110831002306/http://corari.com" target="_blank"><area shape="rect" coords="388,6,688,54" href="https://web.archive.org/web/20110831002306/http://www.drawyoo.com" target="_blank"></map>
+                    </div>
+                  </div>
+                  </div>
+                  <div class="z-right">
+                    <div class="user" id="_userlogin">
+                      <div class="login png_bg">
+                        您好! 请先
+                        <a href="https://web.archive.org/web/20110831002306mp_/https://secure.bilibili.tv/login.php">登陆</a>
+                        或
+                        <a href="https://web.archive.org/web/20110831002306mp_/http://www.bilibili.tv/member/index_do.php?fmdo=user&amp;dopost=regnew">注册帐号</a>
+                      </div>
+                    </div>
+                    <div id="indexgg5"></div>
+                    <div class="g_list">
+                      <div class="ls_btn">
+                        <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/#" id="newdouga_main" class="on">全站</a><a id="newdouga_xinp" href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/#" class="">新番</a>
+                      </div>
+                      <div id="htdouga_main">
+                        <ul>
+                            <%ranking.list.slice(0,8).forEach((item,index)=>{%>
+                          <li class="a1">
+                            <b class="nr"><%=index+1%>.</b>
+                            <img src="<%=item.pic%>"><a href="http://www.bilibili.com/video/<%=item.bvid%>/" title="<%=item.title%>" class="t" target="_blank"><%=item.title%></a>
+                            <div class="i">
+                              <h5>177</h5>
+                              <h6>9142</h6>
+                            </div>
+                            <div class="info">
+                              优酷 芬达广告 各种乱入 只有你想不到 已更新
+                            </div>
+                          </li>
+                          <% })%>
+                        </ul>
+                      </div>
+                      <div id="htdouga_xinp" style="display: none">
+                        <ul>
+                          <li class="a1">
+                            <b class="nr">1.</b>
+                            <img src="./bilibili.tv_files/13145154828543109f13ff64b2.png"><a href="https://web.archive.org/web/20110831002306mp_/http://www.bilibili.tv/video/av136978/" title="【4月】日常 22 【异域****】 播放:48945 视频长度:35:54" class="t" target="_blank">【4月】日常 22 【异域****】</a>
+                            <div class="i">
+                              <h5>494</h5>
+                              <h6>24788</h6>
+                            </div>
+                            <div class="info">
+                              【好长啊好长】
+                              但是码率非常低，应该是管家的码率的一半的样子，再觉得卡。。。那就请联系网络运营商吧，汗。。。【av135243
+                            </div>
+                          </li>
+                          <li class="a2">
+                            <b class="nr">2.</b>
+                            <img src="./bilibili.tv_files/1314331162d324d3edc08e4073.jpg"><a href="https://web.archive.org/web/20110831002306mp_/http://www.bilibili.tv/video/av135795/" title="【7月】笨蛋测验召唤兽 第二季08【HKG】 播放:47825 视频长度:24:09" class="t" target="_blank">【7月】笨蛋测验召唤兽 第二季08【HKG】</a>
+                            <div class="i">
+                              <h5>353</h5>
+                              <h6>15161</h6>
+                            </div>
+                            <div class="info">UP主： 回忆杀</div>
+                          </li>
+                          <li class="a3">
+                            <b class="nr">3.</b>
+                            <img src="./bilibili.tv_files/1314319744a57b82e59074c6ba.jpg"><a href="https://web.archive.org/web/20110831002306mp_/http://www.bilibili.tv/video/av135711/" title="【7月】迷茫管家与懦弱的我 08【華盟】 播放:34563 视频长度:24:29" class="t" target="_blank">【7月】迷茫管家与懦弱的我 08【華盟】</a>
+                            <div class="i">
+                              <h5>191</h5>
+                              <h6>12513</h6>
+                            </div>
+                            <div class="info">
+                              除了下限，什麽都看不見啦 居然被渣浪砍了一次
+                            </div>
+                          </li>
+                          <li class="a4">
+                            <b class="nr">4.</b>
+                            <img src="./bilibili.tv_files/131466436449eeb8ebb94ebc82.jpg"><a href="https://web.archive.org/web/20110831002306mp_/http://www.bilibili.tv/video/av137771/" title="【长篇】银魂'223话【LAC】 播放:26799 视频长度:23:55" class="t" target="_blank">【长篇】银魂'223话【LAC】</a>
+                            <div class="i">
+                              <h5>327</h5>
+                              <h6>7526</h6>
+                            </div>
+                            <div class="info">Q 家政妇篇</div>
+                          </li>
+                          <li class="a5">
+                            <b class="nr">5.</b>
+                            <img src="./bilibili.tv_files/1314155981bb8f6c8638dc91d9.jpg"><a href="https://web.archive.org/web/20110831002306mp_/http://www.bilibili.tv/video/av134739/" title="【4月】命运石之门21【KFCX雪酷X曙光】 播放:24854 视频长度:23:38" class="t" target="_blank">【4月】命运石之门21【KFCX雪酷X曙光】</a>
+                            <div class="i">
+                              <h5>249</h5>
+                              <h6>5361</h6>
+                            </div>
+                            <div class="info">s 这话挺治愈的</div>
+                          </li>
+                          <li class="a6">
+                            <b class="nr">6.</b>
+                            <img src="./bilibili.tv_files/13141682137773f2ab48d01343.jpg"><a href="https://web.archive.org/web/20110831002306mp_/http://www.bilibili.tv/video/av134854/" title="【480P】死神剧场版第四部-地狱篇【猪猪】 播放:24472 视频长度:93:56" class="t" target="_blank">【480P】死神剧场版第四部-地狱篇【猪猪】</a>
+                            <div class="i">
+                              <h5>178</h5>
+                              <h6>17656</h6>
+                            </div>
+                            <div class="info">
+                              sina 猪猪字幕组的，480P一本满足 &gt;_&lt;
+                            </div>
+                          </li>
+                          <li class="a7">
+                            <b class="nr">7.</b>
+                            <img src="./bilibili.tv_files/1314316452b059b2665593834a.jpg"><a href="https://web.archive.org/web/20110831002306mp_/http://www.bilibili.tv/video/av135696/" title="【7月】白兔糖 第08话【雪酷】 播放:24394 视频长度:22:50" class="t" target="_blank">【7月】白兔糖 第08话【雪酷】</a>
+                            <div class="i">
+                              <h5>238</h5>
+                              <h6>5506</h6>
+                            </div>
+                            <div class="info">
+                              哼~你们这群苦B新番搬运,有SHIKI酱这么好的老婆么！！
+                            </div>
+                          </li>
+                          <li class="a8">
+                            <b class="nr">8.</b>
+                            <img src="./bilibili.tv_files/1314335226cc651bf6b5d22470.jpg"><a href="https://web.archive.org/web/20110831002306mp_/http://www.bilibili.tv/video/av135838/" title="【7月】回转企鹅罐 07【极影】 播放:23320 视频长度:23:59" class="t" target="_blank">【7月】回转企鹅罐 07【极影】</a>
+                            <div class="i">
+                              <h5>195</h5>
+                              <h6>11274</h6>
+                            </div>
+                            <div class="info">SY君家里有事，本人代传一话</div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div id="indexgg6" style="margin-top: 10px"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="c-link">
+              <p class="c-t">
+                友情连接 &amp; 合作伙伴<a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/html/link.html" class="b" target="_blank">更多&gt;&gt;</a>
+              </p>
+              <div class="imgs">
+                <template v-for="item in 9" :key="item">
+                    <li>
+                        <a href="https://web.archive.org/web/20110831002306/http://www.cctvdream.com.cn/" target="_blank"><img class="sharelink" alt="新科动漫" _src="http://static.loli.my/ad-images/xinkecctv.jpg" width="88" height="31" border="0" src="./bilibili.tv_files/xinkecctv.jpg"></a>
+                      </li>
+                </template>
+              </div>
+              <div class="yq">
+                <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/" target="_blank" title="嗶哩嗶哩弹幕视频网"><img src="./bilibili.tv_files/mini-logo.gif"></a>
+              </div>
+            </div>
+            <div class="footer">
+              <ul>
+                <li><b>关于我们</b></li>
+                <li>
+                  官方微博: <a href="https://web.archive.org/web/20110831002306/http://t.163.com/bilibiliweb" target="_blank">网易</a>
+                  |
+                  <a href="https://web.archive.org/web/20110831002306/http://t.qq.com/bilibiliweb" target="_blank">腾讯</a>
+                  |
+                  <a href="https://web.archive.org/web/20110831002306/http://t.sohu.com/p/u/123982432" target="_blank">搜狐</a>
+                </li>
+                <li>
+                  <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/html/aboutUs.html">关于嗶哩嗶哩動画</a>
+                </li>
+                <li>
+                  <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/html/duty.html">资源免责申明</a>
+                </li>
+                <li>
+                  <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/html/contact.html">联系我们</a>
+                </li>
+              </ul>
+              <ul>
+                <li><b>获取帮助</b></li>
+                <li>
+                  <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/html/help.html">全站使用说明</a>
+                </li>
+                <li>
+                  <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/html/faq.html">常见问题（FAQ）</a>
+                </li>
+                <li>
+                  <a href="https://web.archive.org/web/20110831002306/http://9ch.co/f61,1.html">建议和BUG汇报</a>
+                </li>
+                <li>
+                  <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av271/">弹幕测试</a>
+                  |
+                  <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/video/av120040/">高级弹幕</a>
+                </li>
+              </ul>
+              <ul>
+                <li><b>其他</b></li>
+                <li>
+                  <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/html/cele.html">嗶哩嗶哩名人堂</a>
+                </li>
+                <li>
+                  <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/plus/rss.php">RSS订阅</a>
+                </li>
+                <li>
+                  <a href="https://web.archive.org/web/20110831002306/http://www.bilibili.tv/html/bizhi.html">壁纸下载</a>
+                </li>
+                <li>
+                  <a href="https://web.archive.org/web/20110831002306/http://corari.com/" target="_blank">协作乡 beta</a>
+                </li>
+              </ul>
+              <ul class="tongji" id="footerBottom">
+                <li><b>统计信息</b></li>
+                <li>全站视频数: 251328</li>
+                <li>全站评论数: 2029012</li>
+                <li>全站播放数: 358088410</li>
+                <li>全站弹幕数: 53921905</li>
+              </ul>
+              <div class="powered"><br><strong>非法内容处理 MSN、QQ:h@loli.my | 版权删除处理 QQ:
+                  0w0@bilibili.tv</strong>
+                | Powered by bilibili.tv level5 © 2009-2010 皖ICP备10016256号
+              </div>
+            </div>
+          </div>
+    </div>
     <script type="module">
-        import {createSSRApp} from "https://cdn.bootcdn.net/ajax/libs/vue/3.3.4/vue.esm-browser.js"
+        import {createApp} from "https://cdn.bootcdn.net/ajax/libs/vue/3.3.4/vue.esm-browser.js"
+        const app = createApp({
+            setup:()=>({
+                navList:[
+                    {
+                        title:'首页',
+                        link:'/',
+                        addnew:0
+                    },
+                    {
+                        title:'动画',
+                        link:'/video/douga.html',
+                        addnew:0
+                    },
+                    {
+                        title:'音乐',
+                        link:'/video/music.html',
+                        addnew:0
+                    },
+                    {
+                        title:'游戏',
+                        link:'/video/game.html',
+                        addnew:0
+                    },
+                    {
+                        title:'娱乐',
+                        link:'/video/ent.html',
+                        addnew:0
+                    },
+                    {
+                        title:'合集',
+                        link:'/video/part.html',
+                        addnew:0
+                    },
+                    {
+                        title:'新番连载',
+                        link:'/video/bangumi.html',
+                        addnew:0
+                    }
+                ],
+                notice:[
+                    {
+                        date:'[06-07]',
+                        title:'【公告】相关问题说明',
+                        link:'/'
+                    }
+                ],
+                shareLinks:[
+                    {
+                        title:'腾讯代码',
+                        link:'//comic.qq.com'
+                    }
+                ]
+            }),
+            mounted(){
+                
+            }
+        })
+        app.mount("#app")
     </script>
 </body>
 </html>
