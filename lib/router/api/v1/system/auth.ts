@@ -69,4 +69,8 @@ authRouter.get('/captcha',async (ctx,next)=>{
     ctx.body=buffer
 })
 
+authRouter.post('/logout',async(ctx,next)=>{
+    ctx.cookies.set('pear_ticket','')
+})
+
 export  {authRouter};

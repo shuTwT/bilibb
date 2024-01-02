@@ -100,6 +100,12 @@
 				 
 				// 注销
 				admin.logout(function(){
+                    fetch('/api/v1/system/auth/logout',{
+                        method:'POST',
+                        headers:{
+                            'Content-Type':'application/json'
+                        },
+                    })
 
 					popup.success("注销成功",function(){
 						location.href = "./login";

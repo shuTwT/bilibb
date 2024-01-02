@@ -18,7 +18,11 @@ export default function(whiteList:string[]=[],callback?:()=>void){
         
         if(!token){
             if(ctx.method=='GET'){
-                ctx.body = await getTemplate('admin/exception/404')
+                if(ctx.path=='/admin'){
+                    ctx.redirect('/login')
+                }else{
+                    ctx.body = await getTemplate('admin/exception/404')
+                }
                 return
             }else {
                 ctx.throw(401,"请先登录")
@@ -29,7 +33,11 @@ export default function(whiteList:string[]=[],callback?:()=>void){
         const decode=jwt.verify(token,'shhhh')
         if(!decode){
             if(ctx.method=='GET'){
-                ctx.body = await getTemplate('admin/exception/404')
+                if(ctx.path=='/admin'){
+                    ctx.redirect('/login')
+                }else{
+                    ctx.body = await getTemplate('admin/exception/404')
+                }
                 return
             }else {
                 ctx.throw(401,"登录过期")
