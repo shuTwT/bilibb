@@ -5,6 +5,7 @@ import Router from "koa-router";
 import { str2num, parseQuery, getTemplate } from "../../api/utils.js";
 import { systemRouter } from "./system/system.js";
 import { liveRouter } from "./live/live.js";
+import { shopRouter } from "./shop/shop.js";
 
 const viewRouter = new Router<DefaultState, Context>({
     prefix:"/view"
@@ -12,6 +13,7 @@ const viewRouter = new Router<DefaultState, Context>({
 
 viewRouter.use(systemRouter.routes())
 viewRouter.use(liveRouter.routes())
+viewRouter.use(shopRouter.routes())
 
 viewRouter.get('/analysis',async(ctx,next)=>{
     ctx.body =await getTemplate('admin/analysis');

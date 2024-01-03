@@ -1,0 +1,55 @@
+<div class="layui-card">
+    <div class="layui-card-body">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <button class="layui-btn" lay-submit lay-filter="add">添加等级</button>
+            </div>
+        </form>
+        <div class="layui-rows">
+            <table border="1" width="100%">
+                <thead>
+                    <tr align="center">
+                        <th>等级名称</th>
+                        <th>权重</th>
+                        <th>折扣</th>
+                        <th>描述</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr align="center">
+                        <td>
+                            普通会员
+                        </td>
+                        <td>
+                            权重
+                        </td>
+                        <td>
+                            100%
+                        </td>
+                        <td>
+                            新用户默认等级
+                        </td>
+                        <td>
+                            <button class="layui-btn layui-btn-primary layui-border layui-btn-xs">
+                                <span>编辑</span>
+                            </button>
+                            <button class="layui-btn layui-btn-primary layui-border layui-btn-xs">
+                                <span>删除</span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(function(){
+        var form=layui.form;
+        form.render()
+        form.on('submit(add)',function(){
+            return false
+        })
+    })
+</script>

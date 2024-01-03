@@ -13,7 +13,8 @@ export default function(whiteList:string[]=[],callback?:()=>void){
                 return
             }
         }
-        console.log(ctx.path)
+        ctx.log4js.debug(ctx.path)
+        
         const token=ctx.cookies.get('pear_ticket')
         
         if(!token){
@@ -30,8 +31,11 @@ export default function(whiteList:string[]=[],callback?:()=>void){
             
         }
 
-        const decode=jwt.verify(token,'shhhh')
-        if(!decode){
+       
+        try{
+           const decode=jwt.verify(token,'shhhh')
+        }catch(e){
+            ctx.log4js.error(e)
             if(ctx.method=='GET'){
                 if(ctx.path=='/admin'){
                     ctx.redirect('/login')
@@ -42,8 +46,8 @@ export default function(whiteList:string[]=[],callback?:()=>void){
             }else {
                 ctx.throw(401,"登录过期")
             }
-            
         }
+        
         
         // TODO https://juejin.cn/post/7054455089968185380
         await next()

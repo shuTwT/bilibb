@@ -87,3 +87,7 @@ export function prismaError(e:unknown){
         error('==================')
     }else throw e
 }
+
+export default {
+    error,info,debug,prismaError
+}
