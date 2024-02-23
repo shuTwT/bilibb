@@ -18,4 +18,4 @@ COPY lib /app
 
 EXPOSE 3000
 
-CMD ["ts-node","./lib/app.ts"]
+CMD ["tsx","./lib/app.ts"]
