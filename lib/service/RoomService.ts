@@ -182,15 +182,6 @@ export async function updateGift(
         giftName
       }
     })
-    await prisma.sendGift.create({
-      data: {
-        roomId,
-        uid,
-        giftId,
-        giftName,
-        date
-      }
-    })
     await prisma.user.upsert({
       where: {
         uid
@@ -200,6 +191,16 @@ export async function updateGift(
         uid, uname, fa: face
       }
     })
+    await prisma.sendGift.create({
+      data: {
+        roomId,
+        uid,
+        giftId,
+        giftName,
+        date
+      }
+    })
+
     await prisma.userGift.upsert({
       where: {
         uid_roomId: {
