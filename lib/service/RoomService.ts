@@ -93,8 +93,8 @@ export async function increaseEnterRoomNum(
       },
       update: {
         latest: date,
-        num:{
-            increment:1
+        num: {
+          increment: 1
         }
       },
       create: {
@@ -144,103 +144,103 @@ export async function increaseConsumptionNum(num = 1000) {
 export async function updateGift(
   roomId: string,
   uid: string,
-  uname:string,
+  uname: string,
   date: string,
   face: string,
-  giftId:number,
-  giftName:string,
-  medalInfo:object,
-  giftNum:number
+  giftId: number,
+  giftName: string,
+  medalInfo: object,
+  giftNum: number
 ) {
-    const today=dayjs(date).format("YYYY-MM-DD")
+  const today = dayjs(date).format("YYYY-MM-DD")
   // 当日礼物数量
-    try{
-        await prisma.live.upsert({
-            where:{
-                roomId_date:{
-                    roomId,
-                    date:today
-                }
-            },
-            update:{
-                giftNum:{
-                    increment:1
-                }
-            },
-            create:{
-                roomId,
-                date:today
-            }
-        })
-        await prisma.gift.upsert({
-            where:{
-                giftId
-            },
-            update:{},
-            create:{
-                giftId,
-                giftName
-            }
-        })
-        await prisma.sendGift.create({
-            data:{
-                roomId,
-                uid,
-                giftId,
-                giftName,
-                date
-            }
-        })
-        await prisma.user.upsert({
-            where:{
-                uid
-            },update:{
-                uname,fa:face
-            },create:{
-                uid,uname,fa:face
-            }
-        })
-        await prisma.userGift.upsert({
-            where:{
-                uid_roomId:{
-                    uid,roomId
-                }
-            },
-            update:{
-                latest:date,
-                num:{
-                    increment:giftNum
-                }
-            },
-            create:{
-                uid,
-                roomId,
-                first:date,
-                latest:date,
-                num:giftNum
-            }
-        })
-    }catch(e){
-        log4js.prismaError(e)
-    }
+  try {
+    await prisma.live.upsert({
+      where: {
+        roomId_date: {
+          roomId,
+          date: today
+        }
+      },
+      update: {
+        giftNum: {
+          increment: 1
+        }
+      },
+      create: {
+        roomId,
+        date: today
+      }
+    })
+    await prisma.gift.upsert({
+      where: {
+        giftId
+      },
+      update: {},
+      create: {
+        giftId,
+        giftName
+      }
+    })
+    await prisma.sendGift.create({
+      data: {
+        roomId,
+        uid,
+        giftId,
+        giftName,
+        date
+      }
+    })
+    await prisma.user.upsert({
+      where: {
+        uid
+      }, update: {
+        uname, fa: face
+      }, create: {
+        uid, uname, fa: face
+      }
+    })
+    await prisma.userGift.upsert({
+      where: {
+        uid_roomId: {
+          uid, roomId
+        }
+      },
+      update: {
+        latest: date,
+        num: {
+          increment: giftNum
+        }
+      },
+      create: {
+        uid,
+        roomId,
+        first: date,
+        latest: date,
+        num: giftNum
+      }
+    })
+  } catch (e) {
+    log4js.prismaError(e)
+  }
 
 }
-export async function updateLikeNum(roomId:string,likeNum:number,date:string) {
+export async function updateLikeNum(roomId: string, likeNum: number, date: string) {
   // 当日点赞数
-  const today=dayjs(date).format("YYYY-MM-DD")
-  try{
+  const today = dayjs(date).format("YYYY-MM-DD")
+  try {
     await prisma.live.update({
-        where:{
-            roomId_date:{
-                roomId,
-                date:today
-            }
-        },
-        data:{
-            likeNum
+      where: {
+        roomId_date: {
+          roomId: roomId + "",
+          date: today
         }
+      },
+      data: {
+        likeNum
+      }
     })
-  }catch(e){
+  } catch (e) {
     log4js.prismaError(e)
   }
 
@@ -248,29 +248,29 @@ export async function updateLikeNum(roomId:string,likeNum:number,date:string) {
 export async function increaseShareNum(num = 1) {
   // 当日分享数
 }
-export async function increaseFollowNum(roomId:string,date:string) {
+export async function increaseFollowNum(roomId: string, date: string) {
   // 当日关注数
-  const today=dayjs(date).format("YYYY-MM-DD HH:mm:ss")
-  try{
+  const today = dayjs(date).format("YYYY-MM-DD HH:mm:ss")
+  try {
     await prisma.live.upsert({
-        where:{
-            roomId_date:{
-                roomId,
-                date:today
-            }
-        },
-        update:{
-            followNum:{
-                increment:1
-            }
-        },
-        create:{
-            roomId,
-            date:today,
-            followNum:1
+      where: {
+        roomId_date: {
+          roomId,
+          date: today
         }
+      },
+      update: {
+        followNum: {
+          increment: 1
+        }
+      },
+      create: {
+        roomId,
+        date: today,
+        followNum: 1
+      }
     })
-  }catch(e){
+  } catch (e) {
     log4js.prismaError(e)
   }
 }

@@ -2,21 +2,21 @@ import prisma from "../utils/prisma.js";
 import * as log4js from "../utils/log4js.js"
 
 export async function existUser(uid: string) {
-    try{
-        const user = await prisma.user.findUnique({
-            where: {
-              uid,
-            },
-          });
-          if (user) {
-            return true;
-          } else {
-            return false;
-          }
-    }catch(e){
-        log4js.prismaError(e)
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        uid,
+      },
+    });
+    if (user) {
+      return true;
+    } else {
+      return false;
     }
-  
+  } catch (e) {
+    log4js.prismaError(e)
+  }
+
 }
 
 /**
@@ -70,10 +70,10 @@ export async function processUser(
   try {
     await prisma.user.upsert({
       where: {
-        uid,
+        uid: uid + "",
       },
       create: {
-        uid,
+        uid: uid + "",
         ...data,
       },
       update: {
@@ -81,7 +81,7 @@ export async function processUser(
       },
     });
     return true;
-  } catch(e) {
+  } catch (e) {
     log4js.prismaError(e)
   }
 }
@@ -118,26 +118,26 @@ export async function saveUserSpeak(
       },
     });
     await prisma.userDanmu.upsert({
-        where:{
-            uid_roomId:{
-                uid,
-                roomId
-            }
-        },
-        update:{
-            latest:date,
-            num:{
-                increment:1
-            },
-            content
-        },
-        create:{
-            uid,
-            roomId,
-            first:date,
-            latest:date,
-            content
+      where: {
+        uid_roomId: {
+          uid,
+          roomId
         }
+      },
+      update: {
+        latest: date,
+        num: {
+          increment: 1
+        },
+        content
+      },
+      create: {
+        uid,
+        roomId,
+        first: date,
+        latest: date,
+        content
+      }
     })
     return true;
   } catch (e) {
@@ -155,46 +155,47 @@ export async function entryRoom(uid: string, uname: string, roomId: string) {
   }
 }
 
-export async function userLog(uid:string,roomId:string,content:string,date:string){
-    try{
-        await prisma.userLog.create({
-            data:{
-                uid,
-                roomId,
-                content,
-                date
-            }
-        })
-    }catch(e){
-        log4js.prismaError(e)
-    }
-    
+export async function userLog(uid: string, uname:string, roomId: string, content: string, date: string) {
+  try {
+    await processUser(uid, { uname });
+    await prisma.userLog.create({
+      data: {
+        uid,
+        roomId,
+        content,
+        date
+      }
+    })
+  } catch (e) {
+    log4js.prismaError(e)
+  }
+
 }
 
-export async function userLike(uid:string,roomId:string,date:string,uname:string){
-    try{
-        await processUser(uid,{uname})
-        await prisma.userLike.upsert({
-            where:{
-                uid_roomId:{
-                    uid,
-                    roomId
-                }
-            },
-            update:{
-                latest:date,
-                num:{
-                    increment:1
-                }
-            },
-            create:{
-                uid,
-                roomId,
-                first:date,
-                latest:date
-            }
-        })
-    }catch(e){
-        log4js.prismaError(e)
-    }
+export async function userLike(uid: string, roomId: string, date: string, uname: string) {
+  try {
+    await processUser(uid, { uname })
+    await prisma.userLike.upsert({
+      where: {
+        uid_roomId: {
+          uid: uid + "",
+          roomId
+        }
+      },
+      update: {
+        latest: date,
+        num: {
+          increment: 1
+        }
+      },
+      create: {
+        uid: uid + "",
+        roomId,
+        first: date,
+        latest: date
+      }
+    })
+  } catch (e) {
+    log4js.prismaError(e)
+  }
 }

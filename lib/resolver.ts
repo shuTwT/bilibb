@@ -126,7 +126,7 @@ export const resolver: Resolver = {
         const price=data.price //礼物价值
         const totalCoin=data.total_coin
         await roomService.updateGift(roomId,uid,uname,date,face,giftId,giftName,medal_info,giftNum)
-        await userService.userLog(uid,roomId,`在${roomId}直播间赠送礼物${giftName}`,date)
+        await userService.userLog(uid,uname,roomId,`在${roomId}直播间赠送礼物${giftName}`,date)
     },
     'DANMU_MSG': async function (roomId: string, data: Msg<any>) {
         if ('info' in data) {
