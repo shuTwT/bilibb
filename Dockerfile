@@ -10,6 +10,10 @@ COPY .env ./
 
 COPY tsconfig.json ./
 
+COPY public ./
+
+COPY static ./
+
 RUN npm install
 
 RUN npx prisma generate

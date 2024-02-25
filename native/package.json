@@ -1,9 +1,0 @@
-{
-    "name": "@node-rs/native",
-    "version": "1.0.0",
-    "main": "index.node",
-    "types": "index.d.ts",
-    "scripts": {
-        "build":"napi build"
-    }
-}
