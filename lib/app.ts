@@ -14,7 +14,6 @@ import session from "koa-session";
 import koaLogger from "./middleware/koaLogger.js";
 import cookiesMiddleware from "./middleware/cookiesMiddleware.js";
 import { createServer } from "node:http";
-import { Server } from "socket.io";
 const { routes } = await import( "./router/routes.js");
 const { TCPServer } =await import("./service/connectService.js");
 import { loadEnv } from "./env.js";
@@ -27,7 +26,7 @@ dotenv.config();
 await loadEnv()
 
 const allowTCP = process.env.ALLOW_TCP == "true" ? true : false;
-const port = Number.parseInt(process.env.PORT ||'3000');
+const port = Number.parseInt(process.env.APP_PORT ||'3000');
 
 if (allowTCP) TCPServer();
 

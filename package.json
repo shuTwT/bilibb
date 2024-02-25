@@ -4,8 +4,8 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "start": "tsx lib/app.ts",
-    "dev": "tsx watch --ignore ./native/ lib/app.ts"
+    "start": "tsx .lib/app.ts",
+    "dev": "tsx watch .lib/app.ts"
   },
   "keywords": [],
   "author": "",

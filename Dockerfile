@@ -1,25 +1,20 @@
-FROM node:20.10
+FROM node:20-alpine
 
-WORKDIR /app
+ENV APP_PATH=/node/app
+ENV NODE_ENV=production
+ENV DATABASE_URL="mysql://bilibb:Bilibb@123@172.29.106.253:3307/bilibb"
+ENV ALLOW_TCP=false
 
-COPY package*.json ./
+WORKDIR $APP_PATH
 
-COPY prisma ./prisma/
-
-COPY .env ./
-
-COPY tsconfig.json ./
-
-COPY public ./
-
-COPY static ./
+COPY package*.json .
 
 RUN npm install
 
-RUN npx prisma generate
+COPY . .
 
-COPY lib /app
+RUN npx prisma generate
 
 EXPOSE 3000
 
-CMD ["tsx","./lib/app.ts"]
+CMD ["npm","start" ]
