@@ -1,11 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>bilibb</title>
+    <link rel="stylesheet" href="dap.css" />
 </head>
+
 <body>
-    <p>系统已成功运行</p>
+    <div id="app">
+        <div class="dap-main">
+            <div class="component1">
+                <div class="dap-card">
+                    <div class="card-header">
+                        <div class="card-header__left">互动趋势</div>
+                        <div class="card-header__right">
+                            <div>按累计观看人数统计 ▼</div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="flex">
+                            <div class="mini-card-1">
+                                <div class="mini-card-bg"></div>
+                            </div>
+                            <div class="mini-card-2">
+                                <div class="mini-card-bg"></div>
+                            </div>
+                            <div class="mini-card-3">
+                                <div class="mini-card-bg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="component2">
+                <div class="card-title1">
+                    <div class="title1-logo">
+                        <img class="title1-logo-img" src="/static-resource/35cc5e20-4dfb-11ee-9fcd-a5994c19f2ca.png" />
+                    </div>
+                    <h2>直播数据大屏</h2>
+                </div>
+                <div class="card-title2">
+                    <div class="title-left">
+                        <img class="preview-img" src="/static-resource/ac1107d0-507f-11ee-94b8-795b404eb14f.png" />
+                        <div>xxx</div>
+                        <div>零基础学编程</div>
+                        <div>直播结束</div>
+                    </div>
+                    <div class="title-right">直播时长 01:14:56</div>
+                </div>
+                <div class="card-body">
+                    <div class="text text-1">累计观看人数</div>
+                    <div class="text text-2">645</div>
+                    <div class="text text-3">实时在线人数</div>
+                    <div class="text text-4">-</div>
+                    <div class="text text-5">最高在线人数</div>
+                    <div class="text text-6">63</div>
+                    <div class="text text-7">人均观看时长</div>
+                    <div class="text text-8">5分钟31秒</div>
+                    <div class="text text-9">新增关注</div>
+                    <div class="text text-10">28</div>
+                    <div class="text text-11">评论人数</div>
+                    <div class="text text-12">237</div>
+                    <div class="text text-13">分享直播间人数</div>
+                    <div class="text text-14">43</div>
+                    <div class="text text-15">总热度</div>
+                    <div class="text text-16">0</div>
+                    <div class="text text-17">点赞次数</div>
+                    <div class="text text-18">5882</div>
+                </div>
+            </div>
+            <div class="component3">
+                <div class="dap-card">
+                    <div class="card-header">
+                        <div class="card-header__left">用户画像</div>
+                        <div class="card-header__right">
+                            <div>按累计观看人数统计 ▼</div>
+                        </div>
+                    </div>
+                    <div class="card-body"></div>
+                </div>
+            </div>
+            <div class="component4">
+                <div class="dap-card">
+                    <div class="card-header">
+                        <div class="card-header__left">流量趋势</div>
+                        <div class="card-header__right">
+                            <div>按累计观看人数统计 ▼</div>
+                        </div>
+                    </div>
+                    <div class="card-body"></div>
+                </div>
+            </div>
+            <div class="component5">
+                <div class="dap-card">
+                    <div class="card-header">
+                        <div class="card-header__left">来源趋势</div>
+                        <div class="card-header__right">
+                            <div>按累计观看人数统计 ▼</div>
+                        </div>
+                    </div>
+                    <div class="card-body"></div>
+                </div>
+            </div>
+            <div class="component6">
+                <div class="dap-card">
+                    <div class="card-header">
+                        <div class="card-header__left">渠道分析</div>
+                        <div class="card-header__right">
+                            <div>按累计观看人数统计 ▼</div>
+                        </div>
+                    </div>
+                    <div class="card-body"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module">
+        import autofit from "/lib/autofit/autofit.js";
+        window.onload = function () {
+            autofit.init({
+                dh: 811,
+                dw: 1612,
+                el: "#app",
+                resize: true,
+            });
+        };
+    </script>
 </body>
+
 </html>
