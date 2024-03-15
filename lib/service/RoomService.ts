@@ -251,7 +251,7 @@ export async function increaseShareNum(num = 1) {
 }
 export async function increaseFollowNum(roomId: string, date: string) {
   // 当日关注数
-  const today = dayjs(date).format("YYYY-MM-DD HH:mm:ss")
+  const today = dayjs(date).format("YYYY-MM-DD")
   try {
     await prisma.live.upsert({
       where: {
