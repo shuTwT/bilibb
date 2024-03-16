@@ -41,15 +41,27 @@
                                 </dv-loading>
                             </template>
                             <template v-else>
-                                <div class="flex">
-                                    <div class="mini-card-1">
-                                        <div class="mini-card-bg"></div>
+                                <div class="flex w-full" style="margin: 0 5px;">
+                                    <div class="mini-card mini-card-1" color-white>
+                                        <div class="mini-card-content">
+                                            <div class="title">新增关注</div>
+                                            <div class="num"></div>
+                                            
+                                        </div>
                                     </div>
-                                    <div class="mini-card-2">
-                                        <div class="mini-card-bg"></div>
+                                    <div class="mini-card mini-card-2" color-white>
+                                        <div class="mini-card-content">
+                                            <div class="title">加入粉丝团人数</div>
+                                            <div class="num"></div>
+                                            
+                                        </div>
                                     </div>
-                                    <div class="mini-card-3">
-                                        <div class="mini-card-bg"></div>
+                                    <div class="mini-card mini-card-3" color-white>
+                                        <div class="mini-card-content">
+                                            <div class="title">发送弹幕</div>
+                                            <div class="num"></div>
+                                            
+                                        </div>
                                     </div>
                                 </div>
                             </template>
@@ -284,7 +296,7 @@
         const isComp4Loaded = ref(false)
         const isComp5Loaded = ref(false)
         const isComp6Loaded = ref(false)
-        
+
         const app = createApp({
             setup () {
                 return {
