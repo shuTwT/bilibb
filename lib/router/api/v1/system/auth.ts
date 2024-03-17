@@ -4,6 +4,9 @@ import dayjs from "dayjs"
 import jwt from "jsonwebtoken"
 import prisma from "../../../../utils/prisma.js"
 import { Captcha } from 'captcha.gif';
+import crypto from "node:crypto"
+
+const md5 = crypto.createHash('md5')
 
 const authRouter=new Router<DefaultState,Context>({
     prefix:"/auth"
@@ -36,6 +39,7 @@ authRouter.post('/login', async (ctx,next)=>{
         }
         return
     }
+    const md5password = md5.update(body.password).digest('hex')
     if(body.password!=='123456'){
         ctx.body={
             code:-1,

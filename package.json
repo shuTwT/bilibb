@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "tsx lib/app.ts",
-    "dev": "tsx watch lib/app.ts"
+    "dev": "tsx watch lib/app.ts",
+    "seed":"tsx prisma/seed.ts"
   },
   "keywords": [],
   "author": "",

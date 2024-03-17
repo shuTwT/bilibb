@@ -26,7 +26,6 @@ model SysDept {
   createTime String? // 创建时间
   updateBy   String  @default("") //更新者
   updateTime String? //更新时间
-  role       SysRole @relation(fields: [deptId], references: [roleId])
 }
 
 //系统用户
@@ -88,7 +87,6 @@ model SysRole {
   remark            String? //备注
   users             SysUserRole[]
   menus             SysMenu[]
-  depts             SysDept[]
 }
 
 //系统菜单
