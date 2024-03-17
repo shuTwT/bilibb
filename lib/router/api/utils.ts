@@ -6,6 +6,10 @@ import type {Options,Data} from "ejs"
 import { ParsedUrlQuery } from "node:querystring"
 
 export async function getTemplate(name: string,data?:Data,options?:Options,ext: string = 'ejs') {
+    if(ext=='html'){
+        const html= fs.readFileSync(path.resolve(process.cwd(),'template',`${name}.${ext}`))
+        return html
+    }
     if(data&&options){
         return await ejs.renderFile(path.resolve(process.cwd(),'template',`${name}.${ext}`),data,options)
     }else if(data){
