@@ -10,6 +10,101 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// 系统部门
+model SysDept {
+  deptId     Int     @id @default(autoincrement()) //部门id
+  parentId   Int     @default(0) //父部门id
+  ancestors  String  @default("") //祖级列表
+  deptName   String  @default("") //部门名称
+  orderNum   Int     @default(0) //显示顺序
+  leader     String? //负责人
+  phone      String? //联系电话
+  email      String? //邮箱
+  status     Boolean @default(false) //部门状态 (false正常 true禁用)
+  delFlag    Boolean @default(false) //删除状态(false存在 true删除)
+  createBy   String  @default("") //创建者
+  createTime String // 创建时间
+  updateBy   String  @default("") //更新者
+  updateTime String //更新时间
+}
+
+//系统用户
+model SysUser {
+  userId      Int     @id @default(autoincrement()) //用户ID
+  deptId      Int? //部门ID
+  userName    String //用户账号
+  nickName    String //用户昵称
+  userType    String  @default("00") //用户类型 (00系统用户)
+  email       String  @default("") //用户邮箱
+  phonenumber String  @default("") //手机号码
+  sex         String  @default("0") //用户邮箱(0未知1男2女)
+  avatar      String  @default("") //头像地址
+  password    String  @default("") //密码
+  status      Boolean @default(false) //部门状态 (false正常 true禁用)
+  delFlag     Boolean @default(false) //删除状态(false存在 true删除)
+  createBy    String  @default("") //创建者
+  createTime  String // 创建时间
+  updateBy    String  @default("") //更新者
+  updateTime  String //更新时间
+  remark      String? //备注
+}
+
+//系统岗位
+model SysPost {
+  postId     Int     @id @default(autoincrement()) //岗位ID
+  postCode   String //岗位编码
+  postName   String //岗位名称
+  postySort  String //显示顺序
+  status     Boolean @default(false) //岗位状态 (false正常 true禁用)
+  delFlag    Boolean @default(false) //删除状态(false存在 true删除)
+  createBy   String  @default("") //创建者
+  createTime String // 创建时间
+  updateBy   String  @default("") //更新者
+  updateTime String //更新时间
+  remark     String? //备注
+}
+
+//系统角色
+model SysRole {
+  roleId            Int     @id @default(autoincrement()) //角色ID
+  roleName          String //角色名称
+  roleKey           String //角色权限字符串
+  roleSort          Int //显示顺序
+  dataScope         String  @default("1") //数据范围(1全部数据2自定义数据3本部门数据4本部门及以下数据)
+  menuCheckStrictly Boolean //菜单树选择项是否关联显示
+  deptCheckStrictly Boolean //部门数选择项是否关联显示
+  status            Boolean @default(false) //角色状态 (false正常 true禁用)
+  delFlag           Boolean @default(false) //删除状态(false存在 true删除)
+  createBy          String  @default("") //创建者
+  createTime        String // 创建时间
+  updateBy          String  @default("") //更新者
+  updateTime        String //更新时间
+  remark            String? //备注
+}
+
+//系统菜单
+model SysMenu {
+  menuId     Int     @id @default(autoincrement()) //菜单ID
+  menuName   String //菜单名称
+  parentId   Int     @default(0) //父菜单ID
+  orderNum   Int     @default(0) //显示顺序
+  path       String  @default("") //路由地址
+  component  String //组件路径
+  query      String //路由参数
+  isFrame    Boolean @default(false) //是否为外链(false否true是)
+  isCache    Boolean @default(true) //是否缓存(false不换成true缓存)
+  menuType   String  @default("") //菜单类型(M目录 C菜单 F按钮)
+  visible    Boolean @default(true) //菜单可见(false隐藏true显示)
+  perms String? //权限标识
+  icon String @default("") //菜单图标
+  status     Boolean @default(false) //菜单状态 (false正常 true禁用)
+  createBy   String  @default("") //创建者
+  createTime String // 创建时间
+  updateBy   String  @default("") //更新者
+  updateTime String //更新时间
+  remark     String? //备注
+}
+
 // 用户
 model User {
   id            Int            @id @default(autoincrement())
@@ -144,8 +239,8 @@ model SendGift {
   giftId   Int
   giftName String //礼物内容
   date     String
-  User     User   @relation(fields: [uid],references: [uid])
-  Room     Room   @relation(fields: [roomId],references: [roomId])
+  User     User   @relation(fields: [uid], references: [uid])
+  Room     Room   @relation(fields: [roomId], references: [roomId])
 }
 
 // 红色警告
@@ -242,7 +337,7 @@ model UserFavor {
 
 //配置项
 model Options {
-  id Int @id @default(autoincrement())
+  id          Int    @id @default(autoincrement())
   optionName  String @unique
   optionValue String @db.VarChar(255)
 }

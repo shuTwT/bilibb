@@ -12,7 +12,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/ejs": "^3.1.5",
-    "@types/jsonwebtoken": "^9.0.5",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/koa": "^2.13.12",
     "@types/koa-bodyparser": "^4.3.12",
     "@types/koa-router": "^7.4.8",
@@ -21,12 +21,12 @@
     "@types/md5": "^2.3.5",
     "@types/node": "^20.10.5",
     "@types/ws": "^8.5.10",
-    "prisma": "^5.8.0",
+    "prisma": "^5.11.0",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@prisma/client": "^5.8.0",
+    "@prisma/client": "^5.11.0",
     "bilibili-live-ws": "^6.3.1",
     "captcha.gif": "^1.0.11",
     "dayjs": "^1.11.10",
@@ -44,6 +44,6 @@
     "node-fetch": "^3.3.2"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=18.0.0"
   }
 }
