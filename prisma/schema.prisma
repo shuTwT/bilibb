@@ -23,30 +23,35 @@ model SysDept {
   status     Boolean @default(false) //部门状态 (false正常 true禁用)
   delFlag    Boolean @default(false) //删除状态(false存在 true删除)
   createBy   String  @default("") //创建者
-  createTime String // 创建时间
+  createTime String? // 创建时间
   updateBy   String  @default("") //更新者
-  updateTime String //更新时间
+  updateTime String? //更新时间
+  role       SysRole @relation(fields: [deptId], references: [roleId])
 }
 
 //系统用户
 model SysUser {
-  userId      Int     @id @default(autoincrement()) //用户ID
+  userId      Int           @id @default(autoincrement()) //用户ID
   deptId      Int? //部门ID
   userName    String //用户账号
   nickName    String //用户昵称
-  userType    String  @default("00") //用户类型 (00系统用户)
-  email       String  @default("") //用户邮箱
-  phonenumber String  @default("") //手机号码
-  sex         String  @default("0") //用户邮箱(0未知1男2女)
-  avatar      String  @default("") //头像地址
-  password    String  @default("") //密码
-  status      Boolean @default(false) //部门状态 (false正常 true禁用)
-  delFlag     Boolean @default(false) //删除状态(false存在 true删除)
-  createBy    String  @default("") //创建者
-  createTime  String // 创建时间
-  updateBy    String  @default("") //更新者
-  updateTime  String //更新时间
+  userType    String        @default("00") //用户类型 (00系统用户)
+  email       String        @default("") //用户邮箱
+  phonenumber String        @default("") //手机号码
+  sex         String        @default("0") //用户邮箱(0未知1男2女)
+  avatar      String        @default("") //头像地址
+  password    String        @default("") //密码
+  loginIp     String        @default("") //最后登录的IP
+  loginDate   String? //最后登录时间
+  status      Boolean       @default(false) //部门状态 (false正常 true禁用)
+  delFlag     Boolean       @default(false) //删除状态(false存在 true删除)
+  createBy    String        @default("") //创建者
+  createTime  String? // 创建时间
+  updateBy    String        @default("") //更新者
+  updateTime  String? //更新时间
   remark      String? //备注
+  roles       SysUserRole[]
+  posts       SysPost[]
 }
 
 //系统岗位
@@ -54,32 +59,36 @@ model SysPost {
   postId     Int     @id @default(autoincrement()) //岗位ID
   postCode   String //岗位编码
   postName   String //岗位名称
-  postySort  String //显示顺序
+  postSort   Int //显示顺序
   status     Boolean @default(false) //岗位状态 (false正常 true禁用)
   delFlag    Boolean @default(false) //删除状态(false存在 true删除)
   createBy   String  @default("") //创建者
-  createTime String // 创建时间
+  createTime String? // 创建时间
   updateBy   String  @default("") //更新者
-  updateTime String //更新时间
+  updateTime String? //更新时间
   remark     String? //备注
+  user       SysUser @relation(fields: [postId], references: [userId])
 }
 
 //系统角色
 model SysRole {
-  roleId            Int     @id @default(autoincrement()) //角色ID
+  roleId            Int           @id @default(autoincrement()) //角色ID
   roleName          String //角色名称
   roleKey           String //角色权限字符串
   roleSort          Int //显示顺序
-  dataScope         String  @default("1") //数据范围(1全部数据2自定义数据3本部门数据4本部门及以下数据)
-  menuCheckStrictly Boolean //菜单树选择项是否关联显示
-  deptCheckStrictly Boolean //部门数选择项是否关联显示
-  status            Boolean @default(false) //角色状态 (false正常 true禁用)
-  delFlag           Boolean @default(false) //删除状态(false存在 true删除)
-  createBy          String  @default("") //创建者
-  createTime        String // 创建时间
-  updateBy          String  @default("") //更新者
-  updateTime        String //更新时间
+  dataScope         String        @default("1") //数据范围(1全部数据2自定义数据3本部门数据4本部门及以下数据)
+  menuCheckStrictly Boolean       @default(true) //菜单树选择项是否关联显示
+  deptCheckStrictly Boolean       @default(true) //部门数选择项是否关联显示
+  status            Boolean       @default(false) //角色状态 (false正常 true禁用)
+  delFlag           Boolean       @default(false) //删除状态(false存在 true删除)
+  createBy          String        @default("") //创建者
+  createTime        String? // 创建时间
+  updateBy          String        @default("") //更新者
+  updateTime        String? //更新时间
   remark            String? //备注
+  users             SysUserRole[]
+  menus             SysMenu[]
+  depts             SysDept[]
 }
 
 //系统菜单
@@ -95,14 +104,107 @@ model SysMenu {
   isCache    Boolean @default(true) //是否缓存(false不换成true缓存)
   menuType   String  @default("") //菜单类型(M目录 C菜单 F按钮)
   visible    Boolean @default(true) //菜单可见(false隐藏true显示)
-  perms String? //权限标识
-  icon String @default("") //菜单图标
+  perms      String? //权限标识
+  icon       String  @default("") //菜单图标
   status     Boolean @default(false) //菜单状态 (false正常 true禁用)
   createBy   String  @default("") //创建者
-  createTime String // 创建时间
+  createTime String? // 创建时间
   updateBy   String  @default("") //更新者
-  updateTime String //更新时间
+  updateTime String? //更新时间
   remark     String? //备注
+  role       SysRole @relation(fields: [menuId], references: [roleId])
+}
+
+// 系统用户角色关联表
+model SysUserRole {
+  user   SysUser @relation(fields: [userId], references: [userId])
+  userId Int
+  role   SysRole @relation(fields: [roleId], references: [roleId])
+  roleId Int
+
+  @@id([userId, roleId])
+}
+
+//系统操作日志
+model SysOperLog {
+  operId        Int    @id @default(autoincrement())
+  title         String @default("") //模块标题
+  method        String @default("") //业务方法
+  requestMethod String @default("") //请求方式
+  operName      String @default("") //操作人员
+  operUrl       String @default("") //请求URL
+  operIp        String @default("") //主机IP
+  status        Int    @default(0) //操作状态(0正常1异常)
+}
+
+//系统字典类型
+model SysDictType {
+  dictId     Int     @id @default(autoincrement()) //字典主键
+  dictName   String  @default("") //字典名称
+  dictType   String  @unique @default("") //字典类型
+  status     Boolean @default(false) //状态(false正常,true停用)
+  createBy   String  @default("") //创建者
+  createTime String? // 创建时间
+  updateBy   String  @default("") //更新者
+  updateTime String? //更新时间
+  remark     String? //备注
+}
+
+//系统字典数据表
+model SysDictData {
+  dictCode   BigInt  @id @default(autoincrement()) //字典编码
+  dictSort   Int     @default(0) //字典排序
+  dictLabel  String  @default("") //字典标签
+  dictValue  String  @default("") //字典键值
+  dictType   String  @default("") //字典类型
+  status     Boolean @default(false) //状态(false正常,true停用)
+  createBy   String  @default("") //创建者
+  createTime String? // 创建时间
+  updateBy   String  @default("") //更新者
+  updateTime String? //更新时间
+  remark     String? //备注
+}
+
+//系统参数配置
+model SysConfig {
+  configId    Int     @id @default(autoincrement()) //参数主键
+  configName  String  @default("") //参数名称
+  configKey   String  @default("") //参数名称
+  configValue String  @default("") //参数名称
+  configType  String  @default("") //参数名称
+  createBy    String  @default("") //创建者
+  createTime  String? // 创建时间
+  updateBy    String  @default("") //更新者
+  updateTime  String? //更新时间
+  remark      String? //备注
+}
+
+//系统访问记录
+model SysLogininfor {
+  infoId        BigInt @id @default(autoincrement()) //访问ID
+  userName      String @default("") //用户账号
+  ipaddr        String @default("") //登录IP地址
+  loginLocation String @default("") //登录地点
+  browser       String @default("") //浏览器类型
+  os            String @default("") //操作系统
+  status        String @default("0") //登录状态(0成功1失败)
+  msg           String @default("") //提示消息
+  loginTime     String @default("") //访问时间
+}
+
+//系统通知公告
+model SysNotice {
+  noticeId    Int    @id @default(autoincrement()) //公告ID
+  noticeTitle String //公告标题
+  noticeType String //公告类型(1通知2公告)
+  noticeContent String //公告内容
+  noticeReaded String //是否已读(0未读1已读)
+  status String //公告状态(0正常1关闭)
+  createBy    String  @default("") //创建者
+  createTime  String? // 创建时间
+  updateBy    String  @default("") //更新者
+  updateTime  String? //更新时间
+  remark      String? //备注
 }
 
 // 用户
