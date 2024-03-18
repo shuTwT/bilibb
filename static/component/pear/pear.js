@@ -24,5 +24,6 @@ layui.config({
 	nprogress: "extends/nprogress",           
 	echarts: "extends/echarts",          
 	echartsTheme: "extends/echartsTheme",
-	yaml:"extends/yaml"
+	yaml:"extends/yaml",
+    customUtil:"extends/customUtil"
 }).use([], function () {});

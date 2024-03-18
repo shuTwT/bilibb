@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="include :: header('部门列表')"/>
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible">
+        <meta content="" name="keywords">
+        <meta content="" name="description">
+        <title></title>
+    </head>
 </head>
 <body class="pear-container">
 <div class="layui-card">
@@ -12,11 +19,11 @@
                 <div class="layui-input-inline">
                     <input class="layui-input" name="deptName" placeholder="" type="text">
                 </div>
-                <button class="pear-btn pear-btn-md pear-btn-primary" lay-filter="dept-query" lay-submit>
+                <button type="button" class="layui-btn layui-btn-md layui-btn-primary" lay-filter="dept-query" lay-submit>
                     <i class="layui-icon layui-icon-search"></i>
                     查询
                 </button>
-                <button class="pear-btn pear-btn-md" type="reset">
+                <button class="layui-btn layui-btn-md" type="reset">
                     <i class="layui-icon layui-icon-refresh"></i>
                     重置
                 </button>
@@ -55,141 +62,55 @@
 
 </body>
 
-<th:block th:include="include :: footer"/>
 
 <script>
-    layui.use(['table', 'form', 'jquery', 'treetable', 'popup'], function () {
+    layui.use(['table', 'form', 'jquery', 'treeTable', 'popup','customUtil'], function () {
         let table = layui.table;
         let form = layui.form;
         let $ = layui.jquery;
-        let treetable = layui.treetable;
+        let treeTable = layui.treeTable;
         let popup = layui.popup;
+        let customUtil = layui.customUtil;
 
-        let MODULE_PATH = "/system/dept/";
 
-        treetable.render({
-            treeColIndex: 1,
-            treeSpid: 0,
-            treeIdName: 'deptId',
-            treePidName: 'parentId',
+        treeTable.render({
             skin: 'line',
-            method: 'get',
-            treeDefaultClose: false,
+            method: 'post',
             toolbar: '#dept-toolbar',
             elem: '#dept-table',
-            url: '/system/dept/data',
+            url: '/api/system/dept',
             page: false,
             defaultToolbar: [{
                 layEvent: 'refresh',
                 icon: 'layui-icon-refresh',
                 title: '刷新'
             }, 'filter', 'print', 'exports'],
+            parseData:function(res){
+                console.log(res)
+                const parsedData=customUtil.handleTree(res.data)
+                console.log(parsedData)
+                return{
+                    ...res,
+                    data:parsedData
+                }
+            },
             cols: [
                 [
                     {type: 'checkbox'},
-                    {field: 'deptName', minWidth: 200, title: '部门名称'},
-                    {field: 'leader', title: '负责人'},
+                    {field: 'name', minWidth: 200, title: '部门名称'},
                     {field: 'phone', title: '联系方式'},
                     {field: 'email', title: '邮箱'},
-                    {field: 'address', title: '详细地址'},
                     {field: 'status', title: '状态', templet: '#dept-status'},
                     {field: 'sort', title: '排序', width: 100},
                     {title: '操作', templet: '#dept-bar', width: 120, align: 'center'}
                 ]
-            ]
-        });
+            ],
+            tree:{
 
-        form.on('submit(dept-query)', function (data) {
-            treetable.search("#dept-table", data.field.deptName);
-            return false;
-        });
-
-        table.on('tool(dept-table)', function (obj) {
-            if (obj.event === 'remove') {
-                window.remove(obj);
-            } else if (obj.event === 'edit') {
-                window.edit(obj);
-            }
-        })
-
-        table.on('toolbar(dept-table)', function (obj) {
-            if (obj.event === 'add') {
-                window.add();
-            } else if (obj.event === 'refresh') {
-                window.refresh();
             }
         });
 
-        form.on('switch(dept-enable)', function (obj) {
-            let operate;
-            if (obj.elem.checked) {
-                operate = "enable";
-            } else {
-                operate = "disable";
-            }
-            let loading = layer.load();
-            $.ajax({
-                url: '/system/dept/' + operate,
-                data: JSON.stringify({deptId: this.value}),
-                dataType: 'json',
-                contentType: 'application/json',
-                type: 'put',
-                success: function (result) {
-                    layer.close(loading);
-                    if (result.success) {
-                        popup.success(result.msg);
-                    } else {
-                        popup.failure(result.msg);
-                    }
-                }
-            })
-        });
-
-        window.add = function () {
-            layer.open({
-                type: 2,
-                title: '新增',
-                shade: 0.1,
-                area: ['450px', '500px'],
-                content: MODULE_PATH + 'add'
-            });
-        }
-
-        window.edit = function (obj) {
-            layer.open({
-                type: 2,
-                title: '修改',
-                shade: 0.1,
-                area: ['450px', '500px'],
-                content: MODULE_PATH + 'edit?deptId=' + obj.data['deptId']
-            });
-        }
-
-        window.remove = function (obj) {
-            layer.confirm('确定要删除该部门', {icon: 3, title: '提示'}, function (index) {
-                layer.close(index);
-                let loading = layer.load();
-                $.ajax({
-                    url: MODULE_PATH + "remove/" + obj.data['deptId'],
-                    dataType: 'json',
-                    type: 'delete',
-                    success: function (result) {
-                        layer.close(loading);
-                        if (result.success) {
-                            popup.success(result.msg, function () {
-                                obj.del();
-                            });
-                        } else {
-                            popup.failure(result.msg);
-                        }
-                    }
-                })
-            });
-        }
-
-        window.refresh = function () {
-            treetable.reload('#dept-table');
-        }
+        
     })
 </script>
 </html>

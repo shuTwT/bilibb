@@ -7,7 +7,7 @@ import { ParsedUrlQuery } from "node:querystring"
 
 export async function getTemplate(name: string,data?:Data,options?:Options,ext: string = 'ejs') {
     if(ext=='html'){
-        const html= fs.readFileSync(path.resolve(process.cwd(),'template',`${name}.${ext}`))
+        const html= fs.readFileSync(path.resolve(process.cwd(),'template',`${name}.${ext}`)).toString()
         return html
     }
     if(data&&options){
