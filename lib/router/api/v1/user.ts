@@ -18,6 +18,7 @@ userRouter.get('/list', async (ctx, next) => {
     const limit = str2num(parseQuery(query, 'limit'), 1, { min: 1 })
     const uname = parseQuery(query, 'uname')
     const gender = parseQuery(query, 'gender')==''?null:parseQuery(query, 'gender')
+    const isFilterZero = parseQuery(query, 'isFilterZero')==='1'? true:false
     const [users, count] = await prisma.$transaction([
         prisma.user.findMany({
             skip: (page - 1) * limit,
@@ -31,6 +32,11 @@ userRouter.get('/list', async (ctx, next) => {
                     },
                     {
                         gender
+                    },
+                    {
+                        speakNum:{
+                            gt:isFilterZero?0:void 0
+                        }
                     }
                 ]
             },

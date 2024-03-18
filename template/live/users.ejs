@@ -5,8 +5,9 @@
             <div class="layui-card">
                 <div class="layui-card-body">
                     <form class="layui-form layui-row layui-col-space16">
-                        <div class="layui-col-md4">
-                            <div class="layui-input-wrap">
+                        <div class="layui-form-item layui-inline">
+                            <label class="layui-form-label">用户名</label>
+                            <div class="layui-input-wrap layui-input-inline">
                                 <div class="layui-input-prefix">
                                     <i class="layui-icon layui-icon-username"></i>
                                 </div>
@@ -14,13 +15,26 @@
                                     lay-affix="clear">
                             </div>
                         </div>
-                        <div class="layui-col-md4">
-                            <select name="gender">
-                                <option value="">请选择</option>
-                                <option value="男">男</option>
-                                <option value="女">女</option>
-                                <option value="保密">保密</option>
-                            </select>
+                        <div class="layui-form-item layui-inline">
+                            <label class="layui-form-label">性别</label>
+                            <div class="layui-inline">
+                                <select name="gender">
+                                    <option value="">请选择</option>
+                                    <option value="男">男</option>
+                                    <option value="女">女</option>
+                                    <option value="保密">保密</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-inline">
+                            <label class="layui-form-label">筛选零发言用户</label>
+                            <div class="layui-inline">
+                                <select name="isFilterZero">
+                                    <option value="">请选择</option>
+                                    <option value="0">否</option>
+                                    <option value="1">是</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="layui-btn-container layui-col-xs12">
                             <button class="layui-btn" lay-submit lay-filter="users-table-search">Search</button>

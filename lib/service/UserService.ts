@@ -107,6 +107,9 @@ export async function saveUserSpeak(
       },
       update: {
         uname,
+        speakNum:{
+          increment:1
+        }
       },
     });
     await prisma.speak.create({

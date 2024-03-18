@@ -9,12 +9,20 @@ liveRouter.get('/list', async (ctx, next) => {
     const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
     const limit = str2num(parseQuery(ctx.query, 'limit'), 10, { min: 1 })
     const date= parseQuery(ctx.query,'date')
+    const roomId=parseQuery(ctx.query,'roomId')
+    const title = parseQuery(ctx.query,'title')
     const [rooms, count] = await prisma.$transaction([
         prisma.live.findMany({
             skip: (page - 1) * limit,
             take: limit,
             where:{
-                date
+                date,
+                roomId:{
+                    contains:roomId
+                },
+                title:{
+                    contains:title
+                }
             },
             orderBy:{
                 date:'desc'
@@ -25,7 +33,10 @@ liveRouter.get('/list', async (ctx, next) => {
         }),
         prisma.live.count({
             where:{
-                date
+                date,
+                roomId:{
+                    contains:roomId
+                }
             }
         })
     ])

@@ -35,7 +35,9 @@ async function main() {
     where:{
       userId:1,
     },
-    update:{},
+    update:{
+      password:"e10adc3949ba59abbe56e057f20f883e",
+    },
     create:{
       userId:1,
       deptId:100,
@@ -52,7 +54,9 @@ async function main() {
     where:{
       userId:2,
     },
-    update:{},
+    update:{
+      password:"e10adc3949ba59abbe56e057f20f883e",
+    },
     create:{
       userId:2,
       deptId:100,
