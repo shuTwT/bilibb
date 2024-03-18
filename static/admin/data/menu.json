@@ -100,6 +100,14 @@
 				"type": 1,
 				"openType": "_component",
 				"href": "admin/view/system/user"
+            },
+            {
+                "id":43,
+                "title":"角色管理",
+                "icon": "layui-icon layui-icon-face-smile",
+				"type": 1,
+				"openType": "_component",
+				"href": "admin/view/system/role"
             }
         ]
     }

@@ -20,5 +20,8 @@ systemRouter.get('/dept/edit',async(ctx,next)=>{
 systemRouter.get('/user',async(ctx,next)=>{
     ctx.body=await getTemplate('system/user/main',void 0 ,void 0,'html')
 })
+systemRouter.get('/role',async(ctx,next)=>{
+    ctx.body=await getTemplate('system/role/main',void 0 ,void 0,'html')
+})
 
 export {systemRouter}

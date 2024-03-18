@@ -61,7 +61,14 @@ systemRouter.post('/user',async(ctx,next)=>{
 })
 /** 系统管理-用户管理-获取所有角色列表 */
 systemRouter.post('/list-all-role',async(ctx,next)=>{
-    
+    ctx.body={
+        code:0,
+        msg:'ok',
+        data:[
+            { id: 1, name: "超级管理员" },
+            { id: 2, name: "普通角色" }
+        ]
+    }
 })
 /** 系统管理-用户管理-根据userId，获取对应角色id列表（userId：用户id） */
 systemRouter.post('/list-role-ids',async(ctx,next)=>{
@@ -69,7 +76,38 @@ systemRouter.post('/list-role-ids',async(ctx,next)=>{
 })
 /** 获取系统管理-角色管理列表 */
 systemRouter.post('/role',async(ctx,next)=>{
-    
+    const body = ctx.request.body as any
+    let list = [
+        {
+            createTime: 1605456000000, // 时间戳（毫秒ms）
+            updateTime: 1684512000000,
+            id: 1,
+            name: "超级管理员",
+            code: "admin",
+            status: 1, // 状态 1 启用 0 停用
+            remark: "超级管理员拥有最高权限"
+          },
+          {
+            createTime: 1605456000000,
+            updateTime: 1684512000000,
+            id: 2,
+            name: "普通角色",
+            code: "common",
+            status: 1,
+            remark: "普通角色拥有部分权限"
+          }
+    ]
+    list = list.filter(item => item.name.includes(body.name??""));
+    list = list.filter(item =>
+      String(item.status).includes(String(body.status??1))
+    );
+    if (body.code) list = list.filter(item => item.code === body.code);
+    ctx.body={
+        code:0,
+        msg:"ok",
+        count:list.length,
+        data:list
+    }
 })
 /** 获取系统管理-菜单管理列表 */
 systemRouter.post('/menu',async(ctx,next)=>{
