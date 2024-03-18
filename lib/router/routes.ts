@@ -1,13 +1,10 @@
 import type { Context, DefaultState, default as Koa } from "koa";
-const { default:v1Router} = await import("./api/v1/index.js");
 const { default:viewRouter} =await import ("./view/index.js");
 import Router from "koa-router";
-import { loginRouter } from "./api/login.js";
+import { apiRouter } from "./api/api.js";
 
-const apiRouter = new Router<DefaultState, Context>({ prefix: "/api" });
 
-apiRouter.use(v1Router.routes(), v1Router.allowedMethods());
-apiRouter.use(loginRouter.routes(),loginRouter.allowedMethods())
+
 
 export const routes = (app: Koa<Koa.DefaultState,Koa.Context>) => {
   app.use(apiRouter.routes())
