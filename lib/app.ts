@@ -66,6 +66,7 @@ const HTTPServer = createServer(app.callback());
 //     });
 // });
 // globalThis.io=io
-HTTPServer.listen(port, () =>
+HTTPServer.listen(port, () =>{
+  log4js.info(`NODE_ENV ${process.env.NODE_ENV}`)
   log4js.info(`started server on http://localhost:${port}`)
-);
+});
