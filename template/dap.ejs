@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>bilibb</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="https://lib.baomitu.com/element-plus/2.6.1/index.css" />
+    <link rel="stylesheet" href="/lib/element-plus@2.6.1/theme-chalk/dark/css-vars.css" />
+    <link rel="stylesheet" href="/css/dap.css" />
+</head>
+
+<body>
+    <div id="app">
+        <div class="dap-main" v-cloak>
+            <div class="title-1">
+                <div class="title1-logo">
+                    <img class="title1-logo-img" src="/img/bili-favicon.png" />
+                </div>
+                <h2>直播数据大屏</h2>
+            </div>
+            <div class="title-2">
+                <div class="title-left">
+                    <img class="anchor-avatar" src="avatar.webp" />
+                    <div class="anchor-name">xxx</div>
+                    <div class="live-room-title">零基础学编程</div>
+                    <div class="live-state">直播结束</div>
+                </div>
+                <div class="title-right">
+                    <div class="live-duration">直播时长 01:14:56</div>
+                </div>
+            </div>
+            <div class="component1">
+                <div class="dap-card">
+                    <dv-border-box-8>
+                        <div class="card-header">
+                            <div class="card-header__left">互动趋势</div>
+                            <div class="card-header__right">
+                                <el-dropdown trigger="click">
+                                    <span>按累计观看人数统计 ▼</span>
+                                    <template #dropdown>
+                                        <el-dropdown-menu>
+                                            <el-dropdown-item>action 1</el-dropdown-item>
+                                            <el-dropdown-item divided>action 2</el-dropdown-item>
+                                            <el-dropdown-item divided>action 3</el-dropdown-item>
+                                        </el-dropdown-menu>
+                                    </template>
+                                </el-dropdown>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <template v-if="!isComp1Loaded">
+                                <dv-loading>
+                                    <div color-white>Loading...</div>
+                                </dv-loading>
+                            </template>
+                            <template v-else>
+                                <div class="flex w-full" style="margin: 0 5px">
+                                    <div class="mini-card mini-card-1" color-white>
+                                        <div class="mini-card-content">
+                                            <div class="title">新增关注</div>
+                                            <div class="num"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mini-card mini-card-2" color-white>
+                                        <div class="mini-card-content">
+                                            <div class="title">加入粉丝团人数</div>
+                                            <div class="num"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mini-card mini-card-3" color-white>
+                                        <div class="mini-card-content">
+                                            <div class="title">发送弹幕</div>
+                                            <div class="num"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </dv-border-box-8>
+                </div>
+            </div>
+            <div class="component2">
+                <div class="card-body">
+                    <dv-border-box-1 ref="borderRef">
+                        <template v-if="!isComp2Loaded">
+                            <dv-loading>
+                                <div color-white>Loading...</div>
+                            </dv-loading>
+                        </template>
+                        <template v-else>
+                            <div class="number-panel-area">
+                                <div class="top-area">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="label">累计观看人数</div>
+                                            <div class="num">645</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bottom-area">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="label">实时在线人数</div>
+                                            <div class="num">-</div>
+                                            <div class="label">评论人数</div>
+                                            <div class="num">237</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="label">最高在线人数</div>
+                                            <div class="num">63</div>
+                                            <div class="label">分享直播间人数</div>
+                                            <div class="num">43</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="label">人均观看时长</div>
+                                            <div class="num">5分钟31秒</div>
+                                            <div class="label">总热度</div>
+                                            <div class="num">0</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="label">新增关注</div>
+                                            <div class="num">28</div>
+                                            <div class="label">点赞次数</div>
+                                            <div class="num">5882</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </dv-border-box-1>
+                </div>
+            </div>
+            <div class="component3">
+                <div class="dap-card">
+                    <dv-border-box-8>
+                        <div class="card-header">
+                            <div class="card-header__left">用户画像</div>
+                            <div class="card-header__right">
+                                <el-dropdown trigger="click">
+                                    <span>按累计观看人数统计 ▼</span>
+                                    <template #dropdown>
+                                        <el-dropdown-menu>
+                                            <el-dropdown-item>action 1</el-dropdown-item>
+                                            <el-dropdown-item divided>action 2</el-dropdown-item>
+                                            <el-dropdown-item divided>action 3</el-dropdown-item>
+                                        </el-dropdown-menu>
+                                    </template>
+                                </el-dropdown>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <template v-if="!isComp3Loaded">
+                                <dv-loading>
+                                    <div color-white>Loading...</div>
+                                </dv-loading>
+                            </template>
+                            <template v-else>
+                                <div></div>
+                            </template>
+                        </div>
+                    </dv-border-box-8>
+                </div>
+            </div>
+            <div class="component4">
+                <div class="dap-card">
+                    <dv-border-box-8>
+                        <div class="card-header">
+                            <div class="card-header__left">流量趋势</div>
+                            <div class="card-header__right">
+                                <el-dropdown trigger="click">
+                                    <span>按累计观看人数统计 ▼</span>
+                                    <template #dropdown>
+                                        <el-dropdown-menu>
+                                            <el-dropdown-item>action 1</el-dropdown-item>
+                                            <el-dropdown-item divided>action 2</el-dropdown-item>
+                                            <el-dropdown-item divided>action 3</el-dropdown-item>
+                                        </el-dropdown-menu>
+                                    </template>
+                                </el-dropdown>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <template v-if="!isComp4Loaded">
+                                <dv-loading>
+                                    <div color-white>Loading...</div>
+                                </dv-loading>
+                            </template>
+                            <template v-else>
+                                <div></div>
+                            </template>
+                        </div>
+                    </dv-border-box-8>
+                </div>
+            </div>
+            <div class="component5">
+                <div class="dap-card">
+                    <dv-border-box-8>
+                        <div class="card-header">
+                            <div class="card-header__left">来源趋势</div>
+                            <div class="card-header__right">
+                                <el-dropdown trigger="click">
+                                    <span>按累计观看人数统计 ▼</span>
+                                    <template #dropdown>
+                                        <el-dropdown-menu>
+                                            <el-dropdown-item>action 1</el-dropdown-item>
+                                            <el-dropdown-item divided>action 2</el-dropdown-item>
+                                            <el-dropdown-item divided>action 3</el-dropdown-item>
+                                        </el-dropdown-menu>
+                                    </template>
+                                </el-dropdown>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <template v-if="!isComp5Loaded">
+                                <dv-loading>
+                                    <div color-white>Loading...</div>
+                                </dv-loading>
+                            </template>
+                            <template v-else>
+                                <div></div>
+                            </template>
+                        </div>
+                    </dv-border-box-8>
+                </div>
+            </div>
+            <div class="component6">
+                <div class="dap-card">
+                    <dv-border-box-8>
+                        <div class="card-header">
+                            <div class="card-header__left">渠道分析</div>
+                            <div class="card-header__right">
+                                <el-dropdown trigger="click">
+                                    <span>按累计观看人数统计 ▼</span>
+                                    <template #dropdown>
+                                        <el-dropdown-menu>
+                                            <el-dropdown-item>action 1</el-dropdown-item>
+                                            <el-dropdown-item divided>action 2</el-dropdown-item>
+                                            <el-dropdown-item divided>action 3</el-dropdown-item>
+                                        </el-dropdown-menu>
+                                    </template>
+                                </el-dropdown>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <template v-if="!isComp6Loaded">
+                                <dv-loading>
+                                    <div color-white>Loading...</div>
+                                </dv-loading>
+                            </template>
+                            <template v-else></template>
+                        </div>
+                    </dv-border-box-8>
+                </div>
+            </div>
+            <div class="decoration-bottom">
+                <dv-decoration5 :dur="2" style="width: 960px; height: 40px" />
+            </div>
+        </div>
+    </div>
+    <script type="importmap">
+      {
+        "imports": {
+          "autofit": "/lib/autofit/autofit.js",
+          "vue": "https://unpkg.com/vue@3.4.14/dist/vue.esm-browser.js",
+          "@kjgl77/datav-vue3": "https://unpkg.com/@kjgl77/datav-vue3@1.7.2/dist/datav-vue3.es.js"
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="https://unpkg.com/@kjgl77/datav-vue3@1.7.2/dist/style.css" />
+
+    <script src="https://lib.baomitu.com/vue/3.4.14/vue.global.min.js"></script>
+    <script src="https://unpkg.com/@kjgl77/datav-vue3@1.7.2/dist/datav-vue3.umd.js"></script>
+    <script src="https://lib.baomitu.com/element-plus/2.6.1/index.full.js"></script>
+
+    <script type="module">
+        import autofit from "autofit";
+        const { createApp, ref } = Vue;
+        const { BorderBox1, BorderBox8, Decoration5Plugin, LoadingPlugin } =
+            window["@kjgl/datav-vue3"];
+        const { ElDropdown } = ElementPlus;
+
+        const dropdownList1 = ref([]);
+        const isComp1Loaded = ref(false);
+        const isComp2Loaded = ref(false);
+        const isComp3Loaded = ref(false);
+        const isComp4Loaded = ref(false);
+        const isComp5Loaded = ref(false);
+        const isComp6Loaded = ref(false);
+
+        const app = createApp({
+            setup() {
+                return {
+                    isComp1Loaded,
+                    isComp2Loaded,
+                    isComp3Loaded,
+                    isComp4Loaded,
+                    isComp5Loaded,
+                    isComp6Loaded,
+                };
+            },
+            beforeMount() {
+                autofit.init({
+                    dh: 1080,
+                    dw: 1920,
+                    el: "#app",
+                    resize: true,
+                });
+            },
+            mounted() {
+                setTimeout(() => {
+                    isComp1Loaded.value = true;
+                    isComp2Loaded.value = true;
+                    isComp3Loaded.value = true;
+                    isComp4Loaded.value = true;
+                    isComp5Loaded.value = true;
+                    isComp6Loaded.value = true;
+                }, 2000);
+            },
+        });
+        // app.use(DataVVue3.default)
+        app.component("dv-border-box-1", BorderBox1);
+        app.component("dv-border-box-8", BorderBox8);
+        app.use(Decoration5Plugin);
+        app.use(LoadingPlugin);
+        app.use(ElDropdown);
+        app.mount("#app");
+    </script>
+</body>
+
+</html>

@@ -44,7 +44,7 @@ async function main() {
       userType:'00',
       email:"ry@163.com",
       phonenumber:"15888888888",
-      password:"123456",
+      password:"e10adc3949ba59abbe56e057f20f883e",
       createBy:'admin'
     }
   })
@@ -61,7 +61,7 @@ async function main() {
       userType:'00',
       email:"ry@163.com",
       phonenumber:"15888888888",
-      password:"123456",
+      password:"e10adc3949ba59abbe56e057f20f883e",
       createBy:'admin'
     }
   })

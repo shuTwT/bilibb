@@ -6,6 +6,5 @@ const systemRouter = new Router<DefaultState,Context>({
     prefix:'/system'
 })
 
-systemRouter.use(authRouter.routes())
 
 export {systemRouter}

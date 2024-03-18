@@ -19,7 +19,7 @@ export default function(whiteList:string[]=[],callback?:()=>void){
         
         if(!token){
             if(ctx.method=='GET'){
-                if(ctx.path=='/admin'){
+                if(ctx.path=='/admin'||ctx.path=='/dap'){
                     ctx.redirect('/login')
                 }else{
                     ctx.body = await getTemplate('admin/exception/404')
@@ -37,7 +37,7 @@ export default function(whiteList:string[]=[],callback?:()=>void){
         }catch(e){
             ctx.log4js.error(e)
             if(ctx.method=='GET'){
-                if(ctx.path=='/admin'){
+                if(ctx.path=='/admin'||ctx.path=='/dap'){
                     ctx.redirect('/login')
                 }else{
                     ctx.body = await getTemplate('admin/exception/404')

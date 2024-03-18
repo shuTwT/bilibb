@@ -9,7 +9,6 @@ import dayjs from "dayjs";
 const loginRouter = new Router<DefaultState, Context>();
 
 const captcha = new Captcha();
-const md5 = crypto.createHash("md5");
 
 type LoginBody = {
     username: string;
@@ -18,6 +17,7 @@ type LoginBody = {
 };
 
 loginRouter.post("/login", async (ctx, next) => {
+    const md5 = crypto.createHash("md5");
     const body = ctx.request.body as LoginBody;
 
     //检查验证码
@@ -89,6 +89,7 @@ loginRouter.post("/login", async (ctx, next) => {
         "shhhh"
     );
 
+    ctx.cookies.set('pear_ticket',accessToken)
     ctx.body = {
         code: 0,
         data: {
@@ -154,6 +155,7 @@ loginRouter.post("refresh-token", async (ctx, next) => {
             },
             "shhhh"
         );
+        ctx.cookies.set('pear_ticket',accessToken)
         ctx.body = {
             code: 0,
             data: {
@@ -174,5 +176,10 @@ loginRouter.post("refresh-token", async (ctx, next) => {
         return
     }
 });
+
+loginRouter.post('/logout',async(ctx,next)=>{
+    ctx.cookies.set('pear_ticket','')
+})
+
 
 export { loginRouter };

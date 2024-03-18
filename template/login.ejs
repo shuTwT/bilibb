@@ -58,8 +58,8 @@
 												class="layui-input">
 										</div>
 									</div>
-									<img src="/api/v1/system/auth/captcha" alt=""
-                                    onclick="this.src='/api/v1/system/auth/captcha?t='+ new Date().getTime();"
+									<img src="/api/captcha" alt=""
+                                    onclick="this.src='/api/captcha?t='+ new Date().getTime();"
 										class="verification-img" />
 								</div>
 								<div class="layui-form-item">
@@ -99,7 +99,7 @@
 
 				/// 验证
                 /// 登录
-                fetch('/api/v1/system/auth/login',{
+                fetch('/api/login',{
                     method:'POST',
                     headers:{
                             'Content-Type':'application/json'
@@ -113,6 +113,7 @@
                             elem: '.login',
                             time: 1500,
                             done: function () {
+                                
                                 popup.success("登录成功", function () {
                                     location.href = "./admin"
                                 });
