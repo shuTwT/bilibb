@@ -35,7 +35,6 @@ loginRouter.post("/login", async (ctx, next) => {
         select: {
             userId: true,
             userName: true,
-            roles: true,
         },
     });
     if (user == null) {
@@ -54,7 +53,6 @@ loginRouter.post("/login", async (ctx, next) => {
         select: {
             userId: true,
             userName: true,
-            roles: true,
         },
     });
     if (user == null) {
@@ -71,7 +69,6 @@ loginRouter.post("/login", async (ctx, next) => {
             data: "foobar",
             userId: user.userId,
             username: user.userName,
-            roles: user.roles,
         },
         "shhhh",
         {
@@ -84,7 +81,6 @@ loginRouter.post("/login", async (ctx, next) => {
             data: "foobar",
             userId: user.userId,
             username: user.userName,
-            roles: user.roles,
         },
         "shhhh",
         {

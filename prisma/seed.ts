@@ -5,7 +5,46 @@ import { roleMenus } from "./seedData/roleMenus";
 const prisma = new PrismaClient();
 async function main() {
   const datetime = dayjs().format("YYYY-MM-DD HH:mm:ss");
-
+  await prisma.sysDept.upsert({
+    where: {
+      deptId: 100,
+    },
+    update: {
+      updateTime: datetime,
+    },
+    create: {
+      deptId: 100,
+      parentId: 0,
+      ancestors: "0",
+      deptName: "若依科技",
+      type: 1,
+      leader: "若依",
+      phone: "15888888888",
+      email: "ry@qq.com",
+      createBy: "admin",
+      createTime: datetime,
+    },
+  });
+  await prisma.sysDept.upsert({
+    where: {
+      deptId: 101,
+    },
+    update: {
+      updateTime: datetime,
+    },
+    create: {
+      deptId: 101,
+      parentId: 100,
+      ancestors: "0,100",
+      deptName: "深圳总公司",
+      type: 2,
+      leader: "若依",
+      phone: "15888888888",
+      email: "ry@qq.com",
+      createBy: "admin",
+      createTime: datetime,
+    },
+  });
   await prisma.sysRole.upsert({
     where: {
       roleId: 1,
@@ -102,46 +141,7 @@ async function main() {
     },
   });
 
-  await prisma.sysDept.upsert({
-    where: {
-      deptId: 100,
-    },
-    update: {
-      updateTime: datetime,
-    },
-    create: {
-      deptId: 100,
-      parentId: 0,
-      ancestors: "0",
-      deptName: "若依科技",
-      type: 1,
-      leader: "若依",
-      phone: "15888888888",
-      email: "ry@qq.com",
-      createBy: "admin",
-      createTime: datetime,
-    },
-  });
-  await prisma.sysDept.upsert({
-    where: {
-      deptId: 101,
-    },
-    update: {
-      updateTime: datetime,
-    },
-    create: {
-      deptId: 101,
-      parentId: 100,
-      ancestors: "0,100",
-      deptName: "深圳总公司",
-      type: 2,
-      leader: "若依",
-      phone: "15888888888",
-      email: "ry@qq.com",
-      createBy: "admin",
-      createTime: datetime,
-    },
-  });
+  
   for (const key in menus) {
     const item = menus[key];
     await prisma.sysMenu.upsert({
