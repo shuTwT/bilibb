@@ -34,12 +34,12 @@ export function parseQuery(query: ParsedUrlQuery, key: string): string |undefine
         return void 0
     }
 }
-export function str2num(str: string|undefined, defaultValue: number): number
-export function str2num(str: string|undefined, defaultValue: number, options?: {
+export function str2num(str: string|undefined, defaultValue: any): number
+export function str2num(str: string|undefined, defaultValue: any, options?: {
     min?: number,
     max?: number
 }): number
-export function str2num(str: string|undefined, defaultValue: number, options?: {
+export function str2num(str: string|undefined, defaultValue: any, options?: {
     min?: number,
     max?: number
 }): number {
