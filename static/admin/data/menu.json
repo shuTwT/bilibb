@@ -108,6 +108,22 @@
 				"type": 1,
 				"openType": "_component",
 				"href": "admin/view/system/role"
+            },
+            {
+                "id":44,
+                "title":"菜单管理",
+                "icon": "layui-icon layui-icon-face-smile",
+				"type": 1,
+				"openType": "_component",
+				"href": "admin/view/system/menu"
+            },
+            {
+                "id":45,
+                "title":"系统监控",
+                "icon": "layui-icon layui-icon-face-smile",
+				"type": 1,
+				"openType": "_component",
+				"href": "admin/view/system/monitor"
             }
         ]
     }

@@ -23,5 +23,9 @@ systemRouter.get('/user',async(ctx,next)=>{
 systemRouter.get('/role',async(ctx,next)=>{
     ctx.body=await getTemplate('system/role/main',void 0 ,void 0,'html')
 })
+systemRouter.get('/monitor',async(ctx,next)=>{
+    ctx.body=await getTemplate('system/monitor/main',void 0 ,void 0,'html')
+})
+
 
 export {systemRouter}

@@ -36,7 +36,7 @@ async function main() {
       userId:1,
     },
     update:{
-      password:"e10adc3949ba59abbe56e057f20f883e",
+      password:"0192023a7bbd73250516f069df18b500",
     },
     create:{
       userId:1,
@@ -46,7 +46,7 @@ async function main() {
       userType:'00',
       email:"ry@163.com",
       phonenumber:"15888888888",
-      password:"e10adc3949ba59abbe56e057f20f883e",
+      password:"0192023a7bbd73250516f069df18b500",
       createBy:'admin'
     }
   })
@@ -55,7 +55,7 @@ async function main() {
       userId:2,
     },
     update:{
-      password:"e10adc3949ba59abbe56e057f20f883e",
+      password:"0192023a7bbd73250516f069df18b500",
     },
     create:{
       userId:2,
@@ -65,7 +65,7 @@ async function main() {
       userType:'00',
       email:"ry@163.com",
       phonenumber:"15888888888",
-      password:"e10adc3949ba59abbe56e057f20f883e",
+      password:"0192023a7bbd73250516f069df18b500",
       createBy:'admin'
     }
   })

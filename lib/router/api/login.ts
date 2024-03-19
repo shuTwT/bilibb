@@ -21,7 +21,7 @@ loginRouter.post("/login", async (ctx, next) => {
     const body = ctx.request.body as LoginBody;
 
     //检查验证码
-    if (body.captcha !== ctx.session.captcha) {
+    if (body.captcha&&body.captcha !== ctx.session.captcha) {
         ctx.body = {
             code: -1,
             msg: "验证码错误",
@@ -65,39 +65,44 @@ loginRouter.post("/login", async (ctx, next) => {
         return;
     }
 
-    const expiresIn = Math.floor(Date.now() / 1000) + 60 * 60;
-    console.log(expiresIn);
+    const expires = dayjs().add(10,'h');
     const accessToken = jwt.sign(
         {
-            exp: expiresIn,
             data: "foobar",
             userId: user.userId,
             username: user.userName,
             roles: user.roles,
         },
-        "shhhh"
+        "shhhh",
+        {
+            expiresIn:"10h"
+        }
     );
 
     const refreshToken = jwt.sign(
         {
-            exp: expiresIn,
             data: "foobar",
             userId: user.userId,
             username: user.userName,
             roles: user.roles,
         },
-        "shhhh"
+        "shhhh",
+        {
+            expiresIn:"10h"
+        }
     );
 
     ctx.cookies.set('pear_ticket',accessToken)
     ctx.body = {
         code: 0,
+        success:true,
         data: {
             username: user.userName,
-            roles: user.roles,
+            // roles: user.roles,
+            roles:["admin"],
             accessToken: accessToken,
             refreshToken: refreshToken,
-            expires:dayjs(expiresIn).format('YYYY/MM/DD HH:mm:ss')
+            expires:expires
         },
         msg: "ok",
     };
@@ -134,36 +139,41 @@ loginRouter.post("refresh-token", async (ctx, next) => {
         return;
     }
     if (decodeToken.userId && decodeToken.username&&decodeToken.roles) {
-        const expiresIn = Math.floor(Date.now() / 1000) + 60 * 60;
+        const expires = dayjs().add(10,'h');
         const accessToken = jwt.sign(
             {
-                exp: expiresIn,
                 data: "foobar",
                 userId: decodeToken.userId,
                 username: decodeToken.userName,
                 roles: decodeToken.roles,
             },
-            "shhhh"
+            "shhhh",
+            {
+                expiresIn:"10h"
+            }
         );
         const refreshToken = jwt.sign(
             {
-                exp: expiresIn,
                 data: "foobar",
                 userId: decodeToken.userId,
                 username: decodeToken.userName,
                 roles: decodeToken.roles,
             },
-            "shhhh"
+            "shhhh",
+            {
+                expiresIn:"10h"
+            }
         );
         ctx.cookies.set('pear_ticket',accessToken)
         ctx.body = {
             code: 0,
             data: {
                 username: decodeToken.userName,
-                roles: decodeToken.roles,
+                // roles: decodeToken.roles,
+                roles:["admin"],
                 accessToken: accessToken,
                 refreshToken: refreshToken,
-                expires:dayjs(expiresIn).format('YYYY/MM/DD HH:mm:ss')
+                expires:expires
             },
             msg: "ok",
         };
