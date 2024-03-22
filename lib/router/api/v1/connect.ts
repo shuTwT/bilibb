@@ -24,6 +24,7 @@ connectRouter.get('/list', async (ctx, next) => {
 
     ctx.body = {
         code: 0,
+        success:true,
         msg: "ok",
         data: rooms
     }

@@ -23,6 +23,7 @@ danmuRouter.get('/list', async (ctx, next) => {
         prisma.speak.count()
     ])
     ctx.body = {
+        success:true,
         code: 0,
         msg: "ok",
         count,
