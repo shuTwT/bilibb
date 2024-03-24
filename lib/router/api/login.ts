@@ -19,9 +19,11 @@ type LoginBody = {
 loginRouter.post("/login", async (ctx, next) => {
     const md5 = crypto.createHash("md5");
     const body = ctx.request.body as LoginBody;
+    const uuid = ctx.cookies.get("_uuid")
+    const captcha = ctx.session[`${uuid}_captcha`]
 
     //检查验证码
-    if (body.captcha&&body.captcha !== ctx.session.captcha) {
+    if (body.captcha&&body.captcha !== captcha) {
         ctx.body = {
             code: -1,
             msg: "验证码错误",
@@ -106,7 +108,8 @@ loginRouter.post("/login", async (ctx, next) => {
 
 loginRouter.get("/captcha", async (ctx, next) => {
     const { token, buffer } = captcha.generate();
-    ctx.session.captcha = token.toLowerCase();
+    const uuid = ctx.cookies.get("_uuid")
+    ctx.session[`${uuid}_captcha`] = token.toLowerCase();
     ctx.log4js.info(JSON.stringify(ctx.session));
     ctx.type = "image/gif";
     ctx.body = buffer;

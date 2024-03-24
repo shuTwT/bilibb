@@ -196,8 +196,22 @@ async function main() {
     });
   }
   for (const key in roleMenus) {
-    const id = roleMenus[key].roleId
-    // await prisma.sysRole
+    roleMenus[key].menuIds.forEach(async(item)=>{
+      await prisma.sysRoleMenu.upsert({
+        where:{
+          roleId_menuId:{
+            roleId:roleMenus[key].roleId,
+            menuId:item
+          }
+        },
+        update:{
+        },
+        create:{
+          roleId:roleMenus[key].roleId,
+          menuId:item
+        }
+      })
+    })
   }
 }
 main()

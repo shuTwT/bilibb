@@ -45,7 +45,7 @@ model SysUser {
     password      String        @default("") //密码
     loginIp       String        @default("") //最后登录的IP
     loginDate     String? //最后登录时间
-    status        Int           @default(1) //部门状态 (1正常 0禁用)
+    status        Int           @default(1) //用户状态 (1正常 0禁用)
     delFlag       Boolean       @default(false) //删除状态(false存在 true删除)
     createBy      String        @default("") //创建者
     createTime    String? // 创建时间
