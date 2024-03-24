@@ -332,7 +332,7 @@ asyncRoutesRouter.get("/get-async-routes", async (ctx, next) => {
           showLink:item.showLink,
           rank:item.rank,
           roles:["admin"],
-          auths:item.auths
+          keepAlive:item.keepAlive,
         }
       }
     }else if(item.menuType==1){
@@ -344,10 +344,11 @@ asyncRoutesRouter.get("/get-async-routes", async (ctx, next) => {
         meta:{
           icon:item.icon,
           title:item.title,
+          keepAlive:item.keepAlive,
+          frameSrc:item.frameSrc,
           showLink:item.showLink,
           rank:item.rank,
           roles:["admin"],
-          auths:item.auths
         }
       }
     }else if(item.menuType==2){
@@ -362,7 +363,7 @@ asyncRoutesRouter.get("/get-async-routes", async (ctx, next) => {
           showLink:item.showLink,
           rank:item.rank,
           roles:["admin"],
-          auths:item.auths
+          keepAlive:item.keepAlive,
         }
       }
     }
