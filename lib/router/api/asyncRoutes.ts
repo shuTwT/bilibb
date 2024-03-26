@@ -370,7 +370,6 @@ asyncRoutesRouter.get("/get-async-routes", async (ctx, next) => {
   }
   )
   const asyncRoutes=arrayToTree(routes,0)
-  console.log(asyncRoutes)
   ctx.body = {
     success: true,
     // data: [
