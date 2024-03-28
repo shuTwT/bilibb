@@ -160,6 +160,11 @@ userRouter.get('/info/:uid/:roomId', async (ctx, next) => {
                     roomId:params['roomId']
                 }
             },
+            UserEntry:{
+                where:{
+                    roomId:params['roomId']
+                }
+            },
             _count:{
                 select:{
                     Speak:{
@@ -185,9 +190,11 @@ userRouter.get('/info/:uid/:roomId', async (ctx, next) => {
     if (!user) {
         return
     }
-    ctx.body = await getTemplate(template, {
-        user: user,
-    })
+    ctx.body = {
+        code:200,
+        msg:"success",
+        data:user
+    }
 })
 
 /**
