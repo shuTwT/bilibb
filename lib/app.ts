@@ -8,13 +8,13 @@
 import Koa from "koa";
 import * as dotenv from "dotenv";
 import path from "node:path";
-import koaStatic from "./middleware/staticMiddleware.js";
+// import koaStatic from "./middleware/staticMiddleware.js";
 import bodyParser from "koa-bodyparser";
 import session from "koa-session";
 import koaLogger from "./middleware/koaLogger.js";
 import cookiesMiddleware from "./middleware/cookiesMiddleware.js";
 import { createServer } from "node:http";
-const { routes } = await import( "./router/routes.js");
+const { createRoutes } = await import( "./router/routes.js");
 const { TCPServer } =await import("./service/connectService.js");
 import { loadEnv } from "./env.js";
 import * as log4js from "./utils/log4js.js"
@@ -43,28 +43,10 @@ app.use(cookiesMiddleware());
 // app.use(koaStatic(path.resolve(process.cwd(), "static")));
 // app.use(koaStatic(path.resolve(process.cwd(), "public")));
 app.use(viewMiddleware(path.resolve(process.cwd(),'template')))
-routes(app)
+createRoutes(app)
 
 const HTTPServer = createServer(app.callback());
 
-// const io = new Server(HTTPServer, {
-//   /** options */
-// });
-
-// io.on("connection", (socket) => {
-//     log4js.info(`⚡: ${socket.id} 用户已连接!`)
-//     socket.emit('msg',
-//         {
-//             type:"hello",
-//             msg:"Hello World"
-//         }
-//     )
-//     socket.on('disconnect', () => {
-//         log4js.info('🔥: 一个用户已断开连接');
-        
-//     });
-// });
-// globalThis.io=io
 HTTPServer.listen(port, () =>{
   log4js.info(`NODE_ENV ${process.env.NODE_ENV}`)
   log4js.info(`started server on http://localhost:${port}`)

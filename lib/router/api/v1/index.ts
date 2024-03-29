@@ -9,7 +9,6 @@ const { liveRouter } = await import("./live.js");
 const { userRouter } = await import("./user.js");
 const { danmuRouter } = await import("./danmu.js");
 const { analysisRouter } = await import("./analysis.js");
-const { systemRouter } = await import("./system/index.js")
 
 const v1Router = new Router<DefaultState, Context>({
   prefix: "/v1",
@@ -22,7 +21,6 @@ v1Router.use(liveRouter.routes());
 v1Router.use(userRouter.routes());
 v1Router.use(danmuRouter.routes());
 v1Router.use(analysisRouter.routes());
-v1Router.use(systemRouter.routes())
 
 /**
  * 进房量分页查询
