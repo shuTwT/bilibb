@@ -13,12 +13,17 @@ import bodyParser from "koa-bodyparser";
 import session from "koa-session";
 import koaLogger from "./middleware/koaLogger.js";
 import cookiesMiddleware from "./middleware/cookiesMiddleware.js";
+
 import { createServer } from "node:http";
 const { createRoutes } = await import( "./router/routes.js");
 const { TCPServer } =await import("./service/connectService.js");
 import { loadEnv } from "./env.js";
 import * as log4js from "./utils/log4js.js"
 import viewMiddleware from "./middleware/viewMiddleware.js";
+import RedisSessionStore from "./utils/redisSessionStore.js";
+import redis from "./utils/redis.js";
+import jwtMiddleware from "./middleware/jwtMiddleware.js";
+
 
 dotenv.config();
 
@@ -38,8 +43,16 @@ app.use(async(ctx,next)=>{
 })
 app.use(bodyParser());
 app.use(koaLogger());
-app.use(session(app));
+app.use(session({
+    store:new RedisSessionStore(redis)
+},app));
 app.use(cookiesMiddleware());
+app.use(jwtMiddleware([
+    "/api/login",
+    "/api/swagger/index.html",
+    "/api/swagger/api-docs",
+  ])
+)
 // app.use(koaStatic(path.resolve(process.cwd(), "static")));
 // app.use(koaStatic(path.resolve(process.cwd(), "public")));
 app.use(viewMiddleware(path.resolve(process.cwd(),'template')))

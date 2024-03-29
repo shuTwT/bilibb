@@ -28,7 +28,7 @@ declare module "koa"{
     }
     interface Context {
         log4js:typeof log4js
-        session: session.Session
+        session: session.Session | null;
         render:(relPath: string, locals ?:object)=>Promise<string>
     }
 }
