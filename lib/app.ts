@@ -18,7 +18,6 @@ const { routes } = await import( "./router/routes.js");
 const { TCPServer } =await import("./service/connectService.js");
 import { loadEnv } from "./env.js";
 import * as log4js from "./utils/log4js.js"
-import jwtMiddleware from "./middleware/jwtMiddleware.js";
 import viewMiddleware from "./middleware/viewMiddleware.js";
 
 dotenv.config();
@@ -41,8 +40,8 @@ app.use(bodyParser());
 app.use(koaLogger());
 app.use(session(app));
 app.use(cookiesMiddleware());
-app.use(koaStatic(path.resolve(process.cwd(), "static")));
-app.use(koaStatic(path.resolve(process.cwd(), "public")));
+// app.use(koaStatic(path.resolve(process.cwd(), "static")));
+// app.use(koaStatic(path.resolve(process.cwd(), "public")));
 app.use(viewMiddleware(path.resolve(process.cwd(),'template')))
 routes(app)
 
