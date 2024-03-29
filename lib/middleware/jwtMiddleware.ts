@@ -21,7 +21,6 @@ export default function (whiteList: string[] = [], callback?: () => void) {
         const userToken = await redis.get("login_tokens:" + uuid);
         //判断过期
         if (userToken) {
-            console.log(userToken)
           await next();
         } else {
           ctx.status = 403;

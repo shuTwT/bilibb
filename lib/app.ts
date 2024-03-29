@@ -48,9 +48,11 @@ app.use(session({
 },app));
 app.use(cookiesMiddleware());
 app.use(jwtMiddleware([
+    "/",
     "/api/login",
     "/api/swagger/index.html",
     "/api/swagger/api-docs",
+    "/api/v1/large-screen/data"
   ])
 )
 // app.use(koaStatic(path.resolve(process.cwd(), "static")));

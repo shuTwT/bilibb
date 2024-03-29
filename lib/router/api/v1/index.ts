@@ -2,6 +2,7 @@ import type { Context, DefaultState } from "koa";
 import Router from "koa-router";
 import prisma from "../../../utils/prisma.js";
 import { parseQuery, str2num } from "../utils.js";
+import { largeScreenRouter } from "./largeScreen.js";
 const { roomRouter } = await import("./room.js");
 const { optionRouter } = await import("./options.js");
 const { connectRouter } = await import("./connect.js");
@@ -21,6 +22,7 @@ v1Router.use(liveRouter.routes());
 v1Router.use(userRouter.routes());
 v1Router.use(danmuRouter.routes());
 v1Router.use(analysisRouter.routes());
+v1Router.use(largeScreenRouter.routes())
 
 /**
  * 进房量分页查询
