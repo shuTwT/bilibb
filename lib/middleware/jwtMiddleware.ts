@@ -23,23 +23,20 @@ export default function (whiteList: string[] = [], callback?: () => void) {
         if (userToken) {
           await next();
         } else {
-          ctx.status = 403;
           ctx.body = {
-            code: 403,
+            code: 401,
             msg: "登录过期",
           };
         }
       } catch (err) {
-        ctx.status = 403;
         ctx.body = {
-          code: 403,
+          code: 500,
           msg: String(err),
         };
       }
     } else {
-      ctx.status = 403;
       ctx.body = {
-        code: 403,
+        code: 401,
         msg: "请先登录",
       };
     }

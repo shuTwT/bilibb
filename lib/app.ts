@@ -23,6 +23,7 @@ import viewMiddleware from "./middleware/viewMiddleware.js";
 import RedisSessionStore from "./utils/redisSessionStore.js";
 import redis from "./utils/redis.js";
 import jwtMiddleware from "./middleware/jwtMiddleware.js";
+import uaMiddleware from "./middleware/uaMiddleware.js";
 
 
 dotenv.config();
@@ -34,7 +35,9 @@ const port = Number.parseInt(process.env.APP_PORT ||'3000');
 
 if (allowTCP) TCPServer();
 
-const app = new Koa<Koa.DefaultState,Koa.Context>();
+const app = new Koa<Koa.DefaultState,Koa.Context>({
+    proxy:true
+});
 
 app.keys = ["signedKey"];
 app.use(async(ctx,next)=>{
@@ -47,6 +50,7 @@ app.use(session({
     store:new RedisSessionStore(redis)
 },app));
 app.use(cookiesMiddleware());
+app.use(uaMiddleware())
 app.use(jwtMiddleware([
     "/",
     "/api/login",
@@ -62,7 +66,7 @@ createRoutes(app)
 
 const HTTPServer = createServer(app.callback());
 
-HTTPServer.listen(port, () =>{
+HTTPServer.listen(port,'0.0.0.0', () =>{
   log4js.info(`NODE_ENV ${process.env.NODE_ENV}`)
   log4js.info(`started server on http://localhost:${port}`)
 });

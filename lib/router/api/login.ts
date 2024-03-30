@@ -6,6 +6,8 @@ import { Captcha } from "captcha.gif";
 import prisma from "../../utils/prisma";
 import dayjs from "dayjs";
 import redis from "../../utils/redis";
+import { nanoid } from "nanoid";
+import geoip from "geoip-lite";
 
 const loginRouter = new Router<DefaultState, Context>();
 
@@ -21,7 +23,9 @@ loginRouter.post("/login", async (ctx, next) => {
     const md5 = crypto.createHash("md5");
     const body = ctx.request.body as LoginBody;
     const uuid = body.uuid
-    const ip = ctx.request.ip
+    const ip= ctx.headers['x-forwarded-for'] as string|| ctx.request.ip
+    const geo = geoip.lookup(ip)
+    console.log(geo)
 
     let user = await prisma.sysUser.findFirst({
         where: {
@@ -59,6 +63,8 @@ loginRouter.post("/login", async (ctx, next) => {
     }
 
     const expires = dayjs().add(10,'h');
+    const systemInfo = `${ctx.ua.getOS().name}${ctx.ua.getOS().version}`
+    const browserInfo = `${ctx.ua.getBrowser().name}${ctx.ua.getBrowser().version}`
     const accessToken = jwt.sign(
         {
             data: "foobar",
@@ -66,9 +72,9 @@ loginRouter.post("/login", async (ctx, next) => {
             username: user.userName,
             uuid:uuid,
             ip:ip,
-            address:"局域网",
-            system:"未知的",
-            browser:"未知的",
+            address:`${geo?.country}${geo?.city}`,
+            system:systemInfo,
+            browser:browserInfo,
             loginTime:new Date()
         },
         "shhhh",
@@ -108,9 +114,9 @@ loginRouter.post("/login", async (ctx, next) => {
 
 loginRouter.get("/captcha", async (ctx, next) => {
     const { token, buffer } = captcha.generate();
-    const uuid = ctx.cookies.get("_uuid")
-    ctx.session![`${uuid}_captcha`] = token.toLowerCase();
-    ctx.log4js.info(JSON.stringify(ctx.session));
+    const uuid = ctx.cookies.get("_uuid") ?? nanoid()
+    redis.setex("login_captcha:"+uuid,60,token)
+
     ctx.type = "image/gif";
     ctx.body = buffer;
 });
@@ -120,6 +126,8 @@ type RefreshTokenBody = {
 };
 loginRouter.post("refresh-token", async (ctx, next) => {
     const body = ctx.request.body as RefreshTokenBody;
+    const ip = ctx.request.ip
+    const geo = geoip.lookup(ip)
     if (body.refreshToken == null) {
         ctx.body = {
             code: -1,
@@ -139,19 +147,27 @@ loginRouter.post("refresh-token", async (ctx, next) => {
     }
     if (decodeToken.userId && decodeToken.username&&decodeToken.roles) {
         const expires = dayjs().add(10,'h');
+        const systemInfo = `${ctx.ua.getOS().name}${ctx.ua.getOS().version}`
+        const browserInfo = `${ctx.ua.getBrowser().name}${ctx.ua.getBrowser().version}`
         const accessToken = jwt.sign(
             {
                 data: "foobar",
                 userId: decodeToken.userId,
                 username: decodeToken.userName,
                 roles: decodeToken.roles,
-                uuid:decodeToken.uuid
+                uuid:decodeToken.uuid,
+                ip:ip,
+                address:`${geo?.country}${geo?.city}`,
+                system:systemInfo,
+                browser:browserInfo,
+                loginTime:new Date()
             },
             "shhhh",
             {
                 expiresIn:"10h"
             }
         );
+        redis.setex("login_tokens:"+decodeToken.uuid,60*60*10,accessToken)
         const refreshToken = jwt.sign(
             {
                 data: "foobar",
@@ -200,7 +216,6 @@ loginRouter.post('/logout',async(ctx,next)=>{
         msg:"登出成功"
     }
    }catch(err){
-    ctx.status=500
     ctx.body={
         code:500,
         msg:String(err)

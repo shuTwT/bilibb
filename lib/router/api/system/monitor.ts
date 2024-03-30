@@ -40,40 +40,21 @@ monitorRouter.get("/online-logs", async (ctx, next) => {
     },
   };
 });
-/** 获取系统监控-在线用户列表 */
-monitorRouter.post("/online-logs", async (ctx, next) => {
-  const body = ctx.request.body as any;
-  let list = [
-    {
-      id: 1,
-      username: "admin",
-      ip: "127.0.0.1",
-      address: "中国河南省信阳市",
-      system: "macOS",
-      browser: "Chrome",
-      loginTime: new Date(),
-    },
-    {
-      id: 2,
-      username: "common",
-      ip: "127.0.0.1",
-      address: "中国广东省深圳市",
-      system: "Windows",
-      browser: "Firefox",
-      loginTime: new Date(),
-    },
-  ];
-  list = list.filter((item) => item.username.includes(body?.username));
-  ctx.body = {
-    success: true,
-    data: {
-      list,
-      total: list.length, // 总条目数
-      pageSize: 10, // 每页显示条目个数
-      currentPage: 1, // 当前页数
-    },
-  };
-});
+monitorRouter.delete("/offline/:id",async(ctx,next)=>{
+    const uuid = ctx.params["id"]
+    try{
+        await redis.del("login_tokens:"+uuid)
+        ctx.body={
+            code:200,
+            msg:"success"
+        }
+    }catch(error){
+        ctx.body={
+            code:500,
+            msg:String(error)
+        }
+    }
+})
 /** 获取系统监控-登录日志列表 */
 monitorRouter.post("/login-logs", async (ctx, next) => {
   const body = ctx.request.body as any;

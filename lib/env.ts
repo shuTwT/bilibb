@@ -1,3 +1,4 @@
+import UAParser from "ua-parser-js";
 import log4js from "./utils/log4js.js"
 import prisma from "./utils/prisma.js";
 import { Options } from "@prisma/client";
@@ -30,6 +31,7 @@ declare module "koa"{
         log4js:typeof log4js
         session: session.Session | null;
         render:(relPath: string, locals ?:object)=>Promise<string>
+        ua:UAParser.UAParserInstance
     }
 }
 
