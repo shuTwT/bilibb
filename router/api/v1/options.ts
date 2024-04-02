@@ -2,7 +2,7 @@ import type { Context, DefaultState, Next } from "koa";
 import * as log4js from "../../../utils/log4js.js"
 import prisma from "../../../utils/prisma.js";
 import Router from "koa-router";
-import type { DefaultOptions } from "../../../env.js";
+import type { DefaultOptions } from "../../../../env.js";
 
 const optionRouter = new Router<DefaultState,Context>({prefix:'/options'})
 
