@@ -1,11 +1,12 @@
 import { LiveTCP } from "bilibili-live-ws";
 import prisma from "../utils/prisma.js";
 import { getDanmuConf, getRoomid, getRoomInfo } from "../utils.js";
-import { resolver } from "../resolver.js";
-import type { Msg } from "../resolver.js";
+import { resolver } from "../core/resolver.js";
+import type { Msg } from "../core/resolver.js";
 import * as log4js from "../utils/log4js.js";
+import { BLiveTCP } from "../core/BLiveTCP.js";
 
-export const connectPool = new Map< number, LiveTCP>();
+export const connectPool = new Map< number, BLiveTCP>();
 
 export async function createConnect(short_room_id: number) {
   const cookies = globalThis.env.cookies;
@@ -15,10 +16,10 @@ export async function createConnect(short_room_id: number) {
   if (!buvid || buvid == "") {
     throw "请先在系统设置中设置buvid"
   }
-  if (isNaN(uid)) {
+  if (Number.isNaN(uid)) {
     throw "请先在系统设置中设置uid"
   }
-  if(isNaN(short_room_id)){
+  if(Number.isNaN(short_room_id)){
     throw "请确认roomId正确"
   }
 
@@ -67,29 +68,12 @@ export async function createConnect(short_room_id: number) {
 
   const conf = await getDanmuConf(room_id, cookies);
 
-  const live = new LiveTCP(room_id, {
+  const live = new BLiveTCP(room_id, {
     uid: uid,
     key: conf.key,
     buvid: buvid,
   });
-  live.on("open", (data) => {
-    log4js.info("Connection is established");
-  });
-  live.on("live", () => {
-    live.on("heartbeat", (online) => {
-      //console.log('人气值:' + online)
-    });
-  });
-  live.on("msg", async (data: Msg<any>) => {
-    if (data.cmd in resolver) {
-      await resolver[data.cmd](room_id + "", data);
-    } else {
-      //console.log(data);
-    }
-  });
-  live.on("error", (e) => {
-    log4js.error(e);
-  });
+
 
   connectPool.set(room_id, live);
 }

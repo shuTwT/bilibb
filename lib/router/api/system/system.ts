@@ -278,7 +278,6 @@ systemRouter.post("/menu", async (ctx, next) => {
       msg: "新增失败"
     }
   }
-  console.log(body)
 })
 
 /** 更新菜单 */

@@ -1,9 +1,9 @@
 import dayjs from "dayjs"
-import * as log4js from "./utils/log4js.js"
-const userService =await import ("./service/UserService.js")
-const roomService = await import("./service/RoomService.js")
+import * as log4js from "../utils/log4js.js"
+const userService =await import ("../service/UserService.js")
+const roomService = await import("../service/RoomService.js")
 
-type FansMedal = {
+export type FansMedal = {
     anchor_roomid: number,
     guard_level: number,
     icon_id: number,
@@ -18,7 +18,7 @@ type FansMedal = {
     special: string,
     target_id: number
 }
-type InteractiveGameData={
+export type InteractiveGameData={
     type: number,
     uid: number,
     uname: string,
@@ -43,13 +43,9 @@ export type Msg<T> = {
     info?: any
     msg_common?: any
 }
-interface Resolver {
+export interface Resolver {
     [key: string]: (roomId: string, msg: Msg<any>) => Promise<void>
 }
-/**
- * 在线人数
- */
-const currentRankNum = { value: 0 }
 
 export const resolver: Resolver = {
     // 'LOG_IN_NOTICE':function(data){
@@ -102,10 +98,9 @@ export const resolver: Resolver = {
      * 在线人数
      * @param param0 
      */
-    'ONLINE_RANK_COUNT': async function (roomId: string, { data }: Msg<any>) {
-        if (data.count !== currentRankNum.value) {
-            currentRankNum.value = data.count
-            //console.log(`在线人数${data.count}`)
+    'ONLINE_RANK_COUNT': async function (this:any,roomId: string, { data }: Msg<any>) {
+        if (data.count !== this.rankNum) {
+            this.rankNum = data.count
         }
 
     },

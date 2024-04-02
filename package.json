@@ -7,9 +7,10 @@
     "seed": "tsx prisma/seed.ts"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=production tsx lib/app.ts",
     "dev": "cross-env NODE_ENV=development tsx watch lib/app.ts",
-    "seed": "tsx prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts",
+    "start": "cross-env NODE_ENV=production tsx lib/app.ts",
+    "test": "tsx watch lib/app.test.ts"
   },
   "keywords": [],
   "author": "",

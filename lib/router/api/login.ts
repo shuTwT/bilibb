@@ -25,7 +25,6 @@ loginRouter.post("/login", async (ctx, next) => {
     const uuid = body.uuid
     const ip= ctx.headers['x-forwarded-for'] as string|| ctx.request.ip
     const geo = geoip.lookup(ip)
-    console.log(geo)
 
     let user = await prisma.sysUser.findFirst({
         where: {
