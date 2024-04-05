@@ -30,6 +30,7 @@ export class BLiveTCP extends LiveTCP {
       });
     });
     this.on("msg", async (data: Msg<any>) => {
+        console.log(data.cmd)
       if (data.cmd in resolver) {
         await resolver[data.cmd].call(this,roomid + "", data);
       } 

@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import prisma from "../utils/prisma.js";
-import * as log4js from "../utils/log4js.js"
+import * as log4js from "../utils/log4js.js";
 import { Prisma } from "@prisma/client";
 
 /**
@@ -21,7 +21,7 @@ export async function createRoom(
     });
     return true;
   } catch (e) {
-    log4js.prismaError(e)
+    log4js.prismaError(e);
   }
 }
 
@@ -94,8 +94,8 @@ export async function increaseEnterRoomNum(
       update: {
         latest: date,
         num: {
-          increment: 1
-        }
+          increment: 1,
+        },
       },
       create: {
         uid,
@@ -106,7 +106,7 @@ export async function increaseEnterRoomNum(
     });
     return true;
   } catch (e) {
-    log4js.prismaError(e)
+    log4js.prismaError(e);
   }
 }
 export async function increaseSpeakerNum(roomId: string, date: string) {
@@ -132,7 +132,7 @@ export async function increaseSpeakerNum(roomId: string, date: string) {
     });
     return true;
   } catch (e) {
-    log4js.prismaError(e)
+    log4js.prismaError(e);
   }
 }
 export async function increaseDanmakuNum(num = 1) {
@@ -150,129 +150,141 @@ export async function updateGift(
   giftId: number,
   giftName: string,
   medalInfo: object,
-  giftNum: number
+  giftNum: number,
+  coinType: string,
+  price: number
 ) {
-  const today = dayjs(date).format("YYYY-MM-DD")
+  const today = dayjs(date).format("YYYY-MM-DD");
   // 当日礼物数量
+  const giftPrice = price / giftNum;
   try {
     await prisma.live.upsert({
       where: {
         roomId_date: {
           roomId,
-          date: today
-        }
+          date: today,
+        },
       },
       update: {
         giftNum: {
-          increment: 1
-        }
+          increment: 1,
+        },
       },
       create: {
         roomId,
-        date: today
-      }
-    })
+        date: today,
+      },
+    });
     await prisma.gift.upsert({
       where: {
-        giftId
+        giftId,
       },
       update: {},
       create: {
         giftId,
-        giftName
-      }
-    })
+        giftName,
+        giftPrice
+      },
+    });
     await prisma.user.upsert({
       where: {
-        uid
-      }, update: {
-        uname, fa: face
-      }, create: {
-        uid, uname, fa: face
-      }
-    })
+        uid,
+      },
+      update: {
+        uname,
+        fa: face,
+      },
+      create: {
+        uid,
+        uname,
+        fa: face,
+      },
+    });
     await prisma.sendGift.create({
       data: {
         roomId,
         uid,
         giftId,
         giftName,
-        date
-      }
-    })
+        date,
+      },
+    });
 
     await prisma.userGift.upsert({
       where: {
         uid_roomId: {
-          uid, roomId
-        }
+          uid,
+          roomId,
+        },
       },
       update: {
         latest: date,
         num: {
-          increment: giftNum
-        }
+          increment: giftNum,
+        },
       },
       create: {
         uid,
         roomId,
         first: date,
         latest: date,
-        num: giftNum
-      }
-    })
+        num: giftNum,
+      },
+    });
   } catch (e) {
-    log4js.prismaError(e)
+    log4js.prismaError(e);
   }
-
 }
-export async function updateLikeNum(roomId: string, likeNum: number, date: string) {
+export async function updateLikeNum(
+  roomId: string,
+  likeNum: number,
+  date: string
+) {
   // 当日点赞数
-  const today = dayjs(date).format("YYYY-MM-DD")
+  const today = dayjs(date).format("YYYY-MM-DD");
   try {
     await prisma.live.update({
       where: {
         roomId_date: {
           roomId: roomId + "",
-          date: today
-        }
+          date: today,
+        },
       },
       data: {
-        likeNum
-      }
-    })
+        likeNum,
+      },
+    });
   } catch (e) {
-    log4js.prismaError(e)
+    log4js.prismaError(e);
   }
-
 }
 export async function increaseShareNum(num = 1) {
   // 当日分享数
 }
 export async function increaseFollowNum(roomId: string, date: string) {
   // 当日关注数
-  const today = dayjs(date).format("YYYY-MM-DD")
+  const today = dayjs(date).format("YYYY-MM-DD");
   try {
     await prisma.live.upsert({
       where: {
         roomId_date: {
           roomId,
-          date: today
-        }
+          date: today,
+        },
       },
       update: {
         followNum: {
-          increment: 1
-        }
+          increment: 1,
+        },
       },
       create: {
         roomId,
         date: today,
-        followNum: 1
-      }
-    })
+        followNum: 1,
+      },
+    });
   } catch (e) {
-    log4js.prismaError(e)
+    log4js.prismaError(e);
   }
 }
 export async function updateLiveFans(
@@ -303,7 +315,7 @@ export async function updateLiveFans(
     });
     return true;
   } catch (e) {
-    log4js.prismaError(e)
+    log4js.prismaError(e);
   }
 }
 export async function updateRedNotice(
@@ -337,7 +349,43 @@ export async function updateRedNotice(
         },
       });
   } catch (e) {
-    log4js.prismaError(e)
+    log4js.prismaError(e);
   }
 }
 
+/**
+ * 设置直播间开播状态
+ */
+export async function updateRoomState(roomId: string, state: number = 0) {
+  try {
+    await prisma.room.update({
+      where: {
+        roomId,
+      },
+      data: {
+        active: state,
+      },
+    });
+  } catch (error) {
+    log4js.error(error);
+  }
+}
+export async function updateLiveWarning(roomId: string, date: string) {
+  try {
+    await prisma.live.update({
+      where: {
+        roomId_date: {
+          roomId,
+          date: dayjs(date).format("YYYY-MM-DD"),
+        },
+      },
+      data: {
+        redNoticeNum: {
+          increment: 1,
+        },
+      },
+    });
+  } catch (error) {
+    log4js.error(error);
+  }
+}

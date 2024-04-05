@@ -33,28 +33,28 @@ model SysDept {
 
 //系统用户
 model SysUser {
-    userId        Int           @id @default(autoincrement()) //用户ID
+    userId        Int       @id @default(autoincrement()) //用户ID
     deptId        Int? //部门ID
     userName      String //用户账号
     nickName      String //用户昵称
-    userType      String        @default("00") //用户类型 (00系统用户)
-    email         String        @default("") //用户邮箱
-    phonenumber   String        @default("") //手机号码
-    sex           Int           @default(0) //用户性别(0未知1男2女)
-    avatar        String        @default("") //头像地址
-    password      String        @default("") //密码
-    loginIp       String        @default("") //最后登录的IP
+    userType      String    @default("00") //用户类型 (00系统用户)
+    email         String    @default("") //用户邮箱
+    phonenumber   String    @default("") //手机号码
+    sex           Int       @default(0) //用户性别(0未知1男2女)
+    avatar        String    @default("") //头像地址
+    password      String    @default("") //密码
+    loginIp       String    @default("") //最后登录的IP
     loginDate     String? //最后登录时间
-    status        Int           @default(1) //用户状态 (1正常 0禁用)
-    delFlag       Boolean       @default(false) //删除状态(false存在 true删除)
-    createBy      String        @default("") //创建者
+    status        Int       @default(1) //用户状态 (1正常 0禁用)
+    delFlag       Boolean   @default(false) //删除状态(false存在 true删除)
+    createBy      String    @default("") //创建者
     createTime    String? // 创建时间
-    updateBy      String        @default("") //更新者
+    updateBy      String    @default("") //更新者
     updateTime    String? //更新时间
     remark        String? //备注
     posts         SysPost[]
-    dept          SysDept       @relation(fields: [sysDeptDeptId], references: [deptId])
-    sysDeptDeptId Int           @default(100)
+    dept          SysDept   @relation(fields: [sysDeptDeptId], references: [deptId])
+    sysDeptDeptId Int       @default(100)
 }
 
 //系统岗位
@@ -75,58 +75,58 @@ model SysPost {
 
 //系统角色
 model SysRole {
-    roleId            Int           @id @default(autoincrement()) //角色ID
+    roleId            Int     @id @default(autoincrement()) //角色ID
     roleName          String //角色名称
     roleKey           String //角色权限字符串
     roleSort          Int //显示顺序
-    dataScope         String        @default("1") //数据范围(1全部数据2自定义数据3本部门数据4本部门及以下数据)
-    menuCheckStrictly Boolean       @default(true) //菜单树选择项是否关联显示
-    deptCheckStrictly Boolean       @default(true) //部门数选择项是否关联显示
-    status            Int           @default(1) //角色状态 (1正常 0禁用)
-    delFlag           Boolean       @default(false) //删除状态(false存在 true删除)
-    createBy          String        @default("") //创建者
+    dataScope         String  @default("1") //数据范围(1全部数据2自定义数据3本部门数据4本部门及以下数据)
+    menuCheckStrictly Boolean @default(true) //菜单树选择项是否关联显示
+    deptCheckStrictly Boolean @default(true) //部门数选择项是否关联显示
+    status            Int     @default(1) //角色状态 (1正常 0禁用)
+    delFlag           Boolean @default(false) //删除状态(false存在 true删除)
+    createBy          String  @default("") //创建者
     createTime        String? // 创建时间
-    updateBy          String        @default("") //更新者
+    updateBy          String  @default("") //更新者
     updateTime        String? //更新时间
     remark            String? //备注
 }
 
 //系统菜单
 model SysMenu {
-    menuId          Int           @id @default(autoincrement()) //菜单ID
-    parentId        Int           @default(0) //父菜单ID
-    menuType        Int           @default(0) //菜单类型(0菜单1iframe2外链3按钮)
-    title           String        @default("") //标题
+    menuId          Int     @id @default(autoincrement()) //菜单ID
+    parentId        Int     @default(0) //父菜单ID
+    menuType        Int     @default(0) //菜单类型(0菜单1iframe2外链3按钮)
+    title           String  @default("") //标题
     menuName        String //菜单名称
-    path            String        @default("") //路由地址
+    path            String  @default("") //路由地址
     component       String //组件路径
-    rank            Int?          @default(0) //显示顺序
-    redirect        String        @default("") //重定向
-    icon            String        @default("") //菜单图标
-    extraIcon       String        @default("") //右侧图标
-    enterTransition String        @default("") //入场动画
-    leaveTransition String        @default("") //出场动画
-    activePath      String        @default("")
-    auths           String        @default("")
-    frameSrc        String        @default("")
-    frameLoading    Boolean       @default(true)
-    keepAlive       Boolean       @default(false)
-    hiddenTag       Boolean       @default(false)
-    showLink        Boolean       @default(true)
-    showParent      Boolean       @default(false)
-    status          Int           @default(1) //菜单状态 (1正常 0禁用)
-    createBy        String        @default("") //创建者
+    rank            Int?    @default(0) //显示顺序
+    redirect        String  @default("") //重定向
+    icon            String  @default("") //菜单图标
+    extraIcon       String  @default("") //右侧图标
+    enterTransition String  @default("") //入场动画
+    leaveTransition String  @default("") //出场动画
+    activePath      String  @default("")
+    auths           String  @default("")
+    frameSrc        String  @default("")
+    frameLoading    Boolean @default(true)
+    keepAlive       Boolean @default(false)
+    hiddenTag       Boolean @default(false)
+    showLink        Boolean @default(true)
+    showParent      Boolean @default(false)
+    status          Int     @default(1) //菜单状态 (1正常 0禁用)
+    createBy        String  @default("") //创建者
     createTime      String? // 创建时间
-    updateBy        String        @default("") //更新者
+    updateBy        String  @default("") //更新者
     updateTime      String? //更新时间
     remark          String? //备注
 }
-
 
 // 系统角色菜单关联表
 model SysRoleMenu {
     roleId Int
     menuId Int
+
     @@id([roleId, menuId])
 }
 
@@ -290,6 +290,7 @@ model Room {
     keyframe       String
     tags           String
     areaName       String
+    active         Int           @default(0) //直播间状态,是否在直播
     UserEntry      UserEntry[]
     Live           Live[]
     Speak          Speak[]
@@ -337,7 +338,8 @@ model Speak {
 model Gift {
     id       Int    @id @default(autoincrement())
     giftId   Int    @unique
-    giftName String
+    giftName String //礼物名字
+    giftPrice    Float @default(0) //礼物价值
 }
 
 // 用户送礼

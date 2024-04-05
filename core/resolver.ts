@@ -51,9 +51,6 @@ export const resolver: Resolver = {
     // 'LOG_IN_NOTICE':function(data){
     //     console.log(data)
     // },
-    'WATCHED_CHANGE': async function (roomId: string, { data }: Msg<any>) {
-        //console.log(`看过人数变化:${data.num}`)
-    },
     'LIKE_INFO_V3_CLICK': async function (roomId: string, { data }: Msg<any>) {
         //console.log(`V3点赞,${data.uname}${data.like_text}`)
         const date=dayjs().format("YYYY-MM-DD HH:mm:ss")
@@ -120,7 +117,7 @@ export const resolver: Resolver = {
         const coinType=data.coin_type //礼物是否付费
         const price=data.price //礼物价值
         const totalCoin=data.total_coin
-        await roomService.updateGift(roomId,uid,uname,date,face,giftId,giftName,medal_info,giftNum)
+        await roomService.updateGift(roomId,uid,uname,date,face,giftId,giftName,medal_info,giftNum,coinType,price)
         await userService.userLog(uid,uname,roomId,`在${roomId}直播间赠送礼物${giftName}`,date)
     },
     'DANMU_MSG': async function (roomId: string, data: Msg<any>) {
@@ -236,20 +233,25 @@ export const resolver: Resolver = {
         console.log(toastMsg)
     },
     "PREPARING":async function(roomId:string,{data}:Msg<any>){
-        console.log("直播终止")
+        await roomService.updateRoomState(roomId,0)
+        log4js.info("主播终止")
     },
     "LIVE":async function(roomId:string,{data}:Msg<any>){
-        //console.log('直播开始')
+        await roomService.updateRoomState(roomId,1)
+        log4js.info('直播开始')
     },
     "WARNING":async function(roomId:string,{data}:Msg<any>){
-        console.log(data.msg)
+        const now =dayjs().format("YYYY-MM-DD HH:mm:ss")
+        await roomService.updateLiveWarning(roomId,now)
+        log4js.info('主播被警告')
     },
     "CUT_OFF":async function(roomId:string,{data}:Msg<any>){
-        console.log(data.msg)
+        log4js.info(data.msg)
     },
-    "WATCHED_CHANG":async function(roomId:string,{data}:Msg<any>){
+    "WATCHED_CHANGE":async function(roomId:string,{data}:Msg<any>){
+        //当前直播历史观众数量
         const num=data.num
         const text_small=data.text_small
-        console.log(data.text_large)
+        log4js.info(data.text_large)//xxx人看过
     }
 }
