@@ -203,8 +203,8 @@ model SysNotice {
     noticeTitle   String //公告标题
     noticeType    String //公告类型(1通知2公告)
     noticeContent String //公告内容
-    noticeReaded  String //是否已读(0未读1已读)
-    status        Int     @default(1) //公告状态(1正常0关闭)
+    noticeReaded  String  @default("0") //是否已读(0未读1已读)
+    status        String  @default("0") //公告状态(0正常1关闭)
     createBy      String  @default("") //创建者
     createTime    String? // 创建时间
     updateBy      String  @default("") //更新者
@@ -336,10 +336,10 @@ model Speak {
 }
 
 model Gift {
-    id       Int    @id @default(autoincrement())
-    giftId   Int    @unique
-    giftName String //礼物名字
-    giftPrice    Float @default(0) //礼物价值
+    id        Int    @id @default(autoincrement())
+    giftId    Int    @unique
+    giftName  String //礼物名字
+    giftPrice Float  @default(0) //礼物价值
 }
 
 // 用户送礼

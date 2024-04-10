@@ -1,8 +1,9 @@
 import UAParser from "ua-parser-js";
 import log4js from "./utils/log4js.js"
 import prisma from "./utils/prisma.js";
-import { Options } from "@prisma/client";
+import { Options, SysUser } from "@prisma/client";
 import type session from "koa-session";
+import { LoginUser } from "./core/model/LoginUser.js";
 // import { createRequire } from "node:module";
 
 // const require=createRequire(import.meta.url)
@@ -23,6 +24,7 @@ declare global{
 
 
 
+
 declare module "koa"{
     interface DefaultState{
         [key:string]:any
@@ -31,7 +33,8 @@ declare module "koa"{
         log4js:typeof log4js
         session: session.Session | null;
         render:(relPath: string, locals ?:object)=>Promise<string>
-        ua:UAParser.UAParserInstance
+        ua:UAParser.UAParserInstance,
+        getLoginUser:()=>LoginUser
     }
 }
 

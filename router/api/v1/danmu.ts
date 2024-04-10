@@ -15,8 +15,7 @@ danmuRouter.get('/list', async (ctx, next) => {
         prisma.speak.findMany({
             skip: (page - 1) * limit,
             take: limit,
-            orderBy:
-                {
+            orderBy:{
                 date:'desc'
             }
         }),
