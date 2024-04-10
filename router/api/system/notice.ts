@@ -3,8 +3,9 @@ import Router from "koa-router";
 import prisma from "../../../utils/prisma";
 import dayjs from "dayjs";
 import type { TransformCallback } from "stream";
-import { Transform } from "stream";
+import { Stream, Transform } from "stream";
 import EventEmitter from "events";
+import { parseQuery } from "../utils";
 
 class SSEStream extends Transform {
   constructor() {
@@ -27,36 +28,50 @@ const events = new EventEmitter();
 events.setMaxListeners(0);
 
 //向所有客户端推送数据
-const interval = setInterval(() => {
+const pushData = async () => {
   try {
-    // prisma.sysNotice.findMany({
-    //     where:{
-
-    //     }
-    // })
+    const noticeList = await prisma.sysNotice.findMany({
+      where: {
+        noticeType: "1",
+      },
+      take: 5,
+      orderBy: {
+        createTime: "desc",
+      },
+    });
     events.emit("data", {
       code: 200,
       msg: "success",
-      timestamp: new Date(),
+      data: {
+        noticeList: noticeList,
+      },
     });
   } catch (error) {
     events.emit("data", {
       code: 500,
       msg: String(error),
-      timestamp: new Date(),
     });
   }
-}, 2000);
+  interval()
+};
 
+const interval = () => {
+  setTimeout(() => {
+    pushData();
+  }, 5000);
+};
+
+interval()
 /**
  * 通知公告列表
  */
 noticeRouter.get("/", async (ctx, next) => {
-  const noticeTitle = ctx.params.noticeTitle;
-  const noticeType = ctx.params.noticeType;
-  const noticeReaded = ctx.params.noticeReaded;
-  const pageSize = Number(ctx.params.pageSize);
-  const pageNum = Number(ctx.params.pageNum);
+  const query = ctx.query as any;
+  const noticeTitle = parseQuery(query, "noticeTitle");
+  const noticeType = parseQuery(query, "noticeType");
+  const noticeReaded = parseQuery(query, "noticeReaded");
+  const pageSize = Number(parseQuery(query, "pageSize"));
+  const pageNum = Number(parseQuery(query, "pageNum"));
   const [noticeList, count] = await prisma.$transaction([
     prisma.sysNotice.findMany({
       where: {
@@ -64,7 +79,7 @@ noticeRouter.get("/", async (ctx, next) => {
           contains: noticeTitle,
         },
         noticeType,
-        noticeReaded
+        noticeReaded,
       },
       skip: (pageNum - 1) * pageSize,
       take: pageSize,
@@ -78,7 +93,7 @@ noticeRouter.get("/", async (ctx, next) => {
           contains: noticeTitle,
         },
         noticeType,
-        noticeReaded
+        noticeReaded,
       },
     }),
   ]);
@@ -92,46 +107,7 @@ noticeRouter.get("/", async (ctx, next) => {
   };
 });
 
-/**
- * 通知公告新增
- */
-noticeRouter.post("/", async (ctx, next) => {
-    const body:any = ctx.request.body
-    try{
-        await prisma.sysNotice.create({
-            data:{
-                noticeTitle:body.noticeTitle,
-                noticeType:body.noticeType,
-                noticeContent:body.noticeContent,
-            }
-        })
-    }catch{}
-  ctx.body = {
-    code: 200,
-    msg: "success",
-  };
-});
-
-/**
- * 通知公告修改
- */
-noticeRouter.put("/", async (ctx, next) => {
-  ctx.body = {
-    code: 200,
-    msg: "success",
-  };
-});
-/**
- * 通知公告删除
- */
-noticeRouter.delete("/:ids", async (ctx, next) => {
-  ctx.body = {
-    code: 200,
-    msg: "success",
-  };
-});
-
-noticeRouter.post("/msg", async (ctx, next) => {
+noticeRouter.get("/msg", async (ctx, next) => {
   ctx.req.socket.setTimeout(0);
   ctx.req.socket.setNoDelay(true);
   ctx.req.socket.setKeepAlive(true);
@@ -152,8 +128,117 @@ noticeRouter.post("/msg", async (ctx, next) => {
   events.on("data", listener);
 
   stream.on("close", () => {
+    ctx.log4js.debug("客户端断开连接");
     events.off("data", listener);
   });
+});
+
+/**
+ * 通知公告详情
+ */
+noticeRouter.get("/:noticeId", async (ctx, next) => {
+  const params = ctx.params as any;
+  const noticeId = Number(params["noticeId"]);
+  try {
+    const notice = await prisma.sysNotice.findUnique({
+      where: {
+        noticeId,
+      },
+    });
+    ctx.body = {
+      code: 200,
+      msg: "success",
+      data: notice,
+    };
+  } catch (error) {
+    ctx.body = {
+      code: 500,
+      msg: error,
+    };
+  }
+});
+
+/**
+ * 通知公告新增
+ */
+noticeRouter.post("/", async (ctx, next) => {
+  const body: any = ctx.request.body;
+  const loginUser = ctx.getLoginUser();
+  const date = dayjs();
+  try {
+    await prisma.sysNotice.create({
+      data: {
+        noticeTitle: body.noticeTitle,
+        noticeType: body.noticeType,
+        noticeContent: body.noticeContent,
+        createBy: loginUser.getUserName(),
+        createTime: date.format("YYYY-MM-DD HH:mm:ss"),
+      },
+    });
+    ctx.body = {
+      code: 200,
+      msg: "success",
+    };
+  } catch (error) {
+    ctx.body = {
+      code: 500,
+      msg: error,
+    };
+  }
+});
+
+/**
+ * 通知公告修改
+ */
+noticeRouter.put("/", async (ctx, next) => {
+  const body: any = ctx.request.body;
+  const loginUser = ctx.getLoginUser();
+  const date = dayjs();
+  try {
+    await prisma.sysNotice.update({
+      where: {
+        noticeId: body.noticeId,
+      },
+      data: {
+        noticeTitle: body.noticeTitle,
+        noticeType: body.noticeType,
+        noticeContent: body.noticeContent,
+        updateBy: loginUser.getUserName(),
+        updateTime: date.format("YYYY-MM-DD HH:mm:ss"),
+      },
+    });
+    ctx.body = {
+      code: 200,
+      msg: "success",
+    };
+  } catch (error) {
+    ctx.body = {
+      code: 500,
+      msg: error,
+    };
+  }
+});
+/**
+ * 通知公告删除
+ */
+noticeRouter.delete("/:ids", async (ctx, next) => {
+  const body: any = ctx.request.body;
+  try {
+    await prisma.sysNotice.delete({
+      where: {
+        noticeId: body.noticeId,
+      },
+    });
+    ctx.body = {
+      code: 200,
+      msg: "success",
+    };
+  } catch (error) {
+    ctx.body = {
+      code: 500,
+      msg: error,
+    };
+  }
 });
 
 export { noticeRouter };

@@ -201,7 +201,7 @@ model SysLogininfor {
 model SysNotice {
     noticeId      Int     @id @default(autoincrement()) //公告ID
     noticeTitle   String //公告标题
-    noticeType    String //公告类型(1通知2公告)
+    noticeType    String //公告类型(1公告2公告)
     noticeContent String //公告内容
     noticeReaded  String  @default("0") //是否已读(0未读1已读)
     status        String  @default("0") //公告状态(0正常1关闭)

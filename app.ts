@@ -12,7 +12,6 @@ import path from "node:path";
 import bodyParser from "koa-bodyparser";
 import session from "koa-session";
 import koaLogger from "./middleware/koaLogger.js";
-import cookiesMiddleware from "./middleware/cookiesMiddleware.js";
 
 import { createServer } from "node:http";
 const { createRoutes } = await import( "./router/routes.js");
@@ -49,7 +48,6 @@ app.use(koaLogger());
 app.use(session({
     store:new RedisSessionStore(redis)
 },app));
-app.use(cookiesMiddleware());
 app.use(uaMiddleware())
 app.use(jwtMiddleware([
     "/",

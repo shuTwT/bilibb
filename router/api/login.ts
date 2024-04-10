@@ -74,7 +74,8 @@ loginRouter.post("/login", async (ctx, next) => {
             address:`${geo?.country}${geo?.city}`,
             system:systemInfo,
             browser:browserInfo,
-            loginTime:new Date()
+            loginTime:new Date(),
+            permisions:[]
         },
         "shhhh",
         {
@@ -82,7 +83,7 @@ loginRouter.post("/login", async (ctx, next) => {
         }
     );
 
-    redis.setex("login_tokens:"+uuid,60*60*10,accessToken)
+    redis.setex("login_tokens:"+uuid,60*60*10,JSON.stringify(user))
     const refreshToken = jwt.sign(
         {
             data: "foobar",
@@ -159,14 +160,24 @@ loginRouter.post("refresh-token", async (ctx, next) => {
                 address:`${geo?.country}${geo?.city}`,
                 system:systemInfo,
                 browser:browserInfo,
-                loginTime:new Date()
+                loginTime:new Date(),
+                permisions:[]
             },
             "shhhh",
             {
                 expiresIn:"10h"
             }
         );
-        redis.setex("login_tokens:"+decodeToken.uuid,60*60*10,accessToken)
+        const user = await prisma.sysUser.findFirst({
+            where: {
+                userName: decodeToken.username,
+            },
+            select: {
+                userId: true,
+                userName: true,
+            },
+        });
+        redis.setex("login_tokens:"+decodeToken.uuid,60*60*10,JSON.stringify(user))
         const refreshToken = jwt.sign(
             {
                 data: "foobar",

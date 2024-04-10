@@ -4,9 +4,26 @@ import redis from "../utils/redis";
 import { LoginUser } from "../core/model/LoginUser";
 import log4js from "../utils/log4js";
 import { SysUser } from "@prisma/client";
+import { nanoid } from "nanoid";
 
 export default function (whiteList: string[] = [], callback?: () => void) {
   return async function (ctx: Context, next: Next) {
+    if (!ctx.cookies.get("_uuid")) {
+      ctx.cookies.set("_uuid", nanoid());
+    }
+    const cookieToken = ctx.cookies.get("authorized-token");
+    let authorizedToken = {
+      accessToken: "",
+      expires: 0,
+    };
+    if (typeof cookieToken !== "undefined") {
+      try {
+        authorizedToken = JSON.parse(decodeURIComponent(cookieToken));
+      } catch (error) {
+        log4js.error(error);
+      }
+    }
+
     for (const item of whiteList) {
       if (ctx.path == item) {
         await next();
@@ -14,8 +31,9 @@ export default function (whiteList: string[] = [], callback?: () => void) {
       }
     }
 
-    const token = ctx.request.header["authorization"];
-
+    const token =
+      ctx.request.header["authorization"] || "Bearer "+authorizedToken.accessToken;
+      
     if (token) {
       try {
         const tokenItem = token.split("Bearer ")[1];
@@ -24,18 +42,22 @@ export default function (whiteList: string[] = [], callback?: () => void) {
         const userToken = await redis.get("login_tokens:" + uuid);
         //判断过期
         if (userToken) {
-            try{
-                const user = JSON.parse(userToken) as SysUser
-                if(!ctx.getLoginUser){
-                    const loginUser = new LoginUser(token,user,decodeToken.permission,decodeToken.userId,user.deptId)
-                    ctx.getLoginUser=()=>{
-                        return loginUser
-                    }
-                }
-                await next();
-            }catch(error){
-                log4js.error(error)
+          try {
+            const user = JSON.parse(userToken) as SysUser;
+            if (!ctx.getLoginUser) {
+              const loginUser = new LoginUser(
+                token,
+                user,
+                decodeToken.permission,
+                user.userId,
+                user.deptId
+              );
+              ctx.getLoginUser = () => loginUser;
             }
+            await next();
+          } catch (error) {
+            log4js.error(error);
+          }
         } else {
           ctx.body = {
             code: 401,
