@@ -54,7 +54,8 @@ app.use(jwtMiddleware([
     "/api/login",
     "/api/swagger/index.html",
     "/api/swagger/api-docs",
-    "/api/v1/large-screen/data"
+    "/api/v1/large-screen/data",
+    "/api/notice/msg"
   ])
 )
 // app.use(koaStatic(path.resolve(process.cwd(), "static")));
