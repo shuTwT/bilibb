@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import type { TransformCallback } from "stream";
 import { Stream, Transform } from "stream";
 import EventEmitter from "events";
-import { parseQuery } from "../utils";
+import { parseQuery, str2num } from "../utils";
 
 class SSEStream extends Transform {
   constructor() {
@@ -52,7 +52,7 @@ const pushData = async () => {
       msg: String(error),
     });
   }
-  interval()
+  interval();
 };
 
 const interval = () => {
@@ -61,7 +61,7 @@ const interval = () => {
   }, 5000);
 };
 
-interval()
+interval();
 /**
  * 通知公告列表
  */
@@ -70,8 +70,8 @@ noticeRouter.get("/", async (ctx, next) => {
   const noticeTitle = parseQuery(query, "noticeTitle");
   const noticeType = parseQuery(query, "noticeType");
   const noticeReaded = parseQuery(query, "noticeReaded");
-  const pageSize = Number(parseQuery(query, "pageSize"));
-  const pageNum = Number(parseQuery(query, "pageNum"));
+  const pageSize = str2num(parseQuery(query, "pageSize"), 10);
+  const pageNum = str2num(parseQuery(query, "pageNum"), 1);
   const [noticeList, count] = await prisma.$transaction([
     prisma.sysNotice.findMany({
       where: {
@@ -190,19 +190,22 @@ noticeRouter.post("/", async (ctx, next) => {
 /**
  * 通知公告修改
  */
-noticeRouter.put("/", async (ctx, next) => {
+noticeRouter.put("/:noticeId", async (ctx, next) => {
+  const params = ctx.params as any;
+  const noticeId = Number(params["noticeId"]);
   const body: any = ctx.request.body;
   const loginUser = ctx.getLoginUser();
   const date = dayjs();
   try {
     await prisma.sysNotice.update({
       where: {
-        noticeId: body.noticeId,
+        noticeId: noticeId,
       },
       data: {
         noticeTitle: body.noticeTitle,
         noticeType: body.noticeType,
         noticeContent: body.noticeContent,
+        status:body.status,
         updateBy: loginUser.getUserName(),
         updateTime: date.format("YYYY-MM-DD HH:mm:ss"),
       },

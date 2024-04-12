@@ -13,7 +13,6 @@ apiRouter.use(v1Router.routes(), v1Router.allowedMethods());
 apiRouter.use(loginRouter.routes(), loginRouter.allowedMethods());
 apiRouter.use(systemRouter.routes(), systemRouter.allowedMethods());
 apiRouter.use(monitorRouter.routes(), monitorRouter.allowedMethods());
-apiRouter.use(noticeRouter.routes(),noticeRouter.allowedMethods());
 apiRouter.use(asyncRoutesRouter.routes(), asyncRoutesRouter.allowedMethods());
 
 export { apiRouter };
