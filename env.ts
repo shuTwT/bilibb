@@ -19,11 +19,14 @@ declare global{
     interface Window{
 
     }
+    interface BigInt {
+        toJSON(): string
+      }
 } 
 
-
-
-
+BigInt.prototype.toJSON = function (): string {
+    return this.toString();
+  };
 
 declare module "koa"{
     interface DefaultState{

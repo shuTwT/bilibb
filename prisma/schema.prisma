@@ -147,7 +147,7 @@ model SysDictType {
     dictId     Int     @id @default(autoincrement()) //字典主键
     dictName   String  @default("") //字典名称
     dictType   String  @unique @default("") //字典类型
-    status     Int     @default(1) //状态(1正常,0停用)
+    status     String     @default("0") //状态(0正常,1停用)
     createBy   String  @default("") //创建者
     createTime String? // 创建时间
     updateBy   String  @default("") //更新者
@@ -157,12 +157,12 @@ model SysDictType {
 
 //系统字典数据表
 model SysDictData {
-    dictCode   BigInt  @id @default(autoincrement()) //字典编码
+    dictCode   Int  @id @default(autoincrement()) //字典编码
     dictSort   Int     @default(0) //字典排序
     dictLabel  String  @default("") //字典标签
     dictValue  String  @default("") //字典键值
     dictType   String  @default("") //字典类型
-    status     Int     @default(1) //状态(1正常,0停用)
+    status     String     @default("0") //状态(0正常,1停用)
     createBy   String  @default("") //创建者
     createTime String? // 创建时间
     updateBy   String  @default("") //更新者
@@ -174,9 +174,9 @@ model SysDictData {
 model SysConfig {
     configId    Int     @id @default(autoincrement()) //参数主键
     configName  String  @default("") //参数名称
-    configKey   String  @default("") //参数名称
-    configValue String  @default("") //参数名称
-    configType  String  @default("") //参数名称
+    configKey   String  @default("") //参数键
+    configValue String  @default("") //参数值
+    configType  String  @default("") //参数类型
     createBy    String  @default("") //创建者
     createTime  String? // 创建时间
     updateBy    String  @default("") //更新者
@@ -186,7 +186,7 @@ model SysConfig {
 
 //系统访问记录
 model SysLogininfor {
-    infoId        BigInt @id @default(autoincrement()) //访问ID
+    infoId        Int @id @default(autoincrement()) //访问ID
     userName      String @default("") //用户账号
     ipaddr        String @default("") //登录IP地址
     loginLocation String @default("") //登录地点

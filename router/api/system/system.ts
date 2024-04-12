@@ -6,6 +6,7 @@ import { roleRouter } from "./role";
 import { menuRouter } from "./menu";
 import { deptRouter } from "./dept";
 import { noticeRouter } from "./notice";
+import { dictRouter } from "./dict";
 
 const systemRouter = new Router<DefaultState, Context>({ prefix: "/system" });
 
@@ -14,6 +15,7 @@ systemRouter.use(roleRouter.routes(),roleRouter.allowedMethods())
 systemRouter.use(menuRouter.routes(),menuRouter.allowedMethods())
 systemRouter.use(deptRouter.routes(),deptRouter.allowedMethods())
 systemRouter.use(noticeRouter.routes(),noticeRouter.allowedMethods())
+systemRouter.use(dictRouter.routes(),dictRouter.allowedMethods())
 
 /** 系统管理-用户管理-获取所有角色列表 */
 systemRouter.get("/list-all-role", async (ctx, next) => {
