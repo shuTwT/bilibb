@@ -1,3 +1,27 @@
+interface Menu {
+    parentId: number,
+    id: number,
+    menuType: number,
+    title: string,
+    name: string,
+    path: string,
+    component: string,
+    rank: number,
+    redirect: string,
+    icon: string,
+    extraIcon: string,
+    enterTransition: string,
+    leaveTransition: string,
+    activePath: string,
+    auths: string,
+    frameSrc: string,
+    frameLoading: boolean,
+    keepAlive: boolean,
+    hiddenTag: boolean,
+    showLink: boolean,
+    showParent: boolean,
+}
+
 export const menus = [
   // 系统管理
   {
@@ -236,7 +260,7 @@ export const menus = [
     parentId: 300,
     menuType: 0,
     title: "通知公告",
-    menuName: "SystemNotice",
+    name: "SystemNotice",
     path: "/system/notice/index",
     component: "system/notice/index",
     rank: 99,
@@ -266,7 +290,7 @@ export const menus = [
     parentId: 300,
     menuType: 0,
     title: "字典管理",
-    menuName: "SystemDict",
+    name: "SystemDict",
     path: "/system/dict/index",
     component: "system/dict/index",
     rank: 99,
@@ -296,7 +320,7 @@ export const menus = [
     parentId: 300,
     menuType: 0,
     title: "字典数据",
-    menuName: "SystemDictData",
+    name: "SystemDictData",
     path: "/system/dict-data/index/:dictType",
     component: "system/dictData/index",
     rank: 99,
@@ -321,4 +345,4 @@ export const menus = [
     remark: null,
     id: 407,
   },
-];
+] as Menu[];

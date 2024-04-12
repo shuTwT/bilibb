@@ -4,6 +4,8 @@ import Router from "koa-router";
 import prisma from "../../../utils/prisma";
 import { parseQuery, str2num } from "../utils";
 import dayjs from "dayjs";
+import os from "node:os";
+import process from "node:process";
 import redis from "../../../utils/redis";
 
 const monitorRouter = new Router<DefaultState, Context>({ prefix: "/monitor" });
@@ -16,9 +18,8 @@ monitorRouter.get("/online-logs", async (ctx, next) => {
     const userToken = await redis.get(key);
     if (userToken) {
       try {
-        const { uuid,username, ip, address, system, browser, loginTime } = jwt.decode(
-          userToken
-        ) as JwtPayload;
+        const { uuid, username, ip, address, system, browser, loginTime } =
+          jwt.decode(userToken) as JwtPayload;
         onlineList.push({
           id: uuid,
           username,
@@ -35,26 +36,26 @@ monitorRouter.get("/online-logs", async (ctx, next) => {
   ctx.body = {
     success: true,
     data: {
-        list:onlineList,
-        total:onlineList.length
+      list: onlineList,
+      total: onlineList.length,
     },
   };
 });
-monitorRouter.delete("/offline/:id",async(ctx,next)=>{
-    const uuid = ctx.params["id"]
-    try{
-        await redis.del("login_tokens:"+uuid)
-        ctx.body={
-            code:200,
-            msg:"success"
-        }
-    }catch(error){
-        ctx.body={
-            code:500,
-            msg:String(error)
-        }
-    }
-})
+monitorRouter.delete("/offline/:id", async (ctx, next) => {
+  const uuid = ctx.params["id"];
+  try {
+    await redis.del("login_tokens:" + uuid);
+    ctx.body = {
+      code: 200,
+      msg: "success",
+    };
+  } catch (error) {
+    ctx.body = {
+      code: 500,
+      msg: String(error),
+    };
+  }
+});
 /** 获取系统监控-登录日志列表 */
 monitorRouter.post("/login-logs", async (ctx, next) => {
   const body = ctx.request.body as any;
@@ -406,5 +407,119 @@ monitorRouter.post("/system-logs-detail", async (ctx, next) => {
     };
   }
 });
+
+/**
+ * ServerInfo
+ */
+export interface ServerInfo {
+  cpuInfo: CpuInfo;
+  diskInfos: DiskInfo[];
+  jvmInfo: JvmInfo;
+  memoryInfo: MemoryInfo;
+  systemInfo: SystemInfo;
+}
+
+/**
+ * CpuInfo
+ */
+export interface CpuInfo {
+  cpuNum: number;
+  free: number;
+  sys: number;
+  total: number;
+  used: number;
+  wait: number;
+}
+
+/**
+ * DiskInfo
+ */
+export interface DiskInfo {
+  dirName: string;
+  free: string;
+  sysTypeName: string;
+  total: string;
+  typeName: string;
+  usage: number;
+  used: string;
+}
+
+/**
+ * JvmInfo
+ */
+export interface JvmInfo {
+  free: number;
+  home: string;
+  inputArgs: string;
+  max: number;
+  name: string;
+  runTime: string;
+  startTime: string;
+  total: number;
+  usage: number;
+  used: number;
+  version: string;
+}
+
+/**
+ * MemoryInfo
+ */
+export interface MemoryInfo {
+  free: number;
+  total: number;
+  usage: number;
+  used: number;
+}
+
+/**
+ * SystemInfo
+ */
+export interface SystemInfo {
+  computerIp: string;
+  computerName: string;
+  osArch: string;
+  osName: string;
+  userDir: string;
+}
+
+monitorRouter.get("/serverInfo", async (ctx, next) => {
+  const cpus = os.cpus();
+  const loadavg = os.loadavg().map((load) => load / cpus.length);
+  // 当前 node 进程内存使用情况
+  const mem = process.memoryUsage();
+  // 获取系统空闲内存
+  const systemFree = os.freemem()
+  // 获取系统总内存
+  const systemTotal = os.totalmem()
+  const memoryInfo = {
+    free: 0,
+    total: Math.floor(mem.heapTotal / 1024 / 1024 / 1024 * 100) / 100,
+    usage: Math.floor(mem.heapUsed / mem.heapTotal * 100) / 100,
+    used: Math.floor(mem.heapUsed / 1024 / 1024 / 1024 * 100) / 100,
+  };
+  memoryInfo.free = memoryInfo.total - memoryInfo.used
+  ctx.body = {
+    code: 200,
+    msg: "success",
+    data: {
+      cpuInfo: {
+        cpuNum: cpus.length,
+        free: 100 - loadavg[0],
+        sys: loadavg[0],
+        total: loadavg[0],
+        used: loadavg[0],
+        wait: loadavg[0],
+      },
+      memoryInfo: {
+        free: 0,
+        total: 0,
+        usage: 0,
+        used: 0,
+      },
+    } as ServerInfo,
+  };
+});
+
+monitorRouter.get("/cacheInfo", async (ctx, next) => {});
 
 export { monitorRouter };
