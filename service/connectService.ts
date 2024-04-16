@@ -1,22 +1,26 @@
-import { LiveTCP } from "bilibili-live-ws";
 import prisma from "../utils/prisma.js";
 import { getDanmuConf, getRoomid, getRoomInfo } from "../utils.js";
-import { resolver } from "../core/resolver.js";
-import type { Msg } from "../core/resolver.js";
 import * as log4js from "../utils/log4js.js";
 import { BLiveTCP } from "../core/BLiveTCP.js";
+import { SysConfigService } from "./system/SysConfigService.js";
 
 export const connectPool = new Map< number, BLiveTCP>();
+const sysConfigService= new SysConfigService()
 
 export async function createConnect(short_room_id: number) {
-  const cookies = globalThis.env.cookies;
-  const buvid = globalThis.env.buvid;
-  const uid = parseInt(globalThis.env.uid + "");
+  const buvid = await sysConfigService.selectConfigByKey('blive.cookies.buvid')
+  const uid = await sysConfigService.selectConfigByKey('blive.uid')
+  const SESSDATA = await sysConfigService.selectConfigByKey('live.cookies.SESSDATA')
+  const bili_jct = await sysConfigService.selectConfigByKey('blive.cookies.bili_jct')
+  const bili_ticket = await sysConfigService.selectConfigByKey('blive.cookies.bili_ticket')
+  const bili_ticket_expires = await sysConfigService.selectConfigByKey('blive.cookies.bili_ticket_expires')
+  const DedeUserID = await sysConfigService.selectConfigByKey('blive.dedeUserID')
+  const cookies = `SESSDATA=${SESSDATA};bili_jct=${bili_jct};bili_ticket=${bili_ticket};bili_ticket_expires=${bili_ticket_expires};DedeUserID=${DedeUserID};buvid3=${buvid};`;
 
-  if (!buvid || buvid == "") {
+  if (buvid == "") {
     throw "请先在系统设置中设置buvid"
   }
-  if (Number.isNaN(uid)) {
+  if (uid=="") {
     throw "请先在系统设置中设置uid"
   }
   if(Number.isNaN(short_room_id)){
@@ -69,7 +73,7 @@ export async function createConnect(short_room_id: number) {
   const conf = await getDanmuConf(room_id, cookies);
 
   const live = new BLiveTCP(room_id, {
-    uid: uid,
+    uid: Number(uid),
     key: conf.key,
     buvid: buvid,
   });

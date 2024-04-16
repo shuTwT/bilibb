@@ -18,7 +18,7 @@ userRouter.get("/", async (ctx, next) => {
         email: "",
         sex: 0,
         id: 1,
-        status: 1,
+        status: "0",
         dept: {
           // 部门id
           id: 100,
@@ -36,7 +36,7 @@ userRouter.get("/", async (ctx, next) => {
         email: "",
         sex: 1,
         id: 2,
-        status: 1,
+        status: "0",
         dept: {
           id: 101,
           name: "深圳总公司",

@@ -21,13 +21,13 @@ model SysDept {
     leader     String? //负责人
     phone      String? //联系电话
     email      String? //邮箱
-    status     Int       @default(1) //部门状态 (1正常 0禁用)
+    status     String    @default("0") //部门状态 (0正常 1禁用)
     delFlag    Boolean   @default(false) //删除状态(false存在 true删除)
     createBy   String    @default("") //创建者
     createTime String? // 创建时间
     updateBy   String    @default("") //更新者
     updateTime String? //更新时间
-    remark     String    @default("") //备注
+    remark     String?   @db.VarChar(500) //备注
     SysUser    SysUser[]
 }
 
@@ -45,13 +45,13 @@ model SysUser {
     password      String    @default("") //密码
     loginIp       String    @default("") //最后登录的IP
     loginDate     String? //最后登录时间
-    status        Int       @default(1) //用户状态 (1正常 0禁用)
+    status        String    @default("0") //用户状态 (0正常 1禁用)
     delFlag       Boolean   @default(false) //删除状态(false存在 true删除)
     createBy      String    @default("") //创建者
     createTime    String? // 创建时间
     updateBy      String    @default("") //更新者
     updateTime    String? //更新时间
-    remark        String? //备注
+    remark        String?   @db.VarChar(500) //备注
     posts         SysPost[]
     dept          SysDept   @relation(fields: [sysDeptDeptId], references: [deptId])
     sysDeptDeptId Int       @default(100)
@@ -63,13 +63,13 @@ model SysPost {
     postCode   String //岗位编码
     postName   String //岗位名称
     postSort   Int //显示顺序
-    status     Int     @default(1) //岗位状态 (1正常 0禁用)
+    status     String  @default("0") //岗位状态 (0正常 1禁用)
     delFlag    Boolean @default(false) //删除状态(false存在 true删除)
     createBy   String  @default("") //创建者
     createTime String? // 创建时间
     updateBy   String  @default("") //更新者
     updateTime String? //更新时间
-    remark     String? //备注
+    remark     String? @db.VarChar(500) //备注
     user       SysUser @relation(fields: [postId], references: [userId])
 }
 
@@ -82,13 +82,13 @@ model SysRole {
     dataScope         String  @default("1") //数据范围(1全部数据2自定义数据3本部门数据4本部门及以下数据)
     menuCheckStrictly Boolean @default(true) //菜单树选择项是否关联显示
     deptCheckStrictly Boolean @default(true) //部门数选择项是否关联显示
-    status            Int     @default(1) //角色状态 (1正常 0禁用)
+    status            String  @default("0") //角色状态 (0正常 1禁用)
     delFlag           Boolean @default(false) //删除状态(false存在 true删除)
     createBy          String  @default("") //创建者
     createTime        String? // 创建时间
     updateBy          String  @default("") //更新者
     updateTime        String? //更新时间
-    remark            String? //备注
+    remark            String? @db.VarChar(500) //备注
 }
 
 //系统菜单
@@ -114,12 +114,12 @@ model SysMenu {
     hiddenTag       Boolean @default(false)
     showLink        Boolean @default(true)
     showParent      Boolean @default(false)
-    status          Int     @default(1) //菜单状态 (1正常 0禁用)
+    status          String  @default("0") //菜单状态 (0正常 1禁用)
     createBy        String  @default("") //创建者
     createTime      String? // 创建时间
     updateBy        String  @default("") //更新者
     updateTime      String? //更新时间
-    remark          String? //备注
+    remark          String? @db.VarChar(500) //备注
 }
 
 // 系统角色菜单关联表
@@ -139,7 +139,7 @@ model SysOperLog {
     operName      String @default("") //操作人员
     operUrl       String @default("") //请求URL
     operIp        String @default("") //主机IP
-    status        Int    @default(0) //操作状态(0正常1异常)
+    status        String @default("0") //操作状态(0正常1异常)
 }
 
 //系统字典类型
@@ -147,27 +147,27 @@ model SysDictType {
     dictId     Int     @id @default(autoincrement()) //字典主键
     dictName   String  @default("") //字典名称
     dictType   String  @unique @default("") //字典类型
-    status     String     @default("0") //状态(0正常,1停用)
+    status     String  @default("0") //状态(0正常,1停用)
     createBy   String  @default("") //创建者
     createTime String? // 创建时间
     updateBy   String  @default("") //更新者
     updateTime String? //更新时间
-    remark     String? //备注
+    remark     String? @db.VarChar(500) //备注
 }
 
 //系统字典数据表
 model SysDictData {
-    dictCode   Int  @id @default(autoincrement()) //字典编码
+    dictCode   Int     @id @default(autoincrement()) //字典编码
     dictSort   Int     @default(0) //字典排序
     dictLabel  String  @default("") //字典标签
     dictValue  String  @default("") //字典键值
     dictType   String  @default("") //字典类型
-    status     String     @default("0") //状态(0正常,1停用)
+    status     String  @default("0") //状态(0正常,1停用)
     createBy   String  @default("") //创建者
     createTime String? // 创建时间
     updateBy   String  @default("") //更新者
     updateTime String? //更新时间
-    remark     String? //备注
+    remark     String? @db.VarChar(500) //备注
 }
 
 //系统参数配置
@@ -175,24 +175,24 @@ model SysConfig {
     configId    Int     @id @default(autoincrement()) //参数主键
     configName  String  @default("") //参数名称
     configKey   String  @default("") //参数键
-    configValue String  @default("") //参数值
-    configType  String  @default("") //参数类型
+    configValue String  @default("") @db.VarChar(500) //参数值
+    configType  String  @default("1") //参数类型
     createBy    String  @default("") //创建者
     createTime  String? // 创建时间
     updateBy    String  @default("") //更新者
     updateTime  String? //更新时间
-    remark      String? //备注
+    remark      String? @db.VarChar(500) //备注
 }
 
 //系统访问记录
 model SysLogininfor {
-    infoId        Int @id @default(autoincrement()) //访问ID
+    infoId        Int    @id @default(autoincrement()) //访问ID
     userName      String @default("") //用户账号
     ipaddr        String @default("") //登录IP地址
     loginLocation String @default("") //登录地点
     browser       String @default("") //浏览器类型
     os            String @default("") //操作系统
-    status        Int    @default(1) //登录状态(1成功0失败)
+    status        String @default("0") //登录状态(0成功1失败)
     msg           String @default("") //提示消息
     loginTime     String @default("") //访问时间
 }

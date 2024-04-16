@@ -49,7 +49,7 @@ configRouter.get("/",async (ctx,next)=>{
             msg:"success",
             data:{
                 list,
-                count
+                total:count
             }
         }
     }catch(error){
@@ -112,13 +112,18 @@ configRouter.get("/config-key/:configKey",async(ctx,next)=>{
  */
 configRouter.post("/",async(ctx,next)=>{
     const body= ctx.request.body as any
+    const loginUser = ctx.getLoginUser();
+    const date = dayjs();
     try{
         const config = await prisma.sysConfig.create({
             data:{
                 configKey:body.configKey,
                 configName:body.configName,
                 configType:body.configType,
-                configValue:body.configValue
+                configValue:body.configValue,
+                createBy:loginUser.getUserName(),
+                createTime: date.format("YYYY-MM-DD HH:mm:ss"),
+                remark:body.remark
             }
         })
         ctx.body={
@@ -140,6 +145,8 @@ configRouter.put("/:configId",async(ctx,next)=>{
     const params = ctx.params
     const configId = Number(params['configId'])
     const body= ctx.request.body as any
+    const loginUser = ctx.getLoginUser();
+    const date = dayjs();
     try{
         const config = await prisma.sysConfig.update({
             where:{
@@ -149,7 +156,10 @@ configRouter.put("/:configId",async(ctx,next)=>{
                 configKey:body.configKey,
                 configName:body.configName,
                 configType:body.configType,
-                configValue:body.configValue
+                configValue:body.configValue,
+                updateBy: loginUser.getUserName(),
+                updateTime: date.format("YYYY-MM-DD HH:mm:ss"),
+                remark:body.remark
             }
         })
         ctx.body={

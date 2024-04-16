@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import dayjs from "dayjs";
-import { menus } from "./seedData/menus";
+import {  seedMenus } from "./seedData/menus";
 import { roleMenus } from "./seedData/roleMenus";
+import { seedConfigs } from "./seedData/configs";
 const prisma = new PrismaClient();
 async function main() {
   const datetime = dayjs().format("YYYY-MM-DD HH:mm:ss");
@@ -17,6 +18,7 @@ async function main() {
       leader: "若依",
       phone: "15888888888",
       email: "ry@qq.com",
+      status: "0",
       createBy: "admin",
       createTime: datetime,
     },
@@ -29,6 +31,7 @@ async function main() {
       leader: "若依",
       phone: "15888888888",
       email: "ry@qq.com",
+      status: "0",
       createBy: "admin",
       createTime: datetime,
     },
@@ -69,7 +72,7 @@ async function main() {
       roleName: "超级管理员",
       roleKey: "admin",
       roleSort: 1,
-      status:1,
+      status: "0",
       dataScope: "1",
       createTime: datetime,
       createBy: "admin",
@@ -79,7 +82,7 @@ async function main() {
       roleName: "超级管理员",
       roleKey: "admin",
       roleSort: 1,
-      status:1,
+      status: "0",
       dataScope: "1",
       createTime: datetime,
       createBy: "admin",
@@ -93,7 +96,7 @@ async function main() {
       roleName: "普通角色",
       roleKey: "common",
       roleSort: 2,
-      status:1,
+      status: "0",
       dataScope: "2",
       createTime: datetime,
       createBy: "admin",
@@ -103,7 +106,7 @@ async function main() {
       roleName: "普通角色",
       roleKey: "common",
       roleSort: 2,
-      status:1,
+      status: "0",
       dataScope: "2",
       createTime: datetime,
       createBy: "admin",
@@ -190,19 +193,18 @@ async function main() {
       createBy: "admin",
     },
   });
-
-  
+  const menus = seedMenus(datetime)
   for (const key in menus) {
     const item = menus[key];
     await prisma.sysMenu.upsert({
       where: {
-        menuId: item.id,
+        menuId: item.menuId,
       },
       update: {
         parentId: item.parentId,
         menuType: item.menuType,
         title: item.title,
-        menuName: item.name,
+        menuName: item.menuName,
         component: item.component,
         rank: item.rank,
         path: item.path,
@@ -221,11 +223,11 @@ async function main() {
         showParent: item.showParent,
       },
       create: {
-        menuId: item.id,
+        menuId: item.menuId,
         parentId: item.parentId,
         menuType: item.menuType,
         title: item.title,
-        menuName: item.name,
+        menuName: item.menuName,
         component: item.component,
         rank: item.rank,
         path: item.path,
@@ -246,22 +248,40 @@ async function main() {
     });
   }
   for (const key in roleMenus) {
-    roleMenus[key].menuIds.forEach(async(item)=>{
+    roleMenus[key].menuIds.forEach(async (item) => {
       await prisma.sysRoleMenu.upsert({
-        where:{
-          roleId_menuId:{
-            roleId:roleMenus[key].roleId,
-            menuId:item
-          }
+        where: {
+          roleId_menuId: {
+            roleId: roleMenus[key].roleId,
+            menuId: item,
+          },
         },
-        update:{
+        update: {},
+        create: {
+          roleId: roleMenus[key].roleId,
+          menuId: item,
         },
-        create:{
-          roleId:roleMenus[key].roleId,
-          menuId:item
-        }
-      })
-    })
+      });
+    });
+  }
+  const configs = seedConfigs(datetime);
+  for (const key in configs) {
+    await prisma.sysConfig.upsert({
+      where: {
+        configId: configs[key].configId,
+      },
+      update: {
+        configKey: configs[key].configKey,
+        configName: configs[key].configName,
+        configType: configs[key].configType,
+      },
+      create: {
+        configKey: configs[key].configKey,
+        configName: configs[key].configName,
+        configType: configs[key].configType,
+        configValue: configs[key].configValue,
+      },
+    });
   }
 }
 main()
