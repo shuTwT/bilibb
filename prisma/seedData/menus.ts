@@ -1,6 +1,6 @@
 import { SysMenu } from "@prisma/client";
 
-export function seedMenus(datetime:string) {
+export function seedMenus(datetime: string) {
   const menus = [
     // 系统管理
     {
@@ -25,8 +25,8 @@ export function seedMenus(datetime:string) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy:"admin",
-      createTime:datetime
+      createBy: "admin",
+      createTime: datetime,
     },
     {
       parentId: 300,
@@ -50,8 +50,8 @@ export function seedMenus(datetime:string) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy:"admin",
-      createTime:datetime
+      createBy: "admin",
+      createTime: datetime,
     },
     {
       parentId: 300,
@@ -75,8 +75,8 @@ export function seedMenus(datetime:string) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy:"admin",
-      createTime:datetime
+      createBy: "admin",
+      createTime: datetime,
     },
     {
       parentId: 300,
@@ -100,8 +100,8 @@ export function seedMenus(datetime:string) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy:"admin",
-      createTime:datetime
+      createBy: "admin",
+      createTime: datetime,
     },
     {
       parentId: 300,
@@ -125,8 +125,8 @@ export function seedMenus(datetime:string) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy:"admin",
-      createTime:datetime
+      createBy: "admin",
+      createTime: datetime,
     },
     // 系统监控
     {
@@ -151,8 +151,8 @@ export function seedMenus(datetime:string) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy:"admin",
-      createTime:datetime
+      createBy: "admin",
+      createTime: datetime,
     },
     {
       parentId: 400,
@@ -176,8 +176,8 @@ export function seedMenus(datetime:string) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy:"admin",
-      createTime:datetime
+      createBy: "admin",
+      createTime: datetime,
     },
     {
       parentId: 400,
@@ -201,8 +201,8 @@ export function seedMenus(datetime:string) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy:"admin",
-      createTime:datetime
+      createBy: "admin",
+      createTime: datetime,
     },
     {
       parentId: 400,
@@ -226,8 +226,8 @@ export function seedMenus(datetime:string) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy:"admin",
-      createTime:datetime
+      createBy: "admin",
+      createTime: datetime,
     },
     {
       parentId: 400,
@@ -251,8 +251,8 @@ export function seedMenus(datetime:string) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy:"admin",
-      createTime:datetime
+      createBy: "admin",
+      createTime: datetime,
     },
     {
       menuId: 405,
@@ -277,8 +277,8 @@ export function seedMenus(datetime:string) {
       showLink: true,
       showParent: false,
       status: "0",
-      createBy:"admin",
-      createTime:datetime,
+      createBy: "admin",
+      createTime: datetime,
     },
     {
       menuId: 406,
@@ -303,8 +303,8 @@ export function seedMenus(datetime:string) {
       showLink: true,
       showParent: false,
       status: "0",
-      createBy:"admin",
-      createTime:datetime
+      createBy: "admin",
+      createTime: datetime,
     },
     {
       menuId: 407,
@@ -329,8 +329,34 @@ export function seedMenus(datetime:string) {
       showLink: false,
       showParent: false,
       status: "0",
-      createBy:"admin",
-      createTime:datetime
+      createBy: "admin",
+      createTime: datetime,
+    },
+    {
+      menuId: 408,
+      parentId: 300,
+      menuType: 0,
+      title: "参数配置",
+      menuName: "SystemConfig",
+      path: "/system/config/index",
+      component: "system/config/index",
+      rank: 99,
+      redirect: "",
+      icon: "ep:setting",
+      extraIcon: "",
+      enterTransition: "",
+      leaveTransition: "",
+      activePath: "",
+      auths: "",
+      frameSrc: "",
+      frameLoading: true,
+      keepAlive: false,
+      hiddenTag: false,
+      showLink: true,
+      showParent: false,
+      status: "1",
+      createBy: "admin",
+      createTime: datetime,
     },
   ] as SysMenu[];
   return menus;
