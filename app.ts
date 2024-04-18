@@ -11,10 +11,8 @@ import path from 'node:path';
 import koaStatic from "./middleware/staticMiddleware.js";
 import session from "koa-session";
 import koaLogger from "./middleware/koaLogger.js";
-import bodyParser from "koa-bodyparser";
 import { createServer } from "node:http";
 const { createRoutes } = await import( "./router/routes.js");
-const { TCPServer } =await import("./service/connectService.js");
 import { loadEnv } from "./env.js";
 import * as log4js from "./utils/log4js.js"
 import viewMiddleware from "./middleware/viewMiddleware.js";
@@ -22,26 +20,32 @@ import RedisSessionStore from "./utils/redisSessionStore.js";
 import redis from "./utils/redis.js";
 import jwtMiddleware from "./middleware/jwtMiddleware.js";
 import uaMiddleware from "./middleware/uaMiddleware.js";
+import {koaBody} from 'koa-body'
+import demoMidleware from "./middleware/demoMidleware.js";
 
 
 dotenv.config();
 
 await loadEnv()
 
-const allowTCP = process.env.ALLOW_TCP == "true" ? true : false;
 const port = Number.parseInt(process.env.APP_PORT ||'3000');
 
-if (allowTCP) TCPServer();
 
-const app = new Koa<Koa.DefaultState,Koa.Context>({
-    proxy:true
-});
+const app = new Koa<Koa.DefaultState,Koa.Context>();
 
 app.keys = ["signedKey"];
-app.use(bodyParser({
-    enableTypes:['json','form','text'],
-    encoding:'utf-8'
-}));
+app.use((ctx,next)=>{
+  if(ctx.path==='/api/upload') ctx.disableBodyParser = true
+  return next()
+})
+app.use(koaBody({
+  multipart:true,
+  formidable:{
+    keepExtensions:true,
+    maxFieldsSize: 2 * 1024 * 1024,
+    uploadDir:path.resolve(process.cwd(),'public','upload')
+  }
+}))
 app.use(koaLogger());
 app.use(session({
     store:new RedisSessionStore(redis)
@@ -59,7 +63,7 @@ app.use(jwtMiddleware([
 // app.use(koaStatic(path.resolve(process.cwd(), "static")));
 app.use(koaStatic(path.resolve(process.cwd(), "public")));
 app.use(viewMiddleware(path.resolve(process.cwd(),'template')))
-
+app.use(demoMidleware())
 createRoutes(app)
 
 const HTTPServer = createServer(app.callback());
