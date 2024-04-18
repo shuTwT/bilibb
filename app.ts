@@ -7,12 +7,11 @@
  */
 import Koa from "koa";
 import * as dotenv from "dotenv";
-import path from "node:path";
-// import koaStatic from "./middleware/staticMiddleware.js";
-import bodyParser from "koa-bodyparser";
+import path from 'node:path';
+import koaStatic from "./middleware/staticMiddleware.js";
 import session from "koa-session";
 import koaLogger from "./middleware/koaLogger.js";
-
+import bodyParser from "koa-bodyparser";
 import { createServer } from "node:http";
 const { createRoutes } = await import( "./router/routes.js");
 const { TCPServer } =await import("./service/connectService.js");
@@ -39,11 +38,10 @@ const app = new Koa<Koa.DefaultState,Koa.Context>({
 });
 
 app.keys = ["signedKey"];
-app.use(async(ctx,next)=>{
-    ctx.state.adminPath='/'
-    await next()
-})
-app.use(bodyParser());
+app.use(bodyParser({
+    enableTypes:['json','form','text'],
+    encoding:'utf-8'
+}));
 app.use(koaLogger());
 app.use(session({
     store:new RedisSessionStore(redis)
@@ -59,8 +57,9 @@ app.use(jwtMiddleware([
   ])
 )
 // app.use(koaStatic(path.resolve(process.cwd(), "static")));
-// app.use(koaStatic(path.resolve(process.cwd(), "public")));
+app.use(koaStatic(path.resolve(process.cwd(), "public")));
 app.use(viewMiddleware(path.resolve(process.cwd(),'template')))
+
 createRoutes(app)
 
 const HTTPServer = createServer(app.callback());

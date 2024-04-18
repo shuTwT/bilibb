@@ -9,7 +9,7 @@ import redis from "../../utils/redis";
 import { nanoid } from "nanoid";
 import geoip from "geoip-lite";
 
-const loginRouter = new Router<DefaultState, Context>();
+const authRouter = new Router<DefaultState, Context>();
 
 const captcha = new Captcha();
 
@@ -19,7 +19,7 @@ type LoginBody = {
     uuid:string
 };
 
-loginRouter.post("/login", async (ctx, next) => {
+authRouter.post("/login", async (ctx, next) => {
     const md5 = crypto.createHash("md5");
     const body = ctx.request.body as LoginBody;
     const uuid = body.uuid
@@ -112,7 +112,7 @@ loginRouter.post("/login", async (ctx, next) => {
     };
 });
 
-loginRouter.get("/captcha", async (ctx, next) => {
+authRouter.get("/captcha", async (ctx, next) => {
     const { token, buffer } = captcha.generate();
     const uuid = ctx.cookies.get("_uuid") ?? nanoid()
     redis.setex("login_captcha:"+uuid,60,token)
@@ -124,7 +124,7 @@ loginRouter.get("/captcha", async (ctx, next) => {
 type RefreshTokenBody = {
     refreshToken: string;
 };
-loginRouter.post("refresh-token", async (ctx, next) => {
+authRouter.post("refresh-token", async (ctx, next) => {
     const body = ctx.request.body as RefreshTokenBody;
     const ip = ctx.request.ip
     const geo = geoip.lookup(ip)
@@ -213,7 +213,7 @@ loginRouter.post("refresh-token", async (ctx, next) => {
     }
 });
 
-loginRouter.post('/logout',async(ctx,next)=>{
+authRouter.post('/logout',async(ctx,next)=>{
    ctx.session =null
    const token = ctx.request.header["authorization"];
    const tokenItem = token!.split("Bearer ")[1];
@@ -234,5 +234,30 @@ loginRouter.post('/logout',async(ctx,next)=>{
    
 })
 
+authRouter.get('/mine',async(ctx,next)=>{
+    ctx.body={
+        code:200,
+        msg:"success",
+        data:{
+            avatar:'',
+            username:'',
+            nickname:'',
+            email:'',
+            phone:'',
+            description:''
+        }
+    }
+})
 
-export { loginRouter };
+authRouter.get('/mine-logs',async(ctx,next)=>{
+    ctx.body={
+        code:200,
+        msg:"success",
+        data:{
+            list:[],
+            total:0
+        }
+    }
+})
+
+export { authRouter };

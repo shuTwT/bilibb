@@ -1,5 +1,5 @@
 import prisma from "../utils/prisma.js";
-import { getDanmuConf, getRoomid, getRoomInfo } from "../utils.js";
+import { getDanmuConf, getRoomid, getRoomInfo } from "../core/apis";
 import * as log4js from "../utils/log4js.js";
 import { BLiveTCP } from "../core/BLiveTCP.js";
 import { SysConfigService } from "./system/SysConfigService.js";
