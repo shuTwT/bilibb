@@ -122,6 +122,13 @@ model SysMenu {
     remark          String? @db.VarChar(500) //备注
 }
 
+// 系统用户角色关联表
+model SysUserRole{
+    userId Int
+    roleId Int
+    @@id([userId,roleId])
+}
+
 // 系统角色菜单关联表
 model SysRoleMenu {
     roleId Int

@@ -173,6 +173,33 @@ async function main() {
       createBy: "admin",
     },
   });
+  await prisma.sysUserRole.upsert({
+    where:{
+        userId_roleId:{
+            roleId:1,
+            userId:1
+        }
+    },
+    create:{
+        roleId:1,
+        userId:1
+    },
+    update:{}
+  })
+  await prisma.sysUserRole.upsert({
+    where:{
+        userId_roleId:{
+            roleId:2,
+            userId:2
+        }
+    },
+    create:{
+        roleId:2,
+        userId:2
+    },
+    update:{}
+  })
+
   await prisma.sysPost.upsert({
     where: {
       postId: 1,
