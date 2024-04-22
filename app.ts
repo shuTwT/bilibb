@@ -23,13 +23,11 @@ import uaMiddleware from "./middleware/uaMiddleware.js";
 import {koaBody} from 'koa-body'
 import demoMidleware from "./middleware/demoMidleware.js";
 
-
 dotenv.config();
 
 await loadEnv()
 
 const port = Number.parseInt(process.env.APP_PORT ||'3000');
-
 
 const app = new Koa<Koa.DefaultState,Koa.Context>();
 

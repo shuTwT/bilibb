@@ -15,4 +15,7 @@ apiRouter.use(systemRouter.routes(), systemRouter.allowedMethods());
 apiRouter.use(monitorRouter.routes(), monitorRouter.allowedMethods());
 apiRouter.use(asyncRoutesRouter.routes(), asyncRoutesRouter.allowedMethods());
 apiRouter.use(uploadRouter.routes(),uploadRouter.allowedMethods())
+apiRouter.post('/graphql',async(ctx,next)=>{
+    
+})
 export { apiRouter };
