@@ -8,151 +8,172 @@ const userRouter = new Router<DefaultState, Context>({ prefix: "/user" });
 
 /** 获取系统管理-用户管理列表 */
 userRouter.get("/", async (ctx, next) => {
-    const query = ctx.query as any;
-    let list = [
-      {
-        username: "admin",
-        nickname: "admin",
-        avatar: "https://avatars.githubusercontent.com/u/44761321",
-        phone: "15888886789",
-        email: "",
-        sex: 0,
-        id: 1,
-        status: "0",
-        dept: {
-          // 部门id
-          id: 100,
-          // 部门名称
-          name: "若依科技",
+  const query = ctx.query as any;
+  const username = parseQuery(query, "username");
+  const status = parseQuery(query, "status");
+  const phone = parseQuery(query, "phone");
+  const deptId = str2num(parseQuery(query, "deptId"), void 0);
+  const pageSize = str2num(parseQuery(query, "pageSize"), 10);
+  const pageNum = str2num(parseQuery(query, "pageNum"), 1);
+  try {
+    const [list, count] = await prisma.$transaction([
+      prisma.sysUser.findMany({
+        where: {
+          userName: username,
+          status: status,
+          phonenumber: phone,
+          deptId: deptId,
         },
-        remark: "管理员",
-        createTime: 1605456000000,
-      },
-      {
-        username: "common",
-        nickname: "common",
-        avatar: "https://avatars.githubusercontent.com/u/52823142",
-        phone: "18288882345",
-        email: "",
-        sex: 1,
-        id: 2,
-        status: "0",
-        dept: {
-          id: 101,
-          name: "深圳总公司",
+        include: {
+          dept: true,
         },
-        remark: "普通用户",
-        createTime: 1605456000000,
-      },
-    ];
-    list = list.filter((item) => item.username.includes(query.username ?? ""));
-    list = list.filter((item) =>
-      String(item.status).includes(String(query.status ?? 1))
-    );
-    if (query.phone) list = list.filter((item) => item.phone === query.phone);
-    if (query.deptId) list = list.filter((item) => item.dept.id === query.deptId);
+        skip: (pageNum - 1) * pageSize,
+        take: pageSize,
+        orderBy: {
+          createTime: "desc",
+        },
+      }),
+      prisma.sysUser.count({
+        where: {
+          userName: username,
+          status: status,
+          phonenumber: phone,
+          deptId: deptId,
+        },
+      }),
+    ]);
     ctx.body = {
+      code: 200,
       msg: "success",
-      success: true,
       data: {
         list,
-        total: list.length,
-        pageSize: 10,
-        currentPage: 1,
+        total: count,
+        pageSize: pageSize,
+        currentPage: pageNum,
       },
     };
-  });
-  
-  /** 新增用户 */
-  userRouter.post("/", async (ctx, next) => {
-    const body = ctx.request.body as any
-    try {
-      await prisma.sysUser.create({
-        data: body
-      })
-      ctx.body = {
-        success: true,
-        msg: "新增成功"
-      }
-    } catch (error) {
-      ctx.body = {
-        success: false,
-        msg: error
-      }
-    }
-  })
-  
-  /** 修改用户 */
-  userRouter.put("/:userId", async (ctx, next) => {
-    const userId = ctx.params['userId']
-    const body = ctx.request.body as any
-    try {
-      await prisma.sysUser.update({
-        where: {
-          userId: Number(userId),
-        },
-        data: body
-      })
-      ctx.body = {
-        success: true,
-        msg: "修改成功"
-      }
-    } catch (error) {
-      ctx.body = {
-        success: false,
-        msg: error
-      }
-    }
-  })
-  
-  /** 修改用户状态 */
-  userRouter.put('/:userId/status', async (ctx, next) => {
-    const userId = ctx.params['userId']
-    const body = ctx.request.body as any
-    try {
-      await prisma.sysUser.update({
-        where: {
-          userId: Number(userId),
-        },
-        data: {
-          status: body.state
-        }
-      })
-      ctx.body = {
-        success: true,
-        msg: "修改成功"
-      }
-    } catch (error) {
-      ctx.body = {
-        success: false,
-        msg: error
-      }
-    }
-  })
-  
-  /** 删除用户 */
-  userRouter.delete("/:userId", async (ctx, next) => {
-    const userId = ctx.params['userId']
-    const body = ctx.request.body as any
-    try {
-      await prisma.sysUser.update({
-        where: {
-          userId: Number(userId),
-        },
-        data: {
-          delFlag: true
-        }
-      })
-      ctx.body = {
-        success: true,
-        msg: "删除成功"
-      }
-    } catch (error) {
-      ctx.body = {
-        success: false,
-        msg: error
-      }
-    }
-  })
+  } catch (error) {
+    ctx.body = {
+      code: 500,
+      msg: String(error),
+    };
+  }
+});
 
-export {userRouter}
+/** 新增用户 */
+userRouter.post("/", async (ctx, next) => {
+  const body = ctx.request.body as any;
+  const date = dayjs()
+  const loginUser= ctx.getLoginUser()
+  try {
+    await prisma.sysUser.create({
+      data: {
+        userName:body.userName,
+        nickName:body.nickName,
+        email:body.email,
+        deptId:Number(body.parentId),
+        password:body.password,
+        phonenumber:body.phonenumber,
+        createBy:loginUser.getUserName(),
+        createTime:date.format('YYYY-MM-DD HH:mm:ss'),
+        remark:body.remark
+      },
+    });
+    ctx.body = {
+      success: true,
+      msg: "新增成功",
+    };
+  } catch (error) {
+    ctx.body = {
+      success: false,
+      msg: error,
+    };
+  }
+});
+
+/** 修改用户 */
+userRouter.put("/:userId", async (ctx, next) => {
+  const userId = ctx.params["userId"];
+  const body = ctx.request.body as any;
+  const date = dayjs()
+  const loginUser= ctx.getLoginUser()
+  try {
+    await prisma.sysUser.update({
+      where: {
+        userId: Number(userId),
+      },
+      data: {
+        userName:body.userName,
+        nickName:body.nickName,
+        email:body.email,
+        deptId:Number(body.parentId),
+        password:body.password,
+        phonenumber:body.phonenumber,
+        updateBy:loginUser.getUserName(),
+        updateTime:date.format('YYYY-MM-DD HH:mm:ss'),
+        remark:body.remark
+    },
+    });
+    ctx.body = {
+      success: true,
+      msg: "修改成功",
+    };
+  } catch (error) {
+    ctx.body = {
+      success: false,
+      msg: error,
+    };
+  }
+});
+
+/** 修改用户状态 */
+userRouter.put("/:userId/status", async (ctx, next) => {
+  const userId = ctx.params["userId"];
+  const body = ctx.request.body as any;
+  try {
+    await prisma.sysUser.update({
+      where: {
+        userId: Number(userId),
+      },
+      data: {
+        status: body.state,
+      },
+    });
+    ctx.body = {
+      success: true,
+      msg: "修改成功",
+    };
+  } catch (error) {
+    ctx.body = {
+      success: false,
+      msg: error,
+    };
+  }
+});
+
+/** 删除用户 */
+userRouter.delete("/:userId", async (ctx, next) => {
+  const userId = ctx.params["userId"];
+  const body = ctx.request.body as any;
+  try {
+    await prisma.sysUser.update({
+      where: {
+        userId: Number(userId),
+      },
+      data: {
+        delFlag: true,
+      },
+    });
+    ctx.body = {
+      success: true,
+      msg: "删除成功",
+    };
+  } catch (error) {
+    ctx.body = {
+      success: false,
+      msg: error,
+    };
+  }
+});
+
+export { userRouter };

@@ -14,7 +14,8 @@ menuRouter.get("/", async (ctx, next) => {
       id: item.menuId
     }))
     ctx.body = {
-      success: true,
+      code:200,
+      msg:"success",
       data: menus
     };
   });
@@ -48,12 +49,12 @@ menuRouter.get("/", async (ctx, next) => {
         }
       })
       ctx.body = {
-        success: true,
+        code:200,
         msg: "新增成功"
       }
     } catch (error) {
       ctx.body = {
-        success: false,
+        code:500,
         msg: "新增失败"
       }
     }
@@ -92,12 +93,12 @@ menuRouter.get("/", async (ctx, next) => {
         }
       })
       ctx.body = {
-        success: true,
+        code:200,
         msg: "修改成功"
       }
     } catch (error) {
       ctx.body = {
-        success: false,
+        code:500,
         msg: error
       }
     }
@@ -135,12 +136,12 @@ menuRouter.get("/", async (ctx, next) => {
       })
       await deleteMenuChildren(Number(menuId))
       ctx.body = {
-        success: true,
+        code:200,
         msg: "删除" + menuId
       }
     } catch (error) {
       ctx.body = {
-        success: false,
+        code:500,
         msg: "删除失败"
       }
     }

@@ -75,7 +75,7 @@ analysisRouter.get('/analysis',async(ctx,next)=>{
             _sum.unfollowNum+=value.unfollowNum
         })
         ctx.body={
-            code:0,
+            code:200,
             msg:"ok",
             data:{
                 room,
@@ -87,7 +87,7 @@ analysisRouter.get('/analysis',async(ctx,next)=>{
     }
 
     ctx.body={
-            code:-1,
+            code:500,
             msg:"需要先设置roomId",
     }
 })

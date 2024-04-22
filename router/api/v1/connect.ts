@@ -23,8 +23,7 @@ connectRouter.get('/list', async (ctx, next) => {
     }))
 
     ctx.body = {
-        code: 0,
-        success:true,
+        code: 200,
         msg: "ok",
         data: rooms
     }
@@ -47,7 +46,7 @@ connectRouter.post('/add', async (ctx, next) => {
     }
     
     ctx.body={
-        code:0,
+        code:200,
         msg:'ok'
     }
 })
@@ -56,14 +55,14 @@ connectRouter.post('/remove/:roomId', async (ctx, next) => {
     const roomId=parseInt(ctx.params['roomId'])
     if(isNaN(roomId)){
         ctx.body={
-            code:-1,
+            code:500,
             msg:"类型错误"
         }
         return
     }
     await closeConnect(roomId)
     ctx.body={
-        code:0,
+        code:200,
         msg:"ok"
     }
 })

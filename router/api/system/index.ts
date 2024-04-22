@@ -41,7 +41,8 @@ systemRouter.post("/list-role-ids", async (ctx, next) => {
   if (body.userId) {
     if (body.userId == 1) {
       ctx.body = {
-        success: true,
+        code:200,
+        msg:"success",
         data: [1],
       };
     } else if (body.userId == 2) {
@@ -52,7 +53,8 @@ systemRouter.post("/list-role-ids", async (ctx, next) => {
     }
   } else {
     ctx.body = {
-      success: false,
+      code:200,
+      msg:"success",
       data: [],
     };
   }
@@ -77,7 +79,8 @@ systemRouter.get("/role-menu", async (ctx, next) => {
     id: item.menuId,
   }))
   ctx.body = {
-    success: true,
+    code:200,
+    msg:"success",
     data: data
   }
 });
@@ -94,7 +97,8 @@ systemRouter.post("/role-menu-ids", async (ctx, next) => {
     }
   })
   ctx.body = {
-    success: true,
+    code:200,
+    msg:"success",
     data: menus.map(item => item.menuId)
   }
 });

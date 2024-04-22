@@ -19,12 +19,12 @@ export class LoginUser implements UserDetails{
     token:string
     permissions:Set<string>
     user:SysUser
-    constructor(token:string,user:SysUser,permissions:Set<string>)
-    constructor(token:string,user:SysUser,permissions:Set<string>,userId:number,deptId:number|null)
-    constructor(token:string,user:SysUser,permissions:Set<string>,userId?:number,deptId?:number|null){
+    constructor(token:string,user:SysUser,permissions:string[])
+    constructor(token:string,user:SysUser,permissions:string[],userId:number,deptId:number|null)
+    constructor(token:string,user:SysUser,permissions:string[],userId?:number,deptId?:number|null){
         this.token=token
         this.user = user
-        this.permissions=permissions
+        this.permissions=new Set(permissions)
         if(typeof userId !=='undefined'){
             this.userId=userId;
         }else{
@@ -41,5 +41,8 @@ export class LoginUser implements UserDetails{
     }
     getPassword(){
         return this.user.password
+    }
+    getPermissions(){
+        return Array.from(this.permissions)
     }
 }

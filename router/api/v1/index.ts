@@ -42,7 +42,7 @@ v1Router.get("/entry/list", async (ctx, next) => {
     prisma.userEntry.count(),
   ]);
   ctx.body = {
-    code: 0,
+    code: 200,
     msg: "ok",
     count,
     data: entry,
@@ -55,8 +55,9 @@ v1Router.get("/entry/list", async (ctx, next) => {
 v1Router.get("/like/list", async (ctx, next) => {
   const params = ctx.params;
   const query = ctx.query;
-  const headers = ctx.headers;
   const body = ctx.request.body;
+  const pageSize = str2num(parseQuery(query, "pageSize"), 10);
+  const pageNum = str2num(parseQuery(query, "pageNum"), 1);
 });
 
 /**
@@ -65,8 +66,9 @@ v1Router.get("/like/list", async (ctx, next) => {
 v1Router.get("/share/list", async (ctx, next) => {
   const params = ctx.params;
   const query = ctx.query;
-  const headers = ctx.headers;
   const body = ctx.request.body;
+  const pageSize = str2num(parseQuery(query, "pageSize"), 10);
+  const pageNum = str2num(parseQuery(query, "pageNum"), 1);
 });
 
 /**
@@ -75,8 +77,9 @@ v1Router.get("/share/list", async (ctx, next) => {
 v1Router.get("/follow/list", async (ctx, next) => {
   const params = ctx.params;
   const query = ctx.query;
-  const headers = ctx.headers;
   const body = ctx.request.body;
+  const pageSize = str2num(parseQuery(query, "pageSize"), 10);
+  const pageNum = str2num(parseQuery(query, "pageNum"), 1);
 });
 
 /**
@@ -85,8 +88,33 @@ v1Router.get("/follow/list", async (ctx, next) => {
 v1Router.get("/gift/list", async (ctx, next) => {
   const params = ctx.params;
   const query = ctx.query;
-  const headers = ctx.headers;
   const body = ctx.request.body;
+  const pageSize = str2num(parseQuery(query, "pageSize"), 10);
+  const pageNum = str2num(parseQuery(query, "pageNum"), 1);
+    try{
+        const [list,count] = await prisma.$transaction([
+            prisma.gift.findMany({
+                skip: (pageNum - 1) * pageSize,
+                take: pageSize,
+            }),
+            prisma.gift.count()
+        ])
+        ctx.body={
+            code:200,
+            msg:"success",
+            data:{
+                list,
+                total:count,
+                pageSize,
+                pageNum
+            }
+        }
+    }catch(error){
+        ctx.body={
+            code:500,
+            msg:String(error)
+        }
+    }
 });
 
 export default v1Router;

@@ -11,7 +11,7 @@ roleRouter.get("/", async (ctx, next) => {
     const body = ctx.request.body as any;
     const query = ctx.query;
     const roleName = parseQuery(query, "name");
-    const status = str2num(parseQuery(query, "name"), void 0, { min: 1 });
+    const status = parseQuery(query,'status');
     const code = parseQuery(query, "name");
     let list = await prisma.sysRole.findMany({
       where: {

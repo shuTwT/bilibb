@@ -67,7 +67,7 @@ userRouter.get('/list', async (ctx, next) => {
         })
     ])
     ctx.body = {
-        code: 0,
+        code: 200,
         msg: "ok",
         count,
         data: users
@@ -118,9 +118,10 @@ userRouter.get('/info/:uid', async (ctx, next) => {
         return
     }
 
-    ctx.body = await getTemplate(template, {
-        user: user,
-    })
+    ctx.body = {
+        code:200,
+        msg:"ok"
+    }
 })
 
 userRouter.get('/info/:uid/:roomId', async (ctx, next) => {
@@ -218,7 +219,7 @@ userRouter.get('/logs',async(ctx,next)=>{
         }
     })
     ctx.body={
-        code:0,
+        code:200,
         msg:'ok',
         data:logs
     }
@@ -239,7 +240,7 @@ userRouter.get('/logs/:uid',async(ctx,next)=>{
         }
     })
     ctx.body={
-        code:0,
+        code:200,
         msg:'ok',
         data:logs
     }

@@ -16,7 +16,7 @@ roomRouter.get('/list', async (ctx, next) => {
         prisma.room.count()
     ])
     ctx.body = {
-        code: 0,
+        code: 200,
         msg: "ok",
         count,
         data: rooms

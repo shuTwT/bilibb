@@ -22,8 +22,7 @@ danmuRouter.get('/list', async (ctx, next) => {
         prisma.speak.count()
     ])
     ctx.body = {
-        success:true,
-        code: 0,
+        code: 200,
         msg: "ok",
         count,
         data: speaks
@@ -79,7 +78,7 @@ danmuRouter.get('/list/:roomId', async (ctx, next) => {
         })
     ])
     ctx.body = {
-        code: 0,
+        code: 200,
         msg: "ok",
         count,
         data: speaks

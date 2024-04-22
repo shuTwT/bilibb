@@ -34,7 +34,8 @@ monitorRouter.get("/online-logs", async (ctx, next) => {
   }
 
   ctx.body = {
-    success: true,
+    code:200,
+    msg:"success",
     data: {
       list: onlineList,
       total: onlineList.length,
@@ -88,7 +89,8 @@ monitorRouter.post("/login-logs", async (ctx, next) => {
     String(item.status).includes(String(body?.status))
   );
   ctx.body = {
-    success: true,
+    code:200,
+    msg:"success",
     data: {
       list,
       total: list.length, // 总条目数
@@ -131,7 +133,8 @@ monitorRouter.post("/operation-logs", async (ctx, next) => {
     String(item.status).includes(String(body?.status))
   );
   ctx.body = {
-    success: true,
+    code:200,
+    msg:"success",
     data: {
       list,
       total: list.length, // 总条目数
@@ -186,7 +189,8 @@ monitorRouter.post("/system-logs", async (ctx, next) => {
   ];
   list = list.filter((item) => item.module.includes(body?.module));
   ctx.body = {
-    success: true,
+    code:200,
+    msg:"success",
     data: {
       list,
       total: list.length, // 总条目数
@@ -198,8 +202,9 @@ monitorRouter.post("/system-logs", async (ctx, next) => {
 /** 获取系统监控-系统日志-根据 id 查日志详情 */
 monitorRouter.post("/system-logs-detail", async (ctx, next) => {
   const body = ctx.request.body as any;
+  let data;
   if (body.id == 1) {
-    ctx.body = {
+    data = {
       id: 1,
       level: 1,
       module: "菜单管理",
@@ -360,7 +365,7 @@ monitorRouter.post("/system-logs-detail", async (ctx, next) => {
       requestTime: new Date(),
     };
   } else if (body.id == 2) {
-    return {
+   data= {
       id: 2,
       level: 0,
       module: "地图",
@@ -405,6 +410,11 @@ monitorRouter.post("/system-logs-detail", async (ctx, next) => {
       traceId: "2280443117103208",
       requestTime: new Date(),
     };
+  }
+  ctx.body={
+    code:200,
+    msg:"success",
+    data
   }
 });
 

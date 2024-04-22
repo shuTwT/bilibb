@@ -52,6 +52,8 @@ dictRouter.get("/type", async (ctx, next) => {
       data: {
         list: types,
         total: count,
+        pageSize,
+        pageNum
       },
     };
   } catch (error) {
