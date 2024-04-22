@@ -15,7 +15,6 @@ import { createServer } from "node:http";
 const { createRoutes } = await import( "./router/routes.js");
 import { loadEnv } from "./env.js";
 import * as log4js from "./utils/log4js.js"
-import viewMiddleware from "./middleware/viewMiddleware.js";
 import RedisSessionStore from "./utils/redisSessionStore.js";
 import redis from "./utils/redis.js";
 import jwtMiddleware from "./middleware/jwtMiddleware.js";
@@ -60,7 +59,6 @@ app.use(jwtMiddleware([
 )
 // app.use(koaStatic(path.resolve(process.cwd(), "static")));
 app.use(koaStatic(path.resolve(process.cwd(), "public")));
-app.use(viewMiddleware(path.resolve(process.cwd(),'template')))
 app.use(demoMidleware())
 createRoutes(app)
 

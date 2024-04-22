@@ -1,14 +1,13 @@
 import type Koa from "koa";
 import Router from "koa-router";
-import { str2num, parseQuery, getTemplate } from "./api/utils.js";
+import { str2num, parseQuery } from "./api/utils.js";
 import { apiRouter } from "./api/api.js";
 import { SwaggerRouter } from "koa-swagger-decorator";
 
 const router = new Router<Koa.DefaultState, Koa.Context>();
 
 router.get("/", async (ctx, next) => {
-  const template = "index";
-  ctx.body = await getTemplate(template);
+  ctx.body = "项目已成功运行,请通过前端访问"
 });
 
 const swaggerRouter = new SwaggerRouter<Koa.DefaultState, Koa.Context>({

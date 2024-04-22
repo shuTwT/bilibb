@@ -1,7 +1,6 @@
 import Router from "koa-router"
 import prisma from "../../../utils/prisma.js"
-import { getTemplate, parseQuery, str2num } from "../utils.js"
-import ejs from "ejs"
+import { parseQuery, str2num } from "../utils.js"
 import type { Context, DefaultState } from "koa"
 
 const userRouter=new Router<DefaultState,Context>({prefix:'/user'})
