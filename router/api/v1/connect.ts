@@ -4,17 +4,16 @@ import { closeConnect, connectPool } from "../../../service/connectService.js"
 import { createConnect } from "../../../service/connectService.js"
 import * as log4js from "../../../utils/log4js.js"
 import type { Context, DefaultState } from "koa"
+import { parseQuery, str2num } from "../utils.js"
 
 const connectRouter=new Router<DefaultState,Context>({prefix:'/connect'})
 
 connectRouter.get('/list', async (ctx, next) => {
-    const params = ctx.params
-    const query = ctx.query
-    const headers = ctx.headers
-    const body = ctx.request.body
+    const pageNum = str2num(parseQuery(ctx.query, 'pageNum'), 1, { min: 1 })
+    const pageSize = str2num(parseQuery(ctx.query, 'pageSize'), 10, { min: 1 })
     const roomIds=Array.from(connectPool.keys())
-    
-    const rooms=await Promise.all(roomIds.map(async(item)=>{
+    const slicedRoomIds = roomIds.slice((pageNum-1)*pageSize,pageNum*pageSize)
+    const rooms=await Promise.all(slicedRoomIds.map(async(item)=>{
         return await prisma.room.findUnique({
             where:{
                 roomId:item+""
@@ -25,16 +24,21 @@ connectRouter.get('/list', async (ctx, next) => {
     ctx.body = {
         code: 200,
         msg: "ok",
-        data: rooms
+        data:{
+            list:rooms,
+            total:roomIds.length,
+            pageNum,
+            pageSize
+        }
     }
 })
 
 connectRouter.post('/add', async (ctx, next) => {
     const body= ctx.request.body as any
-    const roomId = parseInt(body.roomId)
+    const roomId = Number(body.roomId)
     if(isNaN(roomId)){
         ctx.body={
-            code:-1,
+            code:500,
             msg:"类型错误"
         }
         return
@@ -52,7 +56,7 @@ connectRouter.post('/add', async (ctx, next) => {
 })
 
 connectRouter.post('/remove/:roomId', async (ctx, next) => {
-    const roomId=parseInt(ctx.params['roomId'])
+    const roomId=Number(ctx.params['roomId'])
     if(isNaN(roomId)){
         ctx.body={
             code:500,

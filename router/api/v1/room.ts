@@ -6,20 +6,24 @@ import type { Context, DefaultState } from "koa"
 const roomRouter=new Router<DefaultState,Context>({prefix:'/room'})
 
 roomRouter.get('/list', async (ctx, next) => {
-    const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
-    const limit = str2num(parseQuery(ctx.query, 'limit'), 10, { min: 1 })
+    const pageNum = str2num(parseQuery(ctx.query, 'pageNum'), 1, { min: 1 })
+    const pageSize = str2num(parseQuery(ctx.query, 'pageSize'), 10, { min: 1 })
     const [rooms, count] = await prisma.$transaction([
         prisma.room.findMany({
-            skip: (page - 1) * limit,
-            take: limit,
+            skip: (pageNum - 1) * pageSize,
+            take: pageSize,
         }),
         prisma.room.count()
     ])
     ctx.body = {
         code: 200,
         msg: "ok",
-        count,
-        data: rooms
+        data:{
+            list:rooms,
+            total:count,
+            pageNum,
+            pageSize
+        }
     }
  
 })

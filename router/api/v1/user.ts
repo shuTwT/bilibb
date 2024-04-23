@@ -11,17 +11,15 @@ const userRouter=new Router<DefaultState,Context>({prefix:'/user'})
 userRouter.get('/list', async (ctx, next) => {
     const params = ctx.params
     const query = ctx.query
-    const headers = ctx.headers
-    const body = ctx.request.body
-    const page = str2num(parseQuery(query, 'page'), 1, { min: 1 })
-    const limit = str2num(parseQuery(query, 'limit'), 1, { min: 1 })
+    const pageNum = str2num(parseQuery(query, 'pageNum'), 1, { min: 1 })
+    const pageSize = str2num(parseQuery(query, 'pageSize'), 1, { min: 1 })
     const uname = parseQuery(query, 'uname')
     const gender = parseQuery(query, 'gender')==''?null:parseQuery(query, 'gender')
     const isFilterZero = parseQuery(query, 'isFilterZero')==='1'? true:false
     const [users, count] = await prisma.$transaction([
         prisma.user.findMany({
-            skip: (page - 1) * limit,
-            take: limit,
+            skip: (pageNum - 1) * pageSize,
+            take: pageSize,
             where: {
                 AND: [
                     {
@@ -68,8 +66,12 @@ userRouter.get('/list', async (ctx, next) => {
     ctx.body = {
         code: 200,
         msg: "ok",
-        count,
-        data: users
+        data:{
+            list:users,
+            total:count,
+            pageNum,
+            pageSize
+        }
     }
 
 })
@@ -80,11 +82,8 @@ userRouter.get('/list', async (ctx, next) => {
 userRouter.get('/info/:uid', async (ctx, next) => {
     const params = ctx.params
     const query = ctx.query
-    const headers = ctx.headers
-    const body = ctx.request.body
-    const page = str2num(parseQuery(query, 'page'), 1, { min: 1 })
-    const limit = str2num(parseQuery(query, 'limit'), 10, { min: 10 })
-    let template = 'user-info'
+    const pageNum = str2num(parseQuery(query, 'pageNum'), 1, { min: 1 })
+    const pageSize = str2num(parseQuery(query, 'pageSize'), 10, { min: 10 })
 
     const user = await prisma.user.findUnique({
         where: {
@@ -125,11 +124,8 @@ userRouter.get('/info/:uid', async (ctx, next) => {
 
 userRouter.get('/info/:uid/:roomId', async (ctx, next) => {
     const params = ctx.params
-    const query = ctx.query
-    const headers = ctx.headers
-    const body = ctx.request.body
-    const page = str2num(parseQuery(query, 'page'), 1, { min: 1 })
-    const limit = str2num(parseQuery(query, 'limit'), 10, { min: 10 })
+    const pageNum = str2num(parseQuery(ctx.query, 'pageNum'), 1, { min: 1 })
+    const pageSize = str2num(parseQuery(ctx.query, 'pageSize'), 10, { min: 10 })
     let template = 'user-info'
 
     const user = await prisma.user.findUnique({
@@ -201,8 +197,8 @@ userRouter.get('/info/:uid/:roomId', async (ctx, next) => {
  * 用户日志
  */
 userRouter.get('/logs',async(ctx,next)=>{
-    const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
-    const limit = str2num(parseQuery(ctx.query, 'limit'), 10, { min: 10 })
+    const pageNum = str2num(parseQuery(ctx.query, 'pageNum'), 1, { min: 1 })
+    const pageSize = str2num(parseQuery(ctx.query, 'pageSize'), 10, { min: 10 })
     const roomId = parseQuery(ctx.query,'roomId')
     const logs=await prisma.userLog.findMany({
         where:{
@@ -211,8 +207,8 @@ userRouter.get('/logs',async(ctx,next)=>{
         include:{
             User:true
         },
-        skip: (page - 1) * limit,
-        take: limit,
+        skip: (pageNum - 1) * pageSize,
+        take: pageSize,
         orderBy:{
             date:'desc'
         }
@@ -225,12 +221,12 @@ userRouter.get('/logs',async(ctx,next)=>{
 })
 
 userRouter.get('/logs/:uid',async(ctx,next)=>{
-    const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
-    const limit = str2num(parseQuery(ctx.query, 'limit'), 10, { min: 10 })
+    const pageNum = str2num(parseQuery(ctx.query, 'pageNum'), 1, { min: 1 })
+    const pageSize = str2num(parseQuery(ctx.query, 'pageSize'), 10, { min: 10 })
     const uid= ctx.params['uid']
     const logs=await prisma.userLog.findMany({
-        skip: (page - 1) * limit,
-        take: limit,
+        skip: (pageNum - 1) * pageSize,
+        take: pageSize,
         orderBy:{
             date:"desc"
         },

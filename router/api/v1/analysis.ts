@@ -8,16 +8,16 @@ const analysisRouter=new Router<DefaultState,Context>({
 })
 
 analysisRouter.get('/analysis',async(ctx,next)=>{
-    const roomId=await prisma.options.findUnique({
+    const roomId=await prisma.sysConfig.findFirst({
         where:{
-            optionName:"roomId"
+            configKey:"roomId"
         }
     })
 
-    if(roomId&&roomId.optionValue!==""){
+    if(roomId&&roomId.configValue!==""){
         const room=await prisma.room.findUnique({
             where:{
-                roomId:roomId.optionValue
+                roomId:roomId.configValue
             },
             include:{
                 Live:{
@@ -38,7 +38,7 @@ analysisRouter.get('/analysis',async(ctx,next)=>{
         let lives = await prisma.live.groupBy({
             by:['roomId','date','entryNum','likeNum','speakNum','followNum','unfollowNum'],
             where:{
-                roomId:roomId.optionValue
+                roomId:roomId.configValue
             },
             orderBy:{
                 date:'desc'

@@ -28,12 +28,12 @@ v1Router.use(largeScreenRouter.routes())
  * 进房量分页查询
  */
 v1Router.get("/entry/list", async (ctx, next) => {
-  const page = str2num(parseQuery(ctx.query, "page"), 1, { min: 1 });
-  const limit = str2num(parseQuery(ctx.query, "limit"), 10, { min: 1 });
+  const pageNum = str2num(parseQuery(ctx.query, "pageNum"), 1, { min: 1 });
+  const pageSize = str2num(parseQuery(ctx.query, "pageSize"), 10, { min: 1 });
   const [entry, count] = await prisma.$transaction([
     prisma.userEntry.findMany({
-      skip: (page - 1) * limit,
-      take: limit,
+      skip: (pageNum - 1) * pageSize,
+      take: pageSize,
       include: {
         User: true,
         Room: true,

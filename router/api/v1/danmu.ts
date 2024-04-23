@@ -9,12 +9,12 @@ const danmuRouter=new Router<DefaultState,Context>({prefix:'/danmu'})
  * 弹幕分页查询
  */
 danmuRouter.get('/list', async (ctx, next) => {
-    const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
-    const limit = str2num(parseQuery(ctx.query, 'limit'), 1, { min: 1 })
+    const pageNum = str2num(parseQuery(ctx.query, 'pageNum'), 1, { min: 1 })
+    const pageSize = str2num(parseQuery(ctx.query, 'pageSize'), 1, { min: 1 })
     const [speaks, count] = await prisma.$transaction([
         prisma.speak.findMany({
-            skip: (page - 1) * limit,
-            take: limit,
+            skip: (pageNum - 1) * pageSize,
+            take: pageSize,
             orderBy:{
                 date:'desc'
             }
@@ -25,7 +25,12 @@ danmuRouter.get('/list', async (ctx, next) => {
         code: 200,
         msg: "ok",
         count,
-        data: speaks
+        data:{
+            list:speaks,
+            total:count,
+            pageNum,
+            pageSize,
+        }
     }
 })
 
@@ -34,15 +39,15 @@ danmuRouter.get('/list', async (ctx, next) => {
  */
 danmuRouter.get('/list/:roomId', async (ctx, next) => {
     const roomId = ctx.params['roomId']
-    const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
-    const limit = str2num(parseQuery(ctx.query, 'limit'), 1, { min: 1 })
-    const uid=parseQuery(ctx.query, 'uname')
+    const pageNum = str2num(parseQuery(ctx.query, 'pageNum'), 1, { min: 1 })
+    const pageSize = str2num(parseQuery(ctx.query, 'pageSize'), 1, { min: 1 })
+    const uid=parseQuery(ctx.query, 'uid')
     const uname = parseQuery(ctx.query, 'uname')
     const content = parseQuery(ctx.query, 'content')
     const [speaks, count] = await prisma.$transaction([
         prisma.speak.findMany({
-            skip: (page - 1) * limit,
-            take: limit,
+            skip: (pageNum - 1) * pageSize,
+            take: pageSize,
             where: {
                 uid,
                 roomId,
@@ -80,8 +85,12 @@ danmuRouter.get('/list/:roomId', async (ctx, next) => {
     ctx.body = {
         code: 200,
         msg: "ok",
-        count,
-        data: speaks
+        data:{
+            list:speaks,
+            total:count,
+            pageSize,
+            pageNum,
+        }
     }
 })
 

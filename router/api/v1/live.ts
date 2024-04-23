@@ -6,15 +6,15 @@ import type { Context, DefaultState } from "koa"
 const liveRouter=new Router<DefaultState,Context>({prefix:'/live'})
 
 liveRouter.get('/list', async (ctx, next) => {
-    const page = str2num(parseQuery(ctx.query, 'page'), 1, { min: 1 })
-    const limit = str2num(parseQuery(ctx.query, 'limit'), 10, { min: 1 })
+    const pageNum = str2num(parseQuery(ctx.query, 'pageNum'), 1, { min: 1 })
+    const pageSize = str2num(parseQuery(ctx.query, 'pageSize'), 10, { min: 1 })
     const date= parseQuery(ctx.query,'date')
     const roomId=parseQuery(ctx.query,'roomId')
     const title = parseQuery(ctx.query,'title')
     const [rooms, count] = await prisma.$transaction([
         prisma.live.findMany({
-            skip: (page - 1) * limit,
-            take: limit,
+            skip: (pageNum - 1) * pageSize,
+            take: pageSize,
             where:{
                 date,
                 roomId:{
@@ -43,8 +43,12 @@ liveRouter.get('/list', async (ctx, next) => {
     ctx.body = {
         code: 200,
         msg: "ok",
-        count,
-        data: rooms
+        data:{
+            list:rooms,
+            total:count,
+            pageNum,
+            pageSize
+        }
     }
 })
 

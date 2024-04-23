@@ -5,6 +5,7 @@
  * https://github.com/Minteea/floating-live
  * https://github.com/SocialSisterYi/bilibili-API-collect
  */
+import 'reflect-metadata'
 import Koa from "koa";
 import * as dotenv from "dotenv";
 import path from 'node:path';
