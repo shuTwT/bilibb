@@ -14,7 +14,6 @@ import session from "koa-session";
 import koaLogger from "./middleware/koaLogger.js";
 import { createServer } from "node:http";
 const { createRoutes } = await import( "./router/routes.js");
-import { loadEnv } from "./env.js";
 import * as log4js from "./utils/log4js.js"
 import RedisSessionStore from "./utils/redisSessionStore.js";
 import redis from "./utils/redis.js";
@@ -24,8 +23,6 @@ import {koaBody} from 'koa-body'
 import demoMidleware from "./middleware/demoMidleware.js";
 
 dotenv.config();
-
-await loadEnv()
 
 const port = Number.parseInt(process.env.APP_PORT ||'3000');
 

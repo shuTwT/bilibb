@@ -81,21 +81,6 @@ export async function createConnect(short_room_id: number) {
 
   connectPool.set(room_id, live);
 }
-export async function TCPServer() {
-  const short_room_id = globalThis.env.roomId;
-
-  if (!short_room_id || short_room_id == "") {
-    log4js.error("请先在系统设置中设置直播间ID");
-    return;
-  }
-
-  try{
-    await createConnect(parseInt(short_room_id));
-  }catch(e){
-    log4js.error(e)
-  }
-
-}
 
 export async function closeConnect(roomId:number){
     const connect=connectPool.get(roomId)
