@@ -12,13 +12,13 @@ const monitorRouter = new Router<DefaultState, Context>({ prefix: "/monitor" });
 
 monitorRouter.get("/online-logs", async (ctx, next) => {
   const keys = await redis.keys("login_tokens:*");
-
+  ctx.log4js.debug(keys.join(','))
   const onlineList = [];
   for (const key of keys) {
     const userToken = await redis.get(key);
     if (userToken) {
       try {
-        const { uuid, username, ip, address, system, browser, loginTime } =
+        const { uuid,username, ip, address, system, browser, loginTime } =
           jwt.decode(userToken) as JwtPayload;
         onlineList.push({
           id: uuid,
@@ -29,7 +29,9 @@ monitorRouter.get("/online-logs", async (ctx, next) => {
           browser,
           loginTime,
         });
-      } catch {}
+      } catch (error){
+        ctx.log4js.error(error)
+      }
     }
   }
 

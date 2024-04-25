@@ -5,6 +5,7 @@ import { LoginUser } from "../core/model/LoginUser";
 import log4js from "../utils/log4js";
 import { SysUser } from "@prisma/client";
 import { nanoid } from "nanoid";
+import prisma from "../utils/prisma";
 
 export default function (whiteList: string[] = [], callback?: () => void) {
   return async function (ctx: Context, next: Next) {
@@ -43,7 +44,14 @@ export default function (whiteList: string[] = [], callback?: () => void) {
         //判断过期
         if (userToken) {
           try {
-            const user = JSON.parse(userToken) as SysUser;
+            const user = await prisma.sysUser.findUnique({
+                where:{
+                    userId:decodeToken.userId
+                }
+            })
+            if(!user){
+                throw '找不到用户'
+            }
             if (!ctx.getLoginUser) {
               const loginUser = new LoginUser(
                 token,

@@ -89,7 +89,7 @@ authRouter.post("/login", async (ctx, next) => {
     }
   );
 
-  redis.setex("login_tokens:" + uuid, 60 * 60 * 10, JSON.stringify(user));
+  redis.setex("login_tokens:" + uuid, 60 * 60 * 10, accessToken);
   const refreshToken = jwt.sign(
     {
       data: "foobar",
@@ -208,7 +208,7 @@ authRouter.post("refresh-token", async (ctx, next) => {
     redis.setex(
       "login_tokens:" + decodeToken.uuid,
       60 * 60 * 10,
-      JSON.stringify(user)
+      accessToken
     );
     const refreshToken = jwt.sign(
       {
@@ -245,7 +245,6 @@ authRouter.post("refresh-token", async (ctx, next) => {
 });
 
 authRouter.post("/logout", async (ctx, next) => {
-  ctx.session = null;
   const token = ctx.request.header["authorization"];
   const tokenItem = token!.split("Bearer ")[1];
   const decode = jwt.verify(tokenItem, "shhhh") as JwtPayload;

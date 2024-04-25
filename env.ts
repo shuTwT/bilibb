@@ -2,7 +2,6 @@ import UAParser from "ua-parser-js";
 import log4js from "./utils/log4js.js";
 import prisma from "./utils/prisma.js";
 import { Options, SysUser } from "@prisma/client";
-import type session from "koa-session";
 import { LoginUser } from "./core/model/LoginUser.js";
 declare global {
   namespace globalThis {
@@ -26,7 +25,6 @@ declare module "koa" {
   }
   interface Context {
     log4js: typeof log4js;
-    session: session.Session | null;
     render: (relPath: string, locals?: object) => Promise<string>;
     ua: UAParser.UAParserInstance;
     getLoginUser: () => LoginUser;
