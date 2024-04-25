@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import md5 from 'md5'
+import md5 from '../common/utils/md5'
 
 const web_keys={
     img_key:"",

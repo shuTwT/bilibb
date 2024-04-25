@@ -1,6 +1,6 @@
 import type { DefaultState, Context } from "koa";
 import Router from "koa-router";
-import prisma, { exclude } from "../../../utils/prisma";
+import prisma from "../../../utils/prisma";
 import { parseQuery, str2num } from "../utils";
 import dayjs from "dayjs";
 import { SysUser } from "@prisma/client";
@@ -24,6 +24,9 @@ userRouter.get("/", async (ctx, next) => {
           status: status,
           phonenumber: phone,
           deptId: deptId,
+        },
+        omit:{
+            password:true
         },
         include: {
           dept: true,
@@ -99,13 +102,15 @@ userRouter.get("/profile", async (ctx, next) => {
       where: {
         userId: loginUser.userId,
       },
+      omit:{
+        password:true
+      }
     });
     if (user) {
-        const userExcluded = exclude<SysUser, keyof SysUser>(user, ["password"]);
         ctx.body = {
           code: 200,
           msg: "success",
-          data: userExcluded,
+          data: user,
         };
     } else {
       ctx.body = {
@@ -180,14 +185,17 @@ userRouter.get("/:userId", async (ctx, next) => {
       where: {
         userId: Number(userId),
       },
+      omit:{
+        password:true
+      }
     });
 
     if (user) {
-      const userExcluded = exclude<SysUser, keyof SysUser>(user, ["password"]);
+      
       ctx.body = {
         code: 200,
         msg: "success",
-        data: userExcluded,
+        data: user,
       };
     } else {
       ctx.body = {

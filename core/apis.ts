@@ -1,4 +1,3 @@
-import md5 from 'md5'
 import fetch from "node-fetch";
 type RequestConfig={
     method:string
