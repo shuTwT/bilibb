@@ -92,6 +92,84 @@ userRouter.post("/", async (ctx, next) => {
   }
 });
 
+userRouter.get("/profile", async (ctx, next) => {
+  const loginUser = ctx.getLoginUser();
+  try {
+    const user = await prisma.sysUser.findFirst({
+      where: {
+        userId: loginUser.userId,
+      },
+    });
+    if (user) {
+        const userExcluded = exclude<SysUser, keyof SysUser>(user, ["password"]);
+        ctx.body = {
+          code: 200,
+          msg: "success",
+          data: userExcluded,
+        };
+    } else {
+      ctx.body = {
+        code: 500,
+        msg: "找不到用户",
+      };
+    }
+  } catch (error) {
+    ctx.log4js.error(error);
+    ctx.body = {
+      code: 500,
+      msg: String(error),
+    };
+  }
+});
+
+/**
+ * 头像上传
+ */
+userRouter.post("/profile/avatar", async (ctx, next) => {
+  const loginUser = ctx.getLoginUser();
+  if (ctx.request.files) {
+    const { file } = ctx.request.files;
+    if (file) {
+      if (!Array.isArray(file)) {
+        await prisma.sysUser.update({
+          where: {
+            userId: loginUser.userId,
+          },
+          data: {
+            avatar: "/upload/" + file.newFilename,
+          },
+        });
+        ctx.body = {
+          code: 200,
+          msg: "上传成功",
+          data: {
+            filepath: file.filepath,
+            filename: file.newFilename,
+            originalfilename: file.originalFilename,
+            url: "/upload/" + file.newFilename,
+          },
+        };
+      }
+    }
+  } else {
+    ctx.body = {
+      code: 500,
+      msg: "上传失败",
+    };
+  }
+});
+
+userRouter.get("/profile/logs", async (ctx, next) => {
+  ctx.body = {
+    code: 200,
+    msg: "success",
+    data: {
+      list: [],
+      total: 0,
+    },
+  };
+});
+
 /**
  * 查询用户详细信息
  */
@@ -112,10 +190,10 @@ userRouter.get("/:userId", async (ctx, next) => {
         data: userExcluded,
       };
     } else {
-        ctx.body = {
-            code: 500,
-            msg: "未找到该用户",
-          };
+      ctx.body = {
+        code: 500,
+        msg: "未找到该用户",
+      };
     }
   } catch (error) {
     ctx.log4js.error(error);
@@ -210,83 +288,4 @@ userRouter.delete("/:userId", async (ctx, next) => {
     };
   }
 });
-
-userRouter.get("/profile", async (ctx, next) => {
-  const loginUser = ctx.getLoginUser();
-  try {
-    const user = await prisma.sysUser.findFirst({
-      where: {
-        userId: loginUser.userId,
-      },
-    });
-    if (user) {
-        const userExcluded = exclude<SysUser, keyof SysUser>(user, ["password"]);
-        ctx.body = {
-          code: 200,
-          msg: "success",
-          data: userExcluded,
-        };
-    } else {
-      ctx.body = {
-        code: 500,
-        msg: "找不到用户",
-      };
-    }
-  } catch (error) {
-    ctx.log4js.error(error);
-    ctx.body = {
-      code: 500,
-      msg: String(error),
-    };
-  }
-});
-
-/**
- * 头像上传
- */
-userRouter.post("/profile/avatar", async (ctx, next) => {
-    const loginUser = ctx.getLoginUser();
-    if(ctx.request.files){
-        const {file} = ctx.request.files
-        if(file){
-            if(!Array.isArray(file)){
-                await prisma.sysUser.update({
-                    where:{
-                        userId:loginUser.userId
-                    },
-                    data:{
-                        avatar:'/upload/'+file.newFilename
-                    }
-                })
-                ctx.body={
-                    code:200,
-                    msg:"上传成功",
-                    data:{
-                        filepath:file.filepath,
-                        filename:file.newFilename,
-                        originalfilename:file.originalFilename,
-                        url:'/upload/'+file.newFilename
-                    }
-                }
-            }
-        }
-    }else {
-        ctx.body = {
-            code:500,
-            msg:"上传失败"
-        }
-    }
-});
-
-userRouter.get("/profile/logs", async (ctx, next) => {
-    ctx.body = {
-      code: 200,
-      msg: "success",
-      data: {
-        list: [],
-        total: 0,
-      },
-    };
-  });
-
 export { userRouter };
