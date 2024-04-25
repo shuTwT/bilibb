@@ -1,6 +1,4 @@
-import { SysConfig } from "@prisma/client";
-
-export function seedConfigs(datetime: string) {
+export function seedConfigs(datetime: Date) {
   const configs = [
     {
       configId: 1,
@@ -10,6 +8,9 @@ export function seedConfigs(datetime: string) {
       configValue: "false",
       createBy: "admin",
       createTime: datetime,
+      updateBy:'',
+      updateTime:null,
+      remark:null
     },
     {
       configId: 2,
@@ -19,6 +20,9 @@ export function seedConfigs(datetime: string) {
       configValue: "false",
       createBy: "admin",
       createTime: datetime,
+      updateBy:'',
+      updateTime:null,
+      remark:null
     },
     {
       configId: 3,
@@ -28,6 +32,9 @@ export function seedConfigs(datetime: string) {
       configType: "1",
       createBy: "admin",
       createTime: datetime,
+      updateBy:'',
+      updateTime:null,
+      remark:null
     },
     {
       configId: 4,
@@ -37,6 +44,9 @@ export function seedConfigs(datetime: string) {
       configType: "1",
       createBy: "admin",
       createTime: datetime,
+      updateBy:'',
+      updateTime:null,
+      remark:null
     },
     {
       configId: 5,
@@ -46,6 +56,9 @@ export function seedConfigs(datetime: string) {
       configType: "1",
       createBy: "admin",
       createTime: datetime,
+      updateBy:'',
+      updateTime:null,
+      remark:null
     },
     {
       configId: 6,
@@ -55,6 +68,9 @@ export function seedConfigs(datetime: string) {
       configType: "1",
       createBy: "admin",
       createTime: datetime,
+      updateBy:'',
+      updateTime:null,
+      remark:null
     },
     {
       configId: 7,
@@ -63,7 +79,10 @@ export function seedConfigs(datetime: string) {
       configValue: "",
       configType: "1",
       createBy: "admin",
-      createTime: "2024-04-16 09:40:31",
+      createTime: datetime,
+      updateBy:'',
+      updateTime:null,
+      remark:null
     },
     {
       configId: 8,
@@ -73,6 +92,9 @@ export function seedConfigs(datetime: string) {
       configType: "1",
       createBy: "admin",
       createTime: datetime,
+      updateBy:'',
+      updateTime:null,
+      remark:null
     },
     {
       configId: 9,
@@ -82,6 +104,9 @@ export function seedConfigs(datetime: string) {
       configType: "1",
       createBy: "admin",
       createTime: datetime,
+      updateBy:'',
+      updateTime:null,
+      remark:null
     },
     {
       configId: 10,
@@ -91,7 +116,10 @@ export function seedConfigs(datetime: string) {
       configType: "1",
       createBy: "admin",
       createTime: datetime,
+      updateBy:'',
+      updateTime:null,
+      remark:null
     },
-  ] as SysConfig[];
+  ];
   return configs;
 }

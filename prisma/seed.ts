@@ -5,7 +5,8 @@ import { roleMenus } from "./seedData/roleMenus";
 import { seedConfigs } from "./seedData/configs";
 const prisma = new PrismaClient();
 async function main() {
-  const datetime = dayjs().format("YYYY-MM-DD HH:mm:ss");
+    const now = dayjs()
+  const datetime = now.format("YYYY-MM-DD HH:mm:ss");
   await prisma.sysDept.upsert({
     where: {
       deptId: 100,
@@ -220,7 +221,7 @@ async function main() {
       createBy: "admin",
     },
   });
-  const menus = seedMenus(datetime)
+  const menus = seedMenus(now.toDate())
   for (const key in menus) {
     const item = menus[key];
     await prisma.sysMenu.upsert({
@@ -291,7 +292,7 @@ async function main() {
       });
     });
   }
-  const configs = seedConfigs(datetime);
+  const configs = seedConfigs(now.toDate());
   for (const key in configs) {
     await prisma.sysConfig.upsert({
       where: {

@@ -1,11 +1,8 @@
 import UAParser from "ua-parser-js";
 import log4js from "./utils/log4js.js";
-import prisma from "./utils/prisma.js";
-import { Options, SysUser } from "@prisma/client";
 import { LoginUser } from "./core/model/LoginUser.js";
 declare global {
   namespace globalThis {
-    var env: Env;
     var native: unknown;
   }
 
@@ -31,24 +28,6 @@ declare module "koa" {
   }
 }
 
-export interface DefaultOptions {
-  roomId: string;
-  uid: string;
-  buvid: string;
-  sessData: string;
-  bili_ticket: string;
-  bili_ticket_expires: string;
-  DedeUserID: string;
-  bili_jct: string;
-  installed: string;
-  host: string;
-  [key: string]: string;
-}
-
-interface Env extends Partial<DefaultOptions> {
-  readonly cookies: string;
-}
-
 interface DotEnv {
   DATABASE_URL: string;
   APP_PORT: number;
@@ -70,20 +49,6 @@ const warpperEnv = (envConf: Record<string, any>) => {
     DEMO_MODE:false
   };
 
-  for (const envName of Object.keys(envConf)) {
-    let realName :string|boolean|number = envConf[envName] as string;
-    realName =
-      realName === "true" ? true : realName === "false" ? false : realName;
-    if (envName === "APP_PORT" || envName === "REDIS_PORT") {
-      realName = Number(realName);
-    }
-    ret[envName] = realName
-    if(typeof realName==='string'){
-        process.env[envName] = realName
-    }else if(typeof realName === 'object'){
-        process.env[envName] = JSON.stringify(realName)
-    }
-  }
 };
 
 export {};

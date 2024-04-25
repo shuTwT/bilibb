@@ -4,7 +4,6 @@ import prisma from "../../../utils/prisma.js";
 import { parseQuery, str2num } from "../utils.js";
 import { largeScreenRouter } from "./largeScreen.js";
 const { roomRouter } = await import("./room.js");
-const { optionRouter } = await import("./options.js");
 const { connectRouter } = await import("./connect.js");
 const { liveRouter } = await import("./live.js");
 const { userRouter } = await import("./user.js");
@@ -16,7 +15,6 @@ const v1Router = new Router<DefaultState, Context>({
 });
 
 v1Router.use(roomRouter.routes());
-v1Router.use(optionRouter.routes());
 v1Router.use(connectRouter.routes());
 v1Router.use(liveRouter.routes());
 v1Router.use(userRouter.routes());

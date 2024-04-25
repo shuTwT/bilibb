@@ -1,6 +1,6 @@
-import { SysMenu } from "@prisma/client";
 
-export function seedMenus(datetime: string) {
+
+export function seedMenus(datetime: Date) {
   const menus = [
     // 系统管理
     {
@@ -358,6 +358,6 @@ export function seedMenus(datetime: string) {
       createBy: "admin",
       createTime: datetime,
     },
-  ] as SysMenu[];
+  ];
   return menus;
 }

@@ -21,12 +21,12 @@ model SysDept {
     leader     String? //负责人
     phone      String? //联系电话
     email      String? //邮箱
-    status     String    @default("0") //部门状态 (0正常 1禁用)
+    status     String    @default("0") @db.Char(1) //部门状态 (0正常 1禁用)
     delFlag    Boolean   @default(false) //删除状态(false存在 true删除)
     createBy   String    @default("") //创建者
-    createTime String? // 创建时间
+    createTime DateTime  @default(now()) // 创建时间
     updateBy   String    @default("") //更新者
-    updateTime String? //更新时间
+    updateTime DateTime? @updatedAt //更新时间 @utc
     remark     String?   @db.VarChar(500) //备注
     SysUser    SysUser[]
 }
@@ -45,12 +45,12 @@ model SysUser {
     password      String    @default("") //密码
     loginIp       String    @default("") //最后登录的IP
     loginDate     String? //最后登录时间
-    status        String    @default("0") //用户状态 (0正常 1禁用)
+    status        String    @default("0") @db.Char(1) //用户状态 (0正常 1禁用)
     delFlag       Boolean   @default(false) //删除状态(false存在 true删除)
     createBy      String    @default("") //创建者
-    createTime    String? // 创建时间
+    createTime    DateTime  @default(now()) // 创建时间
     updateBy      String    @default("") //更新者
-    updateTime    String? //更新时间
+    updateTime    DateTime? @updatedAt //更新时间 
     remark        String?   @db.VarChar(500) //备注
     posts         SysPost[]
     dept          SysDept   @relation(fields: [sysDeptDeptId], references: [deptId])
@@ -59,74 +59,75 @@ model SysUser {
 
 //系统岗位
 model SysPost {
-    postId     Int     @id @default(autoincrement()) //岗位ID
+    postId     Int       @id @default(autoincrement()) //岗位ID
     postCode   String //岗位编码
     postName   String //岗位名称
     postSort   Int //显示顺序
-    status     String  @default("0") //岗位状态 (0正常 1禁用)
-    delFlag    Boolean @default(false) //删除状态(false存在 true删除)
-    createBy   String  @default("") //创建者
-    createTime String? // 创建时间
-    updateBy   String  @default("") //更新者
-    updateTime String? //更新时间
-    remark     String? @db.VarChar(500) //备注
-    user       SysUser @relation(fields: [postId], references: [userId])
+    status     String    @default("0") @db.Char(1) //岗位状态 (0正常 1禁用)
+    delFlag    Boolean   @default(false) //删除状态(false存在 true删除)
+    createBy   String    @default("") //创建者
+    createTime DateTime  @default(now()) // 创建时间
+    updateBy   String    @default("") //更新者
+    updateTime DateTime? @updatedAt //更新时间 
+    remark     String?   @db.VarChar(500) //备注
+    user       SysUser   @relation(fields: [postId], references: [userId])
 }
 
 //系统角色
 model SysRole {
-    roleId            Int     @id @default(autoincrement()) //角色ID
+    roleId            Int       @id @default(autoincrement()) //角色ID
     roleName          String //角色名称
     roleKey           String //角色权限字符串
     roleSort          Int //显示顺序
-    dataScope         String  @default("1") //数据范围(1全部数据2自定义数据3本部门数据4本部门及以下数据)
-    menuCheckStrictly Boolean @default(true) //菜单树选择项是否关联显示
-    deptCheckStrictly Boolean @default(true) //部门数选择项是否关联显示
-    status            String  @default("0") //角色状态 (0正常 1禁用)
-    delFlag           Boolean @default(false) //删除状态(false存在 true删除)
-    createBy          String  @default("") //创建者
-    createTime        String? // 创建时间
-    updateBy          String  @default("") //更新者
-    updateTime        String? //更新时间
-    remark            String? @db.VarChar(500) //备注
+    dataScope         String    @default("1") //数据范围(1全部数据2自定义数据3本部门数据4本部门及以下数据)
+    menuCheckStrictly Boolean   @default(true) //菜单树选择项是否关联显示
+    deptCheckStrictly Boolean   @default(true) //部门数选择项是否关联显示
+    status            String    @default("0") @db.Char(1) //角色状态 (0正常 1禁用)
+    delFlag           Boolean   @default(false) //删除状态(false存在 true删除)
+    createBy          String    @default("") //创建者
+    createTime        DateTime  @default(now()) // 创建时间
+    updateBy          String    @default("") //更新者
+    updateTime        DateTime? @updatedAt //更新时间 
+    remark            String?   @db.VarChar(500) //备注
 }
 
 //系统菜单
 model SysMenu {
-    menuId          Int     @id @default(autoincrement()) //菜单ID
-    parentId        Int     @default(0) //父菜单ID
-    menuType        Int     @default(0) //菜单类型(0菜单1iframe2外链3按钮)
-    title           String  @default("") //标题
+    menuId          Int       @id @default(autoincrement()) //菜单ID
+    parentId        Int       @default(0) //父菜单ID
+    menuType        Int       @default(0) //菜单类型(0菜单1iframe2外链3按钮)
+    title           String    @default("") //标题
     menuName        String //菜单名称
-    path            String  @default("") //路由地址
+    path            String    @default("") //路由地址
     component       String //组件路径
-    rank            Int?    @default(0) //显示顺序
-    redirect        String  @default("") //重定向
-    icon            String  @default("") //菜单图标
-    extraIcon       String  @default("") //右侧图标
-    enterTransition String  @default("") //入场动画
-    leaveTransition String  @default("") //出场动画
-    activePath      String  @default("")
-    auths           String  @default("")
-    frameSrc        String  @default("")
-    frameLoading    Boolean @default(true)
-    keepAlive       Boolean @default(false)
-    hiddenTag       Boolean @default(false)
-    showLink        Boolean @default(true)
-    showParent      Boolean @default(false)
-    status          String  @default("0") //菜单状态 (0正常 1禁用)
-    createBy        String  @default("") //创建者
-    createTime      String? // 创建时间
-    updateBy        String  @default("") //更新者
-    updateTime      String? //更新时间
-    remark          String? @db.VarChar(500) //备注
+    rank            Int?      @default(0) //显示顺序
+    redirect        String    @default("") //重定向
+    icon            String    @default("") //菜单图标
+    extraIcon       String    @default("") //右侧图标
+    enterTransition String    @default("") //入场动画
+    leaveTransition String    @default("") //出场动画
+    activePath      String    @default("")
+    auths           String    @default("")
+    frameSrc        String    @default("")
+    frameLoading    Boolean   @default(true)
+    keepAlive       Boolean   @default(false)
+    hiddenTag       Boolean   @default(false)
+    showLink        Boolean   @default(true)
+    showParent      Boolean   @default(false)
+    status          String    @default("0") @db.Char(1) //菜单状态 (0正常 1禁用)
+    createBy        String    @default("") //创建者
+    createTime      DateTime  @default(now()) // 创建时间
+    updateBy        String    @default("") //更新者
+    updateTime      DateTime? @updatedAt //更新时间 
+    remark          String?   @db.VarChar(500) //备注
 }
 
 // 系统用户角色关联表
-model SysUserRole{
+model SysUserRole {
     userId Int
     roleId Int
-    @@id([userId,roleId])
+
+    @@id([userId, roleId])
 }
 
 // 系统角色菜单关联表
@@ -146,49 +147,49 @@ model SysOperLog {
     operName      String @default("") //操作人员
     operUrl       String @default("") //请求URL
     operIp        String @default("") //主机IP
-    status        String @default("0") //操作状态(0正常1异常)
+    status        String @default("0") @db.Char(1) //操作状态(0正常1异常)
 }
 
 //系统字典类型
 model SysDictType {
-    dictId     Int     @id @default(autoincrement()) //字典主键
-    dictName   String  @default("") //字典名称
-    dictType   String  @unique @default("") //字典类型
-    status     String  @default("0") //状态(0正常,1停用)
-    createBy   String  @default("") //创建者
-    createTime String? // 创建时间
-    updateBy   String  @default("") //更新者
-    updateTime String? //更新时间
-    remark     String? @db.VarChar(500) //备注
+    dictId     Int       @id @default(autoincrement()) //字典主键
+    dictName   String    @default("") //字典名称
+    dictType   String    @unique @default("") //字典类型
+    status     String    @default("0") @db.Char(1) //状态(0正常,1停用)
+    createBy   String    @default("") //创建者
+    createTime DateTime  @default(now()) // 创建时间
+    updateBy   String    @default("") //更新者
+    updateTime DateTime? @updatedAt //更新时间 
+    remark     String?   @db.VarChar(500) //备注
 }
 
 //系统字典数据表
 model SysDictData {
-    dictCode   Int     @id @default(autoincrement()) //字典编码
-    dictSort   Int     @default(0) //字典排序
-    dictLabel  String  @default("") //字典标签
-    dictValue  String  @default("") //字典键值
-    dictType   String  @default("") //字典类型
-    status     String  @default("0") //状态(0正常,1停用)
-    createBy   String  @default("") //创建者
-    createTime String? // 创建时间
-    updateBy   String  @default("") //更新者
-    updateTime String? //更新时间
-    remark     String? @db.VarChar(500) //备注
+    dictCode   Int       @id @default(autoincrement()) //字典编码
+    dictSort   Int       @default(0) //字典排序
+    dictLabel  String    @default("") //字典标签
+    dictValue  String    @default("") //字典键值
+    dictType   String    @default("") //字典类型
+    status     String    @default("0") @db.Char(1) //状态(0正常,1停用)
+    createBy   String    @default("") //创建者
+    createTime DateTime  @default(now()) // 创建时间
+    updateBy   String    @default("") //更新者
+    updateTime DateTime? @updatedAt //更新时间 
+    remark     String?   @db.VarChar(500) //备注
 }
 
 //系统参数配置
 model SysConfig {
-    configId    Int     @id @default(autoincrement()) //参数主键
-    configName  String  @default("") //参数名称
-    configKey   String  @default("") //参数键
-    configValue String  @default("") @db.VarChar(500) //参数值
-    configType  String  @default("1") //参数类型
-    createBy    String  @default("") //创建者
-    createTime  String? // 创建时间
-    updateBy    String  @default("") //更新者
-    updateTime  String? //更新时间
-    remark      String? @db.VarChar(500) //备注
+    configId    Int       @id @default(autoincrement()) //参数主键
+    configName  String    @default("") //参数名称
+    configKey   String    @default("") //参数键
+    configValue String    @default("") @db.VarChar(500) //参数值
+    configType  String    @default("1") //参数类型
+    createBy    String    @default("") //创建者
+    createTime  DateTime  @default(now()) // 创建时间
+    updateBy    String    @default("") //更新者
+    updateTime  DateTime? @updatedAt //更新时间 
+    remark      String?   @db.VarChar(500) //备注
 }
 
 //系统访问记录
@@ -199,23 +200,23 @@ model SysLogininfor {
     loginLocation String @default("") //登录地点
     browser       String @default("") //浏览器类型
     os            String @default("") //操作系统
-    status        String @default("0") //登录状态(0成功1失败)
+    status        String @default("0") @db.Char(1) //登录状态(0成功1失败)
     msg           String @default("") //提示消息
     loginTime     String @default("") //访问时间
 }
 
 //系统通知公告
 model SysNotice {
-    noticeId      Int     @id @default(autoincrement()) //公告ID
+    noticeId      Int       @id @default(autoincrement()) //公告ID
     noticeTitle   String //公告标题
     noticeType    String //公告类型(1公告2公告)
     noticeContent String //公告内容
-    noticeReaded  String  @default("0") //是否已读(0未读1已读)
-    status        String  @default("0") //公告状态(0正常1关闭)
-    createBy      String  @default("") //创建者
-    createTime    String? // 创建时间
-    updateBy      String  @default("") //更新者
-    updateTime    String? //更新时间
+    noticeReaded  String    @default("0") //是否已读(0未读1已读)
+    status        String    @default("0") @db.Char(1) //公告状态(0正常1关闭)
+    createBy      String    @default("") //创建者
+    createTime    DateTime  @default(now()) // 创建时间
+    updateBy      String    @default("") //更新者
+    updateTime    DateTime? @updatedAt //更新时间 
     remark        String? //备注
 }
 
@@ -234,6 +235,10 @@ model User {
     moral         Int            @default(0) // 节操值
     silence       Int            @default(0) // 封禁状态
     fans_badge    Boolean        @default(false) //是否具有粉丝勋章
+    createBy      String         @default("") //创建者
+    createTime    DateTime       @default(now()) // 创建时间
+    updateBy      String         @default("") //更新者
+    updateTime    DateTime?      @updatedAt //更新时间 
     UserEntry     UserEntry[]
     UserFansModal UserFansModal?
     UserLog       UserLog[]
@@ -255,6 +260,10 @@ model UserLog {
     content String // 日志内容
     roomId  String
     date    String //时间 YYYY-MM-DD HH:mm:ss
+    createBy      String         @default("") //创建者
+    createTime    DateTime       @default(now()) // 创建时间
+    updateBy      String         @default("") //更新者
+    updateTime    DateTime?      @updatedAt //更新时间 
     User    User   @relation(fields: [uid], references: [uid])
     Room    Room   @relation(fields: [roomId], references: [roomId])
 }
@@ -297,7 +306,11 @@ model Room {
     keyframe       String
     tags           String
     areaName       String
-    active         Int           @default(0) //直播间状态,是否在直播
+    active         String           @default("0") @db.Char(1)//直播间状态,是否在直播
+    createBy      String         @default("") //创建者
+    createTime    DateTime       @default(now()) // 创建时间
+    updateBy      String         @default("") //更新者
+    updateTime    DateTime?      @updatedAt //更新时间 
     UserEntry      UserEntry[]
     Live           Live[]
     Speak          Speak[]
@@ -326,6 +339,10 @@ model Live {
     followNum    Int     @default(0) //新增关注
     unfollowNum  Int     @default(0) //取关数
     date         String // 日期 YYYY-MM-DD
+    createBy      String         @default("") //创建者
+    createTime    DateTime       @default(now()) // 创建时间
+    updateBy      String         @default("") //更新者
+    updateTime    DateTime?      @updatedAt //更新时间 
     Room         Room    @relation(fields: [roomId], references: [roomId])
 
     @@unique([roomId, date])
@@ -338,6 +355,10 @@ model Speak {
     roomId  String //关联直播间
     content String //发言内容
     date    String // 发言时间 YYYY-MM-DD HH:mm:ss
+    createBy      String         @default("") //创建者
+    createTime    DateTime       @default(now()) // 创建时间
+    updateBy      String         @default("") //更新者
+    updateTime    DateTime?      @updatedAt //更新时间 
     User    User   @relation(fields: [uid], references: [uid])
     Room    Room   @relation(fields: [roomId], references: [roomId])
 }
@@ -347,6 +368,10 @@ model Gift {
     giftId    Int    @unique
     giftName  String //礼物名字
     giftPrice Float  @default(0) //礼物价值
+    createBy      String         @default("") //创建者
+    createTime    DateTime       @default(now()) // 创建时间
+    updateBy      String         @default("") //更新者
+    updateTime    DateTime?      @updatedAt //更新时间 
 }
 
 // 用户送礼
@@ -357,6 +382,10 @@ model SendGift {
     giftId   Int
     giftName String //礼物内容
     date     String
+    createBy      String         @default("") //创建者
+    createTime    DateTime       @default(now()) // 创建时间
+    updateBy      String         @default("") //更新者
+    updateTime    DateTime?      @updatedAt //更新时间 
     User     User   @relation(fields: [uid], references: [uid])
     Room     Room   @relation(fields: [roomId], references: [roomId])
 }
@@ -378,6 +407,10 @@ model UserEntry {
     first  String?
     latest String?
     num    Int     @default(1) //进入直播间次数
+    createBy      String         @default("") //创建者
+    createTime    DateTime       @default(now()) // 创建时间
+    updateBy      String         @default("") //更新者
+    updateTime    DateTime?      @updatedAt //更新时间 
     User   User    @relation(fields: [uid], references: [uid])
     Room   Room    @relation(fields: [roomId], references: [roomId])
 
@@ -393,6 +426,10 @@ model UserDanmu {
     latest  String? //最后一次发送弹幕
     content String? //最后一次弹幕内容
     num     Int     @default(1) //弹幕数量
+    createBy      String         @default("") //创建者
+    createTime    DateTime       @default(now()) // 创建时间
+    updateBy      String         @default("") //更新者
+    updateTime    DateTime?      @updatedAt //更新时间 
     User    User    @relation(fields: [uid], references: [uid])
     Room    Room    @relation(fields: [roomId], references: [roomId])
 
@@ -407,6 +444,10 @@ model UserCaptain {
     first  String? //第一次上舰
     latest String? //最后一次上舰
     num    Int     @default(1) //上舰次数
+    createBy      String         @default("") //创建者
+    createTime    DateTime       @default(now()) // 创建时间
+    updateBy      String         @default("") //更新者
+    updateTime    DateTime?      @updatedAt //更新时间 
     User   User    @relation(fields: [uid], references: [uid])
     Room   Room    @relation(fields: [roomId], references: [roomId])
 
@@ -421,6 +462,10 @@ model UserLike {
     first  String? //第一次点赞
     latest String? //最后一次点赞
     num    Int     @default(1) //点赞次数
+    createBy      String         @default("") //创建者
+    createTime    DateTime       @default(now()) // 创建时间
+    updateBy      String         @default("") //更新者
+    updateTime    DateTime?      @updatedAt //更新时间 
     User   User    @relation(fields: [uid], references: [uid])
     Room   Room    @relation(fields: [roomId], references: [roomId])
 
@@ -435,6 +480,10 @@ model UserGift {
     first  String? //第一次送礼
     latest String? //最后一次送礼
     num    Int     @default(1) //送礼次数
+    createBy      String         @default("") //创建者
+    createTime    DateTime       @default(now()) // 创建时间
+    updateBy      String         @default("") //更新者
+    updateTime    DateTime?      @updatedAt //更新时间 
     User   User    @relation(fields: [uid], references: [uid])
     Room   Room    @relation(fields: [roomId], references: [roomId])
 
@@ -447,15 +496,12 @@ model UserFavor {
     uid    String //用户
     roomId String
     favor  Int    @default(0) //好感度
+    createBy      String         @default("") //创建者
+    createTime    DateTime       @default(now()) // 创建时间
+    updateBy      String         @default("") //更新者
+    updateTime    DateTime?      @updatedAt //更新时间 
     User   User   @relation(fields: [uid], references: [uid])
     Room   Room   @relation(fields: [roomId], references: [roomId])
 
     @@unique([uid, roomId])
-}
-
-//配置项
-model Options {
-    id          Int    @id @default(autoincrement())
-    optionName  String @unique
-    optionValue String @db.VarChar(255)
 }
