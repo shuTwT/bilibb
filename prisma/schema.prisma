@@ -30,6 +30,7 @@ model SysDept {
     updateTime DateTime? @updatedAt //更新时间 @utc
     remark     String?   @db.VarChar(500) //备注
     SysUser    SysUser[]
+    @@map("sys_dept")
 }
 
 //系统用户
@@ -56,6 +57,7 @@ model SysUser {
     posts         SysPost[]
     dept          SysDept   @relation(fields: [sysDeptDeptId], references: [deptId])
     sysDeptDeptId Int       @default(100)
+    @@map("sys_user")
 }
 
 //系统岗位
@@ -72,6 +74,7 @@ model SysPost {
     updateTime DateTime? @updatedAt //更新时间 
     remark     String?   @db.VarChar(500) //备注
     user       SysUser   @relation(fields: [postId], references: [userId])
+    @@map("sys_post")
 }
 
 //系统角色
@@ -90,6 +93,7 @@ model SysRole {
     updateBy          String    @default("") //更新者
     updateTime        DateTime? @updatedAt //更新时间 
     remark            String?   @db.VarChar(500) //备注
+    @@map("sys_role")
 }
 
 //系统菜单
@@ -121,6 +125,7 @@ model SysMenu {
     updateBy        String    @default("") //更新者
     updateTime      DateTime? @updatedAt //更新时间 
     remark          String?   @db.VarChar(500) //备注
+    @@map("sys_menu")
 }
 
 // 系统用户角色关联表
@@ -129,6 +134,7 @@ model SysUserRole {
     roleId Int
 
     @@id([userId, roleId])
+    @@map("sys_user_role")
 }
 
 // 系统角色菜单关联表
@@ -137,6 +143,7 @@ model SysRoleMenu {
     menuId Int
 
     @@id([roleId, menuId])
+    @@map("sys_role_menu")
 }
 
 //系统操作日志
@@ -149,6 +156,7 @@ model SysOperLog {
     operUrl       String @default("") //请求URL
     operIp        String @default("") //主机IP
     status        String @default("0") @db.Char(1) //操作状态(0正常1异常)
+    @@map("sys_oper_log")
 }
 
 //系统字典类型
@@ -162,6 +170,7 @@ model SysDictType {
     updateBy   String    @default("") //更新者
     updateTime DateTime? @updatedAt //更新时间 
     remark     String?   @db.VarChar(500) //备注
+    @@map("sys_dict_type")
 }
 
 //系统字典数据表
@@ -177,6 +186,7 @@ model SysDictData {
     updateBy   String    @default("") //更新者
     updateTime DateTime? @updatedAt //更新时间 
     remark     String?   @db.VarChar(500) //备注
+    @@map("sys_dict_data")
 }
 
 //系统参数配置
@@ -191,6 +201,7 @@ model SysConfig {
     updateBy    String    @default("") //更新者
     updateTime  DateTime? @updatedAt //更新时间 
     remark      String?   @db.VarChar(500) //备注
+    @@map("sys_config")
 }
 
 //系统访问记录
@@ -204,6 +215,7 @@ model SysLogininfor {
     status        String @default("0") @db.Char(1) //登录状态(0成功1失败)
     msg           String @default("") //提示消息
     loginTime     String @default("") //访问时间
+    @@map("sys_logininfor")
 }
 
 //系统通知公告
@@ -219,6 +231,7 @@ model SysNotice {
     updateBy      String    @default("") //更新者
     updateTime    DateTime? @updatedAt //更新时间 
     remark        String? //备注
+    @@map("sys_notice")
 }
 
 // 用户
@@ -252,6 +265,7 @@ model User {
     UserGift      UserGift[]
     UserFavor     UserFavor[]
     SendGift      SendGift[]
+    @@map("user")
 }
 
 // 用户日志表
@@ -267,6 +281,7 @@ model UserLog {
     updateTime    DateTime?      @updatedAt //更新时间 
     User    User   @relation(fields: [uid], references: [uid])
     Room    Room   @relation(fields: [roomId], references: [roomId])
+    @@map("user_log")
 }
 
 //用户粉丝勋章
@@ -274,6 +289,7 @@ model UserFansModal {
     id   Int    @id @default(autoincrement())
     uid  String @unique
     User User   @relation(fields: [uid], references: [uid])
+    @@map("user_fans_modal")
 }
 
 model UserOfficial {
@@ -284,6 +300,7 @@ model UserOfficial {
     desc  String // 认证备注
     type  Int // 是否认证 -1无 0个人 1机构
     User  User   @relation(fields: [uid], references: [uid])
+    @@map("user_official")
 }
 
 model UserVip {
@@ -293,6 +310,7 @@ model UserVip {
     role  Int //大角色类型 1月度大会员 3年度大会员 7十年大会员 15百年大会员
     color String @default("#FB7299")
     User  User   @relation(fields: [uid], references: [uid])
+    @@map("user_vip")
 }
 
 // 房间
@@ -323,6 +341,7 @@ model Room {
     UserFavor      UserFavor[]
     UserLog        UserLog[]
     SendGift       SendGift[]
+    @@map("room")
 }
 
 // 房间的直播情况
@@ -347,6 +366,7 @@ model Live {
     Room         Room    @relation(fields: [roomId], references: [roomId])
 
     @@unique([roomId, date])
+    @@map("live")
 }
 
 // 发言
@@ -362,6 +382,7 @@ model Speak {
     updateTime    DateTime?      @updatedAt //更新时间 
     User    User   @relation(fields: [uid], references: [uid])
     Room    Room   @relation(fields: [roomId], references: [roomId])
+    @@map("speak")
 }
 
 model Gift {
@@ -373,6 +394,7 @@ model Gift {
     createTime    DateTime       @default(now()) // 创建时间
     updateBy      String         @default("") //更新者
     updateTime    DateTime?      @updatedAt //更新时间 
+    @@map("gift")
 }
 
 // 用户送礼
@@ -389,6 +411,7 @@ model SendGift {
     updateTime    DateTime?      @updatedAt //更新时间 
     User     User   @relation(fields: [uid], references: [uid])
     Room     Room   @relation(fields: [roomId], references: [roomId])
+    @@map("send_gift")
 }
 
 // 红色警告
@@ -398,6 +421,7 @@ model RedNotice {
     redNoticeTag Int // 对应真实事件消息更新中red_notice标志
     date         String // 警告时间 YYYY-MM-DD HH:mm:ss
     Room         Room   @relation(fields: [roomId], references: [roomId])
+    @@map("red_notice")
 }
 
 // 用户相对于某直播间进入数据
@@ -416,6 +440,7 @@ model UserEntry {
     Room   Room    @relation(fields: [roomId], references: [roomId])
 
     @@unique([uid, roomId])
+    @@map("user_entry")
 }
 
 // 用户相对于某直播间的弹幕数据
@@ -435,6 +460,7 @@ model UserDanmu {
     Room    Room    @relation(fields: [roomId], references: [roomId])
 
     @@unique([uid, roomId])
+    @@map("user_danmu")
 }
 
 //用户相对于某直播间的上舰数据
@@ -453,6 +479,7 @@ model UserCaptain {
     Room   Room    @relation(fields: [roomId], references: [roomId])
 
     @@unique([uid, roomId])
+    @@map("user_captain")
 }
 
 //用户相对于某直播间的点赞
@@ -471,6 +498,7 @@ model UserLike {
     Room   Room    @relation(fields: [roomId], references: [roomId])
 
     @@unique([uid, roomId])
+    @@map("user_like")
 }
 
 //用户相对于某直播间的送礼数据
@@ -489,6 +517,7 @@ model UserGift {
     Room   Room    @relation(fields: [roomId], references: [roomId])
 
     @@unique([uid, roomId])
+    @@map("user_gift")
 }
 
 //用户相对于某直播间好感度
@@ -505,4 +534,5 @@ model UserFavor {
     Room   Room   @relation(fields: [roomId], references: [roomId])
 
     @@unique([uid, roomId])
+    @@map("sys_favor")
 }

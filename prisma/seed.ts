@@ -20,8 +20,6 @@ async function main() {
       phone: "15888888888",
       email: "ry@qq.com",
       status: "0",
-      createBy: "admin",
-      createTime: datetime,
     },
     create: {
       deptId: 100,
@@ -34,7 +32,7 @@ async function main() {
       email: "ry@qq.com",
       status: "0",
       createBy: "admin",
-      createTime: datetime,
+      createTime: now.toDate(),
     },
   });
   await prisma.sysDept.upsert({
@@ -49,8 +47,6 @@ async function main() {
       leader: "若依",
       phone: "15888888888",
       email: "ry@qq.com",
-      createBy: "admin",
-      createTime: datetime,
     },
     create: {
       deptId: 101,
@@ -62,7 +58,7 @@ async function main() {
       phone: "15888888888",
       email: "ry@qq.com",
       createBy: "admin",
-      createTime: datetime,
+      createTime: now.toDate(),
     },
   });
   await prisma.sysRole.upsert({
@@ -75,8 +71,6 @@ async function main() {
       roleSort: 1,
       status: "0",
       dataScope: "1",
-      createTime: datetime,
-      createBy: "admin",
     },
     create: {
       roleId: 1,
@@ -85,8 +79,8 @@ async function main() {
       roleSort: 1,
       status: "0",
       dataScope: "1",
-      createTime: datetime,
       createBy: "admin",
+      createTime: now.toDate(),
     },
   });
   await prisma.sysRole.upsert({
@@ -99,8 +93,6 @@ async function main() {
       roleSort: 2,
       status: "0",
       dataScope: "2",
-      createTime: datetime,
-      createBy: "admin",
     },
     create: {
       roleId: 2,
@@ -109,8 +101,8 @@ async function main() {
       roleSort: 2,
       status: "0",
       dataScope: "2",
-      createTime: datetime,
       createBy: "admin",
+      createTime: now.toDate(),
     },
   });
 
@@ -127,8 +119,6 @@ async function main() {
       email: "ry@163.com",
       phonenumber: "15888888888",
       password: "0192023a7bbd73250516f069df18b500",
-      createTime: datetime,
-      createBy: "admin",
     },
     create: {
       userId: 1,
@@ -140,8 +130,8 @@ async function main() {
       email: "ry@163.com",
       phonenumber: "15888888888",
       password: "0192023a7bbd73250516f069df18b500",
-      createTime: datetime,
       createBy: "admin",
+      createTime: now.toDate(),
     },
   });
   await prisma.sysUser.upsert({
@@ -157,8 +147,6 @@ async function main() {
       email: "ry@163.com",
       phonenumber: "15888888888",
       password: "0192023a7bbd73250516f069df18b500",
-      createTime: datetime,
-      createBy: "admin",
     },
     create: {
       userId: 2,
@@ -170,8 +158,8 @@ async function main() {
       email: "ry@163.com",
       phonenumber: "15888888888",
       password: "0192023a7bbd73250516f069df18b500",
-      createTime: datetime,
       createBy: "admin",
+      createTime: now.toDate(),
     },
   });
   await prisma.sysUserRole.upsert({
@@ -209,16 +197,14 @@ async function main() {
       postCode: "ceo",
       postName: "董事长",
       postSort: 1,
-      createTime: datetime,
-      createBy: "admin",
     },
     create: {
       postId: 1,
       postCode: "ceo",
       postName: "董事长",
       postSort: 1,
-      createTime: datetime,
       createBy: "admin",
+      createTime: now.toDate(),
     },
   });
   const menus = seedMenus(now.toDate())
