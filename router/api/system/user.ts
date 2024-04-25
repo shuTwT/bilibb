@@ -1,8 +1,9 @@
 import type { DefaultState, Context } from "koa";
 import Router from "koa-router";
-import prisma from "../../../utils/prisma";
+import prisma, { exclude } from "../../../utils/prisma";
 import { parseQuery, str2num } from "../utils";
 import dayjs from "dayjs";
+import { SysUser } from "@prisma/client";
 
 const userRouter = new Router<DefaultState, Context>({ prefix: "/user" });
 
@@ -63,20 +64,20 @@ userRouter.get("/", async (ctx, next) => {
 /** 新增用户 */
 userRouter.post("/", async (ctx, next) => {
   const body = ctx.request.body as any;
-  const date = dayjs()
-  const loginUser= ctx.getLoginUser()
+  const date = dayjs();
+  const loginUser = ctx.getLoginUser();
   try {
     await prisma.sysUser.create({
       data: {
-        userName:body.userName,
-        nickName:body.nickName,
-        email:body.email,
-        deptId:Number(body.parentId),
-        password:body.password,
-        phonenumber:body.phonenumber,
-        createBy:loginUser.getUserName(),
-        createTime:date.format('YYYY-MM-DD HH:mm:ss'),
-        remark:body.remark
+        userName: body.userName,
+        nickName: body.nickName,
+        email: body.email,
+        deptId: Number(body.parentId),
+        password: body.password,
+        phonenumber: body.phonenumber,
+        createBy: loginUser.getUserName(),
+        createTime: date.format("YYYY-MM-DD HH:mm:ss"),
+        remark: body.remark,
       },
     });
     ctx.body = {
@@ -91,28 +92,62 @@ userRouter.post("/", async (ctx, next) => {
   }
 });
 
+/**
+ * 查询用户详细信息
+ */
+userRouter.get("/:userId", async (ctx, next) => {
+  const userId = ctx.params["userId"];
+  try {
+    const user = await prisma.sysUser.findFirst({
+      where: {
+        userId: Number(userId),
+      },
+    });
+
+    if (user) {
+      const userExcluded = exclude<SysUser, keyof SysUser>(user, ["password"]);
+      ctx.body = {
+        code: 200,
+        msg: "success",
+        data: userExcluded,
+      };
+    } else {
+        ctx.body = {
+            code: 500,
+            msg: "未找到该用户",
+          };
+    }
+  } catch (error) {
+    ctx.log4js.error(error);
+    ctx.body = {
+      code: 500,
+      msg: String(error),
+    };
+  }
+});
+
 /** 修改用户 */
 userRouter.put("/:userId", async (ctx, next) => {
   const userId = ctx.params["userId"];
   const body = ctx.request.body as any;
-  const date = dayjs()
-  const loginUser= ctx.getLoginUser()
+  const date = dayjs();
+  const loginUser = ctx.getLoginUser();
   try {
     await prisma.sysUser.update({
       where: {
         userId: Number(userId),
       },
       data: {
-        userName:body.userName,
-        nickName:body.nickName,
-        email:body.email,
-        deptId:Number(body.parentId),
-        password:body.password,
-        phonenumber:body.phonenumber,
-        updateBy:loginUser.getUserName(),
-        updateTime:date.format('YYYY-MM-DD HH:mm:ss'),
-        remark:body.remark
-    },
+        userName: body.userName,
+        nickName: body.nickName,
+        email: body.email,
+        deptId: Number(body.parentId),
+        password: body.password,
+        phonenumber: body.phonenumber,
+        updateBy: loginUser.getUserName(),
+        updateTime: date.format("YYYY-MM-DD HH:mm:ss"),
+        remark: body.remark,
+      },
     });
     ctx.body = {
       success: true,
@@ -175,5 +210,83 @@ userRouter.delete("/:userId", async (ctx, next) => {
     };
   }
 });
+
+userRouter.get("/profile", async (ctx, next) => {
+  const loginUser = ctx.getLoginUser();
+  try {
+    const user = await prisma.sysUser.findFirst({
+      where: {
+        userId: loginUser.userId,
+      },
+    });
+    if (user) {
+        const userExcluded = exclude<SysUser, keyof SysUser>(user, ["password"]);
+        ctx.body = {
+          code: 200,
+          msg: "success",
+          data: userExcluded,
+        };
+    } else {
+      ctx.body = {
+        code: 500,
+        msg: "找不到用户",
+      };
+    }
+  } catch (error) {
+    ctx.log4js.error(error);
+    ctx.body = {
+      code: 500,
+      msg: String(error),
+    };
+  }
+});
+
+/**
+ * 头像上传
+ */
+userRouter.post("/profile/avatar", async (ctx, next) => {
+    const loginUser = ctx.getLoginUser();
+    if(ctx.request.files){
+        const {file} = ctx.request.files
+        if(file){
+            if(!Array.isArray(file)){
+                await prisma.sysUser.update({
+                    where:{
+                        userId:loginUser.userId
+                    },
+                    data:{
+                        avatar:'/upload/'+file.newFilename
+                    }
+                })
+                ctx.body={
+                    code:200,
+                    msg:"上传成功",
+                    data:{
+                        filepath:file.filepath,
+                        filename:file.newFilename,
+                        originalfilename:file.originalFilename,
+                        url:'/upload/'+file.newFilename
+                    }
+                }
+            }
+        }
+    }else {
+        ctx.body = {
+            code:500,
+            msg:"上传失败"
+        }
+    }
+});
+
+userRouter.get("/profile/logs", async (ctx, next) => {
+    ctx.body = {
+      code: 200,
+      msg: "success",
+      data: {
+        list: [],
+        total: 0,
+      },
+    };
+  });
 
 export { userRouter };

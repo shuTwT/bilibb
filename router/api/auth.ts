@@ -35,6 +35,8 @@ authRouter.post("/login", async (ctx, next) => {
     select: {
       userId: true,
       userName: true,
+      avatar:true,
+      nickName:true
     },
   });
   const userRoleIds = await prisma.sysUserRole.findMany({
@@ -105,7 +107,9 @@ authRouter.post("/login", async (ctx, next) => {
     code: 200,
     msg: "success",
     data: {
+      avatar: user.avatar,
       username: user.userName,
+      nickname: user.nickName,
       permissions: ["*:*:*"],
       roles: userRoles,
       accessToken: accessToken,
@@ -295,52 +299,6 @@ authRouter.get("/getInfo", async (ctx, next) => {
   };
 });
 
-authRouter.get("/mine", async (ctx, next) => {
-  const loginUser = ctx.getLoginUser();
-  try {
-    const user = await prisma.sysUser.findFirst({
-      where: {
-        userId: loginUser.userId,
-      },
-    });
-    if(user){
-        ctx.body = {
-            code: 200,
-            msg: "success",
-            data: {
-              avatar: user.avatar,
-              username: user.userName,
-              nickname: user.nickName,
-              email: user.email,
-              phone: user.email,
-              description: "",
-            },
-          };
-    }else{
-        ctx.body={
-            code:500,
-            msg:"找不到用户"
-        }
-    }
-    
-  } catch (error) {
-    ctx.log4js.error(error);
-    ctx.body = {
-      code: 500,
-      msg: String(error),
-    };
-  }
-});
 
-authRouter.get("/mine-logs", async (ctx, next) => {
-  ctx.body = {
-    code: 200,
-    msg: "success",
-    data: {
-      list: [],
-      total: 0,
-    },
-  };
-});
 
 export { authRouter };

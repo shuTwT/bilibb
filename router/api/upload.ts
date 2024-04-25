@@ -9,17 +9,29 @@ const uploadRouter = new Router<DefaultState, Context>();
 uploadRouter.post('/upload',async(ctx,next)=>{
     const files = ctx.request.files
     console.log(files)
-    ctx.body = {
-        code:200,
-        msg:'success',
-        data:{
-            // name:file.originalname,
-            // mimetype:file.mimetype,
-            // size:file.size,
-            // url:'/upload/'+file.filename,
-            // filename:file.filename
+    if(ctx.request.files){
+        const {file} = ctx.request.files
+        if(file){
+            if(!Array.isArray(file)){
+                ctx.body={
+                    code:200,
+                    msg:"上传成功",
+                    data:{
+                        filepath:file.filepath,
+                        filename:file.newFilename,
+                        originalfilename:file.originalFilename,
+                        url:'/upload/'+file.newFilename
+                    }
+                }
+            }
+        }
+    }else{
+        ctx.body={
+            code:500,
+            msg:'上传失败'
         }
     }
+    
     
 })
 
