@@ -15,7 +15,6 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@types/geoip-lite": "^1.4.4",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/koa": "^2.15.0",
     "@types/koa-router": "^7.4.8",
@@ -34,7 +33,6 @@
     "captcha.gif": "^1.0.11",
     "dayjs": "^1.11.10",
     "dotenv": "^16.4.5",
-    "geoip-lite": "^1.4.10",
     "ioredis": "^5.4.1",
     "jsonwebtoken": "^9.0.2",
     "koa": "^2.15.3",

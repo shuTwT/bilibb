@@ -7,7 +7,7 @@ import prisma from "../../utils/prisma";
 import dayjs from "dayjs";
 import redis from "../../utils/redis";
 import { nanoid } from "nanoid";
-import geoip from "geoip-lite";
+import { getAddressByIp } from "../../common/utils/ip";
 
 const authRouter = new Router<DefaultState, Context>();
 
@@ -24,7 +24,7 @@ authRouter.post("/login", async (ctx, next) => {
   const body = ctx.request.body as LoginBody;
   const uuid = body.uuid;
   const ip = (ctx.headers["x-forwarded-for"] as string) || ctx.request.ip;
-  const geo = geoip.lookup(ip);
+  const address = await getAddressByIp(ip)
 
   const md5password = md5.update(body.password).digest("hex");
   const user = await prisma.sysUser.findFirst({
@@ -77,7 +77,7 @@ authRouter.post("/login", async (ctx, next) => {
       username: user.userName,
       uuid: uuid,
       ip: ip,
-      address: `${geo?.country}${geo?.city}`,
+      address: address,
       system: systemInfo,
       browser: browserInfo,
       loginTime: new Date(),
@@ -134,7 +134,7 @@ type RefreshTokenBody = {
 authRouter.post("refresh-token", async (ctx, next) => {
   const body = ctx.request.body as RefreshTokenBody;
   const ip = ctx.request.ip;
-  const geo = geoip.lookup(ip);
+  const address = await getAddressByIp(ip)
   if (body.refreshToken == null) {
     ctx.body = {
       code: 500,
@@ -193,7 +193,7 @@ authRouter.post("refresh-token", async (ctx, next) => {
         username: decodeToken.userName,
         uuid: decodeToken.uuid,
         ip: ip,
-        address: `${geo?.country}${geo?.city}`,
+        address: address,
         system: systemInfo,
         browser: browserInfo,
         loginTime: new Date(),

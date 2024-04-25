@@ -5,7 +5,6 @@ const IP_URL = "https://searchplugin.csdn.net/api/v1/ip/get";
 export const getAddressByIp = (ip: string) => {
     return new Promise((resolve,reject)=>{
         fetch(IP_URL+`?ip=${ip}`).then(res=>res.json()).then((res:any)=>{
-            console.log(res.data)
             if(res.data){
                 resolve(res.data.address)
             }
