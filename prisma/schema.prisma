@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
     previewFeatures = ["omitApi"]
 }
 
@@ -30,6 +30,7 @@ model SysDept {
     updateTime DateTime? @updatedAt //更新时间 @utc
     remark     String?   @db.VarChar(500) //备注
     SysUser    SysUser[]
+
     @@map("sys_dept")
 }
 
@@ -57,6 +58,7 @@ model SysUser {
     posts         SysPost[]
     dept          SysDept   @relation(fields: [sysDeptDeptId], references: [deptId])
     sysDeptDeptId Int       @default(100)
+
     @@map("sys_user")
 }
 
@@ -74,6 +76,7 @@ model SysPost {
     updateTime DateTime? @updatedAt //更新时间 
     remark     String?   @db.VarChar(500) //备注
     user       SysUser   @relation(fields: [postId], references: [userId])
+
     @@map("sys_post")
 }
 
@@ -93,6 +96,7 @@ model SysRole {
     updateBy          String    @default("") //更新者
     updateTime        DateTime? @updatedAt //更新时间 
     remark            String?   @db.VarChar(500) //备注
+
     @@map("sys_role")
 }
 
@@ -125,6 +129,7 @@ model SysMenu {
     updateBy        String    @default("") //更新者
     updateTime      DateTime? @updatedAt //更新时间 
     remark          String?   @db.VarChar(500) //备注
+
     @@map("sys_menu")
 }
 
@@ -156,6 +161,7 @@ model SysOperLog {
     operUrl       String @default("") //请求URL
     operIp        String @default("") //主机IP
     status        String @default("0") @db.Char(1) //操作状态(0正常1异常)
+
     @@map("sys_oper_log")
 }
 
@@ -170,6 +176,7 @@ model SysDictType {
     updateBy   String    @default("") //更新者
     updateTime DateTime? @updatedAt //更新时间 
     remark     String?   @db.VarChar(500) //备注
+
     @@map("sys_dict_type")
 }
 
@@ -186,6 +193,7 @@ model SysDictData {
     updateBy   String    @default("") //更新者
     updateTime DateTime? @updatedAt //更新时间 
     remark     String?   @db.VarChar(500) //备注
+
     @@map("sys_dict_data")
 }
 
@@ -201,6 +209,7 @@ model SysConfig {
     updateBy    String    @default("") //更新者
     updateTime  DateTime? @updatedAt //更新时间 
     remark      String?   @db.VarChar(500) //备注
+
     @@map("sys_config")
 }
 
@@ -215,6 +224,7 @@ model SysLogininfor {
     status        String @default("0") @db.Char(1) //登录状态(0成功1失败)
     msg           String @default("") //提示消息
     loginTime     String @default("") //访问时间
+
     @@map("sys_logininfor")
 }
 
@@ -231,7 +241,63 @@ model SysNotice {
     updateBy      String    @default("") //更新者
     updateTime    DateTime? @updatedAt //更新时间 
     remark        String? //备注
+
     @@map("sys_notice")
+}
+
+//代码生成业务表
+model GenTable {
+    tableId        Int       @id @default(autoincrement()) @map("table_id")//编号
+    tableName      String    @default("")  @map("table_name")//表名称
+    tableComment   String    @default("") @map("table_comment") //表描述
+    subTableName   String    @default("") @map("sub_table_name") //关联子表的表名
+    subTableFkName String    @default("") @map("sub_table_fk_name") //子表关联的外键名
+    className      String    @default("")  @map("class_name")//实体类名称
+    tplCategory    String    @default("") @map("tpl_category")//使用的模板
+    tplWebType     String    @default("")  @map("tpl_web_type")//前端模板类型
+    packageName    String    @default("")  @map("package_name")//生成包路径
+    moduleName     String    @default("")  @map("module_name")//生成模块名
+    businessName   String    @default("")  @map("business_name")//生成业务名
+    functionName   String    @default("")  @map("function_name")//生成功能名
+    functionAuthor String    @default("") @map("function_author") //生成功能作者
+    genType        String    @default("") @db.Char(1)  @map("gen_type")//生成代码方式
+    genPath        String    @default("") @map("gen_path") //生成路径
+    options        String    @default("") //其它生成选项
+    createBy       String    @default("")  @map("create_by")//创建者
+    createTime     DateTime  @default(now())  @map("create_time")// 创建时间
+    updateBy       String    @default("")  @map("update_by")//更新者
+    updateTime     DateTime? @updatedAt  @map("update_time")//更新时间 
+    remark         String? //备注
+
+    @@map("gen_table")
+}
+
+model genTableColumn {
+    columnId     Int       @id @default(autoincrement()) //编号
+    tableId      Int //归属表编号
+    columnName   String //列名称
+    columnComent String //列描述
+    columnType   String //列类型
+    javaType     String //JAVA类型
+    javaField    String //JAVA字段名
+    isPk         String    @db.Char(1) //是否主键(1是)
+    isIncrement  String    @db.Char(1) //是否自增(1是)
+    isRequired   String    @db.Char(1) //是否必填(1是)
+    isInsert     String    @db.Char(1) //是否为插入字段(1是)
+    isEdit       String    @db.Char(1) //是否编辑字段(1是)
+    isList       String    @db.Char(1) //是否列表字段(1是)
+    isQuery      String    @db.Char(1) //是否查询字段(1是)
+    queryType    String    @default("EQ") //查询方式(等于、不等于、大于、小于、范围)
+    htmlType     String //显示类型（文本框、文本域、下拉框、复选框、单选框、日期控件）
+    dictType     String //字典类型
+    sort         Int //排序
+    createBy     String    @default("") //创建者
+    createTime   DateTime  @default(now()) // 创建时间
+    updateBy     String    @default("") //更新者
+    updateTime   DateTime? @updatedAt //更新时间 
+    remark       String? //备注
+
+    @@map("gen_table_column")
 }
 
 // 用户
@@ -265,22 +331,24 @@ model User {
     UserGift      UserGift[]
     UserFavor     UserFavor[]
     SendGift      SendGift[]
+
     @@map("user")
 }
 
 // 用户日志表
 model UserLog {
-    id      Int    @id @default(autoincrement())
-    uid     String // 用户uid
-    content String // 日志内容
-    roomId  String
-    date    String //时间 YYYY-MM-DD HH:mm:ss
-    createBy      String         @default("") //创建者
-    createTime    DateTime       @default(now()) // 创建时间
-    updateBy      String         @default("") //更新者
-    updateTime    DateTime?      @updatedAt //更新时间 
-    User    User   @relation(fields: [uid], references: [uid])
-    Room    Room   @relation(fields: [roomId], references: [roomId])
+    id         Int       @id @default(autoincrement())
+    uid        String // 用户uid
+    content    String // 日志内容
+    roomId     String
+    date       String //时间 YYYY-MM-DD HH:mm:ss
+    createBy   String    @default("") //创建者
+    createTime DateTime  @default(now()) // 创建时间
+    updateBy   String    @default("") //更新者
+    updateTime DateTime? @updatedAt //更新时间 
+    User       User      @relation(fields: [uid], references: [uid])
+    Room       Room      @relation(fields: [roomId], references: [roomId])
+
     @@map("user_log")
 }
 
@@ -289,6 +357,7 @@ model UserFansModal {
     id   Int    @id @default(autoincrement())
     uid  String @unique
     User User   @relation(fields: [uid], references: [uid])
+
     @@map("user_fans_modal")
 }
 
@@ -300,6 +369,7 @@ model UserOfficial {
     desc  String // 认证备注
     type  Int // 是否认证 -1无 0个人 1机构
     User  User   @relation(fields: [uid], references: [uid])
+
     @@map("user_official")
 }
 
@@ -310,6 +380,7 @@ model UserVip {
     role  Int //大角色类型 1月度大会员 3年度大会员 7十年大会员 15百年大会员
     color String @default("#FB7299")
     User  User   @relation(fields: [uid], references: [uid])
+
     @@map("user_vip")
 }
 
@@ -325,11 +396,11 @@ model Room {
     keyframe       String
     tags           String
     areaName       String
-    active         String           @default("0") @db.Char(1)//直播间状态,是否在直播
-    createBy      String         @default("") //创建者
-    createTime    DateTime       @default(now()) // 创建时间
-    updateBy      String         @default("") //更新者
-    updateTime    DateTime?      @updatedAt //更新时间 
+    active         String        @default("0") @db.Char(1) //直播间状态,是否在直播
+    createBy       String        @default("") //创建者
+    createTime     DateTime      @default(now()) // 创建时间
+    updateBy       String        @default("") //更新者
+    updateTime     DateTime?     @updatedAt //更新时间 
     UserEntry      UserEntry[]
     Live           Live[]
     Speak          Speak[]
@@ -341,29 +412,30 @@ model Room {
     UserFavor      UserFavor[]
     UserLog        UserLog[]
     SendGift       SendGift[]
+
     @@map("room")
 }
 
 // 房间的直播情况
 model Live {
-    id           Int     @id @default(autoincrement())
+    id           Int       @id @default(autoincrement())
     roomId       String //房间号
     title        String? //当次直播标题
-    fans         Int     @default(0) //x人看过
-    entryNum     Int     @default(0) //进房量
-    speakNum     Int     @default(0) //发言数
-    likeNum      Int     @default(0) //点赞量
-    redNoticeNum Int     @default(0) //红色警告数
-    fansClub     Int     @default(0) //粉丝团
-    giftNum      Int     @default(0) //礼物数量
-    followNum    Int     @default(0) //新增关注
-    unfollowNum  Int     @default(0) //取关数
+    fans         Int       @default(0) //x人看过
+    entryNum     Int       @default(0) //进房量
+    speakNum     Int       @default(0) //发言数
+    likeNum      Int       @default(0) //点赞量
+    redNoticeNum Int       @default(0) //红色警告数
+    fansClub     Int       @default(0) //粉丝团
+    giftNum      Int       @default(0) //礼物数量
+    followNum    Int       @default(0) //新增关注
+    unfollowNum  Int       @default(0) //取关数
     date         String // 日期 YYYY-MM-DD
-    createBy      String         @default("") //创建者
-    createTime    DateTime       @default(now()) // 创建时间
-    updateBy      String         @default("") //更新者
-    updateTime    DateTime?      @updatedAt //更新时间 
-    Room         Room    @relation(fields: [roomId], references: [roomId])
+    createBy     String    @default("") //创建者
+    createTime   DateTime  @default(now()) // 创建时间
+    updateBy     String    @default("") //更新者
+    updateTime   DateTime? @updatedAt //更新时间 
+    Room         Room      @relation(fields: [roomId], references: [roomId])
 
     @@unique([roomId, date])
     @@map("live")
@@ -371,46 +443,49 @@ model Live {
 
 // 发言
 model Speak {
-    id      Int    @id @default(autoincrement())
-    uid     String //关联用户uid
-    roomId  String //关联直播间
-    content String //发言内容
-    date    String // 发言时间 YYYY-MM-DD HH:mm:ss
-    createBy      String         @default("") //创建者
-    createTime    DateTime       @default(now()) // 创建时间
-    updateBy      String         @default("") //更新者
-    updateTime    DateTime?      @updatedAt //更新时间 
-    User    User   @relation(fields: [uid], references: [uid])
-    Room    Room   @relation(fields: [roomId], references: [roomId])
+    id         Int       @id @default(autoincrement())
+    uid        String //关联用户uid
+    roomId     String //关联直播间
+    content    String //发言内容
+    date       String // 发言时间 YYYY-MM-DD HH:mm:ss
+    createBy   String    @default("") //创建者
+    createTime DateTime  @default(now()) // 创建时间
+    updateBy   String    @default("") //更新者
+    updateTime DateTime? @updatedAt //更新时间 
+    User       User      @relation(fields: [uid], references: [uid])
+    Room       Room      @relation(fields: [roomId], references: [roomId])
+
     @@map("speak")
 }
 
 model Gift {
-    id        Int    @id @default(autoincrement())
-    giftId    Int    @unique
-    giftName  String //礼物名字
-    giftPrice Float  @default(0) //礼物价值
-    createBy      String         @default("") //创建者
-    createTime    DateTime       @default(now()) // 创建时间
-    updateBy      String         @default("") //更新者
-    updateTime    DateTime?      @updatedAt //更新时间 
+    id         Int       @id @default(autoincrement())
+    giftId     Int       @unique
+    giftName   String //礼物名字
+    giftPrice  Float     @default(0) //礼物价值
+    createBy   String    @default("") //创建者
+    createTime DateTime  @default(now()) // 创建时间
+    updateBy   String    @default("") //更新者
+    updateTime DateTime? @updatedAt //更新时间 
+
     @@map("gift")
 }
 
 // 用户送礼
 model SendGift {
-    id       Int    @id @default(autoincrement())
-    uid      String // 关联用户id
-    roomId   String // 关联直播间
-    giftId   Int
-    giftName String //礼物内容
-    date     String
-    createBy      String         @default("") //创建者
-    createTime    DateTime       @default(now()) // 创建时间
-    updateBy      String         @default("") //更新者
-    updateTime    DateTime?      @updatedAt //更新时间 
-    User     User   @relation(fields: [uid], references: [uid])
-    Room     Room   @relation(fields: [roomId], references: [roomId])
+    id         Int       @id @default(autoincrement())
+    uid        String // 关联用户id
+    roomId     String // 关联直播间
+    giftId     Int
+    giftName   String //礼物内容
+    date       String
+    createBy   String    @default("") //创建者
+    createTime DateTime  @default(now()) // 创建时间
+    updateBy   String    @default("") //更新者
+    updateTime DateTime? @updatedAt //更新时间 
+    User       User      @relation(fields: [uid], references: [uid])
+    Room       Room      @relation(fields: [roomId], references: [roomId])
+
     @@map("send_gift")
 }
 
@@ -421,23 +496,24 @@ model RedNotice {
     redNoticeTag Int // 对应真实事件消息更新中red_notice标志
     date         String // 警告时间 YYYY-MM-DD HH:mm:ss
     Room         Room   @relation(fields: [roomId], references: [roomId])
+
     @@map("red_notice")
 }
 
 // 用户相对于某直播间进入数据
 model UserEntry {
-    id     Int     @id @default(autoincrement())
-    uid    String
-    roomId String
-    first  String?
-    latest String?
-    num    Int     @default(1) //进入直播间次数
-    createBy      String         @default("") //创建者
-    createTime    DateTime       @default(now()) // 创建时间
-    updateBy      String         @default("") //更新者
-    updateTime    DateTime?      @updatedAt //更新时间 
-    User   User    @relation(fields: [uid], references: [uid])
-    Room   Room    @relation(fields: [roomId], references: [roomId])
+    id         Int       @id @default(autoincrement())
+    uid        String
+    roomId     String
+    first      String?
+    latest     String?
+    num        Int       @default(1) //进入直播间次数
+    createBy   String    @default("") //创建者
+    createTime DateTime  @default(now()) // 创建时间
+    updateBy   String    @default("") //更新者
+    updateTime DateTime? @updatedAt //更新时间 
+    User       User      @relation(fields: [uid], references: [uid])
+    Room       Room      @relation(fields: [roomId], references: [roomId])
 
     @@unique([uid, roomId])
     @@map("user_entry")
@@ -445,19 +521,19 @@ model UserEntry {
 
 // 用户相对于某直播间的弹幕数据
 model UserDanmu {
-    id      Int     @id @default(autoincrement())
-    uid     String
-    roomId  String
-    first   String? //第一次发送弹幕
-    latest  String? //最后一次发送弹幕
-    content String? //最后一次弹幕内容
-    num     Int     @default(1) //弹幕数量
-    createBy      String         @default("") //创建者
-    createTime    DateTime       @default(now()) // 创建时间
-    updateBy      String         @default("") //更新者
-    updateTime    DateTime?      @updatedAt //更新时间 
-    User    User    @relation(fields: [uid], references: [uid])
-    Room    Room    @relation(fields: [roomId], references: [roomId])
+    id         Int       @id @default(autoincrement())
+    uid        String
+    roomId     String
+    first      String? //第一次发送弹幕
+    latest     String? //最后一次发送弹幕
+    content    String? //最后一次弹幕内容
+    num        Int       @default(1) //弹幕数量
+    createBy   String    @default("") //创建者
+    createTime DateTime  @default(now()) // 创建时间
+    updateBy   String    @default("") //更新者
+    updateTime DateTime? @updatedAt //更新时间 
+    User       User      @relation(fields: [uid], references: [uid])
+    Room       Room      @relation(fields: [roomId], references: [roomId])
 
     @@unique([uid, roomId])
     @@map("user_danmu")
@@ -465,18 +541,18 @@ model UserDanmu {
 
 //用户相对于某直播间的上舰数据
 model UserCaptain {
-    id     Int     @id @default(autoincrement())
-    uid    String
-    roomId String
-    first  String? //第一次上舰
-    latest String? //最后一次上舰
-    num    Int     @default(1) //上舰次数
-    createBy      String         @default("") //创建者
-    createTime    DateTime       @default(now()) // 创建时间
-    updateBy      String         @default("") //更新者
-    updateTime    DateTime?      @updatedAt //更新时间 
-    User   User    @relation(fields: [uid], references: [uid])
-    Room   Room    @relation(fields: [roomId], references: [roomId])
+    id         Int       @id @default(autoincrement())
+    uid        String
+    roomId     String
+    first      String? //第一次上舰
+    latest     String? //最后一次上舰
+    num        Int       @default(1) //上舰次数
+    createBy   String    @default("") //创建者
+    createTime DateTime  @default(now()) // 创建时间
+    updateBy   String    @default("") //更新者
+    updateTime DateTime? @updatedAt //更新时间 
+    User       User      @relation(fields: [uid], references: [uid])
+    Room       Room      @relation(fields: [roomId], references: [roomId])
 
     @@unique([uid, roomId])
     @@map("user_captain")
@@ -484,18 +560,18 @@ model UserCaptain {
 
 //用户相对于某直播间的点赞
 model UserLike {
-    id     Int     @id @default(autoincrement())
-    uid    String
-    roomId String
-    first  String? //第一次点赞
-    latest String? //最后一次点赞
-    num    Int     @default(1) //点赞次数
-    createBy      String         @default("") //创建者
-    createTime    DateTime       @default(now()) // 创建时间
-    updateBy      String         @default("") //更新者
-    updateTime    DateTime?      @updatedAt //更新时间 
-    User   User    @relation(fields: [uid], references: [uid])
-    Room   Room    @relation(fields: [roomId], references: [roomId])
+    id         Int       @id @default(autoincrement())
+    uid        String
+    roomId     String
+    first      String? //第一次点赞
+    latest     String? //最后一次点赞
+    num        Int       @default(1) //点赞次数
+    createBy   String    @default("") //创建者
+    createTime DateTime  @default(now()) // 创建时间
+    updateBy   String    @default("") //更新者
+    updateTime DateTime? @updatedAt //更新时间 
+    User       User      @relation(fields: [uid], references: [uid])
+    Room       Room      @relation(fields: [roomId], references: [roomId])
 
     @@unique([uid, roomId])
     @@map("user_like")
@@ -503,18 +579,18 @@ model UserLike {
 
 //用户相对于某直播间的送礼数据
 model UserGift {
-    id     Int     @id @default(autoincrement())
-    uid    String
-    roomId String
-    first  String? //第一次送礼
-    latest String? //最后一次送礼
-    num    Int     @default(1) //送礼次数
-    createBy      String         @default("") //创建者
-    createTime    DateTime       @default(now()) // 创建时间
-    updateBy      String         @default("") //更新者
-    updateTime    DateTime?      @updatedAt //更新时间 
-    User   User    @relation(fields: [uid], references: [uid])
-    Room   Room    @relation(fields: [roomId], references: [roomId])
+    id         Int       @id @default(autoincrement())
+    uid        String
+    roomId     String
+    first      String? //第一次送礼
+    latest     String? //最后一次送礼
+    num        Int       @default(1) //送礼次数
+    createBy   String    @default("") //创建者
+    createTime DateTime  @default(now()) // 创建时间
+    updateBy   String    @default("") //更新者
+    updateTime DateTime? @updatedAt //更新时间 
+    User       User      @relation(fields: [uid], references: [uid])
+    Room       Room      @relation(fields: [roomId], references: [roomId])
 
     @@unique([uid, roomId])
     @@map("user_gift")
@@ -522,16 +598,16 @@ model UserGift {
 
 //用户相对于某直播间好感度
 model UserFavor {
-    id     Int    @id @default(autoincrement())
-    uid    String //用户
-    roomId String
-    favor  Int    @default(0) //好感度
-    createBy      String         @default("") //创建者
-    createTime    DateTime       @default(now()) // 创建时间
-    updateBy      String         @default("") //更新者
-    updateTime    DateTime?      @updatedAt //更新时间 
-    User   User   @relation(fields: [uid], references: [uid])
-    Room   Room   @relation(fields: [roomId], references: [roomId])
+    id         Int       @id @default(autoincrement())
+    uid        String //用户
+    roomId     String
+    favor      Int       @default(0) //好感度
+    createBy   String    @default("") //创建者
+    createTime DateTime  @default(now()) // 创建时间
+    updateBy   String    @default("") //更新者
+    updateTime DateTime? @updatedAt //更新时间 
+    User       User      @relation(fields: [uid], references: [uid])
+    Room       Room      @relation(fields: [roomId], references: [roomId])
 
     @@unique([uid, roomId])
     @@map("sys_favor")

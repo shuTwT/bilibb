@@ -41,6 +41,41 @@ genRouter.post('/create/table',async(ctx,next)=>{
 })
 
 /**
+ * 预览代码
+ */
+genRouter.get('/preview/:tableId',async(ctx,next)=>{
+
+})
+
+/**
+ * 生成代码(下载)
+ */
+genRouter.get('/download/:tableName',async(ctx,next)=>{
+
+})
+
+/**
+ * 生成代码(自定义路径)
+ */
+genRouter.get('/gen-code/:tableName',async(ctx,next)=>{
+
+})
+
+/**
+ * 同步数据库
+ */
+genRouter.get('/synch-db/:tableName',async(ctx,next)=>{
+
+})
+
+/**
+ * 批量生成代码
+ */
+genRouter.get('/batch-gen-code',async(ctx,next)=>{
+
+})
+
+/**
  * 修改代码生成业务
  */
 genRouter.put('/:tableId',async(ctx,next)=>{
@@ -51,20 +86,6 @@ genRouter.put('/:tableId',async(ctx,next)=>{
  * 删除代码生成
  */
 genRouter.delete('/:tableId',async(ctx,next)=>{
-
-})
-
-/**
- * 预览代码
- */
-genRouter.delete('/preview/:tableId',async(ctx,next)=>{
-
-})
-
-/**
- * 生成代码(下载)
- */
-genRouter.delete('/download/:tableId',async(ctx,next)=>{
 
 })
 
