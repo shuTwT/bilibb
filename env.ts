@@ -13,7 +13,7 @@ declare global {
 }
 
 BigInt.prototype.toJSON = function (): string {
-  return this.toString();
+    return this.toString();
 };
 
 declare module "koa" {

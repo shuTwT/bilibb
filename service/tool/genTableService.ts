@@ -2,7 +2,8 @@ import path from "node:path";
 import type { GenTable } from "@prisma/client";
 import log4js from "../../utils/log4js";
 import prisma from "../../utils/prisma";
-class GenTableService {
+import { TableEntity } from "../../common/entity/tableEntity";
+export class GenTableService {
   async selectGentableById(id: number): Promise<GenTable | void> {
     try {
       const genTable = await prisma.genTable.findUnique({
@@ -21,7 +22,16 @@ class GenTableService {
   }
   selectGenTableList(genTable: GenTable) {}
   selectDbTableList(genTable: GenTable) {}
-  selectDbTableListByNames(tableNames: string[]) {}
+  async selectDbTableListByNames(tableNames: string[]) {
+    tableNames=tableNames.map(item=>`'${item}'`)
+    let collection = tableNames.join(',')
+    const tableList:TableEntity[] = await prisma.$queryRaw`
+    select table_name, table_comment, create_time, update_time from information_schema.tables
+	where table_name NOT LIKE 'qrtz_%' and table_name NOT LIKE 'gen_%' and table_schema = (select database())
+	and table_name in (${collection});
+    `;
+    return tableList
+  }
   async selectGenTableAll(): Promise<GenTable[]> {
     const genTableList = await prisma.genTable.findMany({
       include: {
@@ -36,35 +46,47 @@ class GenTableService {
   }
   updateGenTable() {}
   deleteGenTableByIds() {}
-  async createTable(sql:string) {
-    try{
-        await prisma.$queryRaw`${sql}`
-    }catch(error){
-        log4js.error(error)
+  async createTable(sql: string) {
+    try {
+      await prisma.$queryRaw`${sql}`;
+    } catch (error) {
+      log4js.error(error);
     }
   }
-  importGenTable() {}
-  async previewCode(tableId:number) {
-    const dataMap = new Map<string,string>()
+  async importGenTable(tableList: any[], userName: string) {
+    for (const key in tableList) {
+        const table=tableList[key]
+        const tableName = table.table_name
+        const row:Omit<GenTable,'tableId'> ={
+            tableName:tableName,
+            className:tableName,
+            packageName:"",
+            businessName:"",
+            functionName:"",
+            functionAuthor:"",
+            createBy:userName
+        }
+    }
+  }
+  async previewCode(tableId: number) {
+    const dataMap = new Map<string, string>();
     const table = await prisma.genTable.findUnique({
-        where:{
-            tableId:tableId
-        }
-    })
-    if(table){
-
+      where: {
+        tableId: tableId,
+      },
+    });
+    if (table) {
     }
   }
-  async generatorCode(tableName:string,zip:any) {
+  async generatorCode(tableName: string, zip: any) {
     const genTable = await prisma.genTable.findFirst({
-        where:{
-            tableName:tableName
-        }
-    })
-    if(genTable){
-
-    }else{
-        throw `no genTable width tableName ${tableName}`
+      where: {
+        tableName: tableName,
+      },
+    });
+    if (genTable) {
+    } else {
+      throw `no genTable width tableName ${tableName}`;
     }
   }
   synchDb() {}
@@ -72,10 +94,9 @@ class GenTableService {
   downloadCode(tableNames: string[]): void;
   downloadCode(tableNames: string | string[]) {}
 
-  setSubTable(table:GenTable){
-    const subTableName = table.subTableName
-    if(subTableName!==""){
-        
+  setSubTable(table: GenTable) {
+    const subTableName = table.subTableName;
+    if (subTableName !== "") {
     }
   }
   /**
