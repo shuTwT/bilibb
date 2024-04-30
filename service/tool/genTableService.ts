@@ -1,5 +1,5 @@
 import path from "node:path";
-import type { GenTable } from "@prisma/client";
+import { Prisma, type GenTable } from "@prisma/client";
 import log4js from "../../utils/log4js";
 import prisma from "../../utils/prisma";
 import { TableEntity } from "../../common/entity/tableEntity";
@@ -23,12 +23,10 @@ export class GenTableService {
   selectGenTableList(genTable: GenTable) {}
   selectDbTableList(genTable: GenTable) {}
   async selectDbTableListByNames(tableNames: string[]) {
-    tableNames=tableNames.map(item=>`'${item}'`)
-    let collection = tableNames.join(',')
     const tableList:TableEntity[] = await prisma.$queryRaw`
     select table_name, table_comment, create_time, update_time from information_schema.tables
 	where table_name NOT LIKE 'qrtz_%' and table_name NOT LIKE 'gen_%' and table_schema = (select database())
-	and table_name in (${collection});
+	and table_name in (${Prisma.join(tableNames)});
     `;
     return tableList
   }
@@ -53,12 +51,14 @@ export class GenTableService {
       log4js.error(error);
     }
   }
-  async importGenTable(tableList: any[], userName: string) {
+  async importGenTable(tableList: TableEntity[], userName: string) {
     for (const key in tableList) {
         const table=tableList[key]
         const tableName = table.table_name
-        const row:Omit<GenTable,'tableId'> ={
+        const tableComment = table.table_comment
+        const row:Partial<GenTable> ={
             tableName:tableName,
+            tableComment:tableComment,
             className:tableName,
             packageName:"",
             businessName:"",
@@ -66,6 +66,9 @@ export class GenTableService {
             functionAuthor:"",
             createBy:userName
         }
+        await prisma.genTable.create({
+            data:row
+        })
     }
   }
   async previewCode(tableId: number) {

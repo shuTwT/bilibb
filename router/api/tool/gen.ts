@@ -140,7 +140,91 @@ genRouter.get("/batch-gen-code", async (ctx, next) => {});
 /**
  * 修改代码生成业务
  */
-genRouter.put("/:tableId", async (ctx, next) => {});
+genRouter.get("/:tableId", async (ctx, next) => {
+    const tableId=Number(ctx.params['tableId'])
+    try{
+        const table = await prisma.genTable.findUnique({
+            where:{
+                tableId
+            },
+            include:{
+                genTabColumns:true
+            }
+        })
+        ctx.body={
+            code:200,
+            msg:"success",
+            data:table
+        }
+    }catch(error){
+        ctx.body={
+            code:500,
+            msg:String(error)
+        }
+    }
+    
+    
+});
+
+/**
+ * 修改保存代码生成业务
+ */
+genRouter.put("/:tableId", async (ctx, next) => {
+    const tableId = Number(ctx.params['tableId'])
+    const body=ctx.request.body
+    try{
+        await prisma.genTable.update({
+            where:{
+                tableId:tableId
+            },
+            data:{
+                businessName:body.businessName,
+                className:body.className,
+                functionAuthor:body.functionAuthor,
+                functionName:body.functionName,
+                genPath:body.genPath,
+                genType:body.genType,
+                moduleName:body.moduleName,
+                packageName:body.packageName,
+                remark:body.remark
+            },
+        })
+        if(body.columns&&Array.isArray(body.columns)){
+            for (const key in body.columns) {
+                const column = body.columns[key]
+                await prisma.genTableColumn.update({
+                    where:{
+                        columnId:column.columnId,
+                        tableId:tableId
+                    },
+                    data:{
+                        columnComent:column.columnComent,
+                        javaField:column.javaField,
+                        javaType:column.javaType,
+                        isInsert:column.isInsert,
+                        isEdit:column.isEdit,
+                        isList:column.isList,
+                        isQuery:column.isQuery,
+                        queryType:column.queryType,
+                        isRequired:column.isRequired,
+                        htmlType:column.htmlType,
+                        dictType:column.dictType
+                    }
+                })
+            }
+        }
+        ctx.body={
+            code:200,
+            msg:"success"
+        }
+    }catch(error){
+        ctx.log4js.error(error)
+        ctx.body={
+            code:500,
+            msg:String(error)
+        }
+    }
+});
 
 /**
  * 删除代码生成

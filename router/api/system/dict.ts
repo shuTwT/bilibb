@@ -65,6 +65,15 @@ dictRouter.get("/type", async (ctx, next) => {
   }
 });
 
+dictRouter.get("/type/optionselect",async(ctx,next)=>{
+    const types = await prisma.sysDictType.findMany()
+    ctx.body={
+        code:200,
+        msg:"success",
+        data:types
+    }
+})
+
 /**
  * 字典类型详情
  */
