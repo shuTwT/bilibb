@@ -172,7 +172,6 @@ noticeRouter.post("/", async (ctx, next) => {
         noticeType: body.noticeType,
         noticeContent: body.noticeContent,
         createBy: loginUser.getUserName(),
-        createTime: date.format("YYYY-MM-DD HH:mm:ss"),
       },
     });
     ctx.body = {
@@ -207,7 +206,6 @@ noticeRouter.put("/:noticeId", async (ctx, next) => {
         noticeContent: body.noticeContent,
         status:body.status,
         updateBy: loginUser.getUserName(),
-        updateTime: date.format("YYYY-MM-DD HH:mm:ss"),
       },
     });
     ctx.body = {

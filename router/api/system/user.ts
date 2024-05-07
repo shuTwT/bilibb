@@ -79,7 +79,6 @@ userRouter.post("/", async (ctx, next) => {
         password: body.password,
         phonenumber: body.phonenumber,
         createBy: loginUser.getUserName(),
-        createTime: date.format("YYYY-MM-DD HH:mm:ss"),
         remark: body.remark,
       },
     });
@@ -231,7 +230,6 @@ userRouter.put("/:userId", async (ctx, next) => {
         password: body.password,
         phonenumber: body.phonenumber,
         updateBy: loginUser.getUserName(),
-        updateTime: date.format("YYYY-MM-DD HH:mm:ss"),
         remark: body.remark,
       },
     });

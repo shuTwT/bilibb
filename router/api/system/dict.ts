@@ -119,7 +119,6 @@ dictRouter.put("/type/:dictId", async (ctx, next) => {
         dictType: body.dictType,
         status: body.status,
         updateBy: loginUser.getUserName(),
-        updateTime: date.format("YYYY-MM-DD HH:mm:ss"),
         remark: body.remark,
       },
     });
@@ -174,7 +173,6 @@ dictRouter.post("/type", async (ctx, next) => {
         dictType: body.dictType,
         status: body.status,
         createBy: loginUser.getUserName(),
-        createTime: date.format("YYYY-MM-DD HH:mm:ss"),
         remark: body.remark,
       },
     });
@@ -249,7 +247,6 @@ dictRouter.post("/data", async (ctx, next) => {
         dictType: body.dictType,
         status: body.status,
         createBy: loginUser.getUserName(),
-        createTime: date.format("YYYY-MM-DD HH:mm:ss"),
         remark: body.remark,
       },
     });
@@ -313,7 +310,6 @@ dictRouter.put("/data/:dictCode", async (ctx, next) => {
         dictType: body.dictType,
         status: body.status,
         updateBy: loginUser.getUserName(),
-        updateTime: date.format("YYYY-MM-DD HH:mm:ss"),
         remark: body.remark,
       },
     });

@@ -122,7 +122,6 @@ configRouter.post("/",async(ctx,next)=>{
                 configType:body.configType,
                 configValue:body.configValue,
                 createBy:loginUser.getUserName(),
-                createTime: date.format("YYYY-MM-DD HH:mm:ss"),
                 remark:body.remark
             }
         })
@@ -158,7 +157,6 @@ configRouter.put("/:configId",async(ctx,next)=>{
                 configType:body.configType,
                 configValue:body.configValue,
                 updateBy: loginUser.getUserName(),
-                updateTime: date.format("YYYY-MM-DD HH:mm:ss"),
                 remark:body.remark
             }
         })
