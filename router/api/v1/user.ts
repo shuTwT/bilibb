@@ -200,7 +200,7 @@ userRouter.get('/logs',async(ctx,next)=>{
     const pageNum = str2num(parseQuery(ctx.query, 'pageNum'), 1, { min: 1 })
     const pageSize = str2num(parseQuery(ctx.query, 'pageSize'), 10, { min: 10 })
     const roomId = parseQuery(ctx.query,'roomId')
-    const logs=await prisma.userLog.findMany({
+    const [list,count]=await prisma.$transaction([prisma.userLog.findMany({
         where:{
             roomId
         },
@@ -212,11 +212,20 @@ userRouter.get('/logs',async(ctx,next)=>{
         orderBy:{
             date:'desc'
         }
-    })
+    }),prisma.userLog.count({
+        where:{
+            roomId
+        }
+    })])
     ctx.body={
         code:200,
         msg:'ok',
-        data:logs
+        data:{
+            list,
+            pageNum,
+            pageSize,
+            total:count,
+        }
     }
 })
 
@@ -224,7 +233,7 @@ userRouter.get('/logs/:uid',async(ctx,next)=>{
     const pageNum = str2num(parseQuery(ctx.query, 'pageNum'), 1, { min: 1 })
     const pageSize = str2num(parseQuery(ctx.query, 'pageSize'), 10, { min: 10 })
     const uid= ctx.params['uid']
-    const logs=await prisma.userLog.findMany({
+    const [list,count]=await prisma.$transaction([prisma.userLog.findMany({
         skip: (pageNum - 1) * pageSize,
         take: pageSize,
         orderBy:{
@@ -233,11 +242,20 @@ userRouter.get('/logs/:uid',async(ctx,next)=>{
         where:{
             uid
         }
-    })
+    }),prisma.userLog.count({
+        where:{
+            uid
+        }
+    })])
     ctx.body={
         code:200,
         msg:'ok',
-        data:logs
+        data:{
+            list,
+            pageNum,
+            pageSize,
+            total:count,
+        }
     }
 })
 
